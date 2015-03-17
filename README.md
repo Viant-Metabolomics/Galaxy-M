@@ -11,34 +11,30 @@ Availability and Requirements
 =============================
 
 ###Programming languages (versions given were used for development, other versions may also be compatible): 
-*Python (version 2.7), 
-*Matlab (version 2012a), 
-*PLS-Toolbox for PCA tools (version 7.0.3) 
-*R programming language (version 3.0.1, x86 64bit)
+* Python (version 2.7), 
+* Matlab (version 2012a), 
+* PLS-Toolbox for PCA tools (version 7.0.3) 
+* R programming language (version 3.0.1, x86 64bit)
 
 ###Other requirements: 
-*Galaxy [www.getgalaxy.org - Stable branch on Mercurial: changeset 14929:5fc83b69fe24, date Thu Dec 11], 
-*MI-Pack [https://github.com/Viant-Metabolomics/MI-Pack], 
-*WineHQ (version 1.6.2, [winehq.org]), 
-*XCMS [https://metlin.scripps.edu/xcms/] 
-*MSFileReader package (Thermo Scientific [http://sjsupport.thermofinnigan.com/public/detail.asp?id=703]).
+* Galaxy [www.getgalaxy.org - Stable branch on Mercurial: changeset 14929:5fc83b69fe24, date Thu Dec 11], 
+* MI-Pack [https://github.com/Viant-Metabolomics/MI-Pack], 
+* WineHQ (version 1.6.2, [winehq.org]), 
+* XCMS [https://metlin.scripps.edu/xcms/] 
+* MSFileReader package (Thermo Scientific [http://sjsupport.thermofinnigan.com/public/detail.asp?id=703]).
 
 ###License: 
-*GNU General Public License version 3.0 (GPLv3)
+* GNU General Public License version 3.0 (GPLv3)
 
 ###Any restrictions to use by non-academics: 
-*no restrictions on use
+* no restrictions on use
 
 Installation instructions for Ubuntu 13.10 64bit
 ================================================
 
-Setting up GalaxyM on Ubuntu
+These instructions are aimed solely at installation on Ubuntu 13.10 64bit edition. This system was chosen because it is one of the few that can be uploaded to Amazon AWS. It is freely available as an ISO and can be run from within VMWare (cost) or Virtualbox (free).
 
-Requirements/System
-
-Ubuntu 13.10 64bit edition (we’re running it on VMware so it can be uploaded to AWS)
-
-Step 0. Update the package manager
+###Step 0. Update the package manager
 
 You may need to run this with superuser privileges, I’ll assume that you do so my commands will begin ‘sudo’. This requires you to provide your password and Ubuntu will check that you have superuser privileges
 
@@ -51,7 +47,7 @@ In any event, you should start with
 
 $> sudo apt-get update
 
-Step 1. Install WINE
+###Step 1. Install WINE
 
 You may wish to see the official instructions here: https://www.winehq.org/download/ubuntu
 
@@ -73,7 +69,7 @@ $> sudo apt-get install wine1.7
 
 Once it’s finished downloading all the packages, it might present you with an End User Agreement for Microsoft software that you can scroll through with the arrow keys and select the ‘yes’/‘no’ options by pressing Tab and then Enter or Space to select. Having agreed, more installation will proceed. On my most recent WINE1.7 install, none of this happened, but on previous attempts it did.
 
-Step 2. Install Windows packages in WINE
+###Step 2. Install Windows packages in WINE
 
 $> mkdir ~/wine-soft
 $> cd ~/wine-soft
@@ -138,7 +134,7 @@ It may be that MSFileReader requires 32bit (DLLs etc) and that WINE is automatic
 
 
 
-Step 3: Install MI Pack python package
+###Step 3: Install MI Pack python package
 Download the MI Pack python package (there is a version installed on the GalaxyM VM already, the original package files are at /home/galaxym/Galaxy_MI_Pack/MI_Pack_Python_package/) and install as you would any standard Python package. That is to say:
 
 sudo python [path/to/package/]setup.py build
@@ -148,7 +144,7 @@ Then if you have multiple processing cores on your system and wish to make use o
 
 
 
-Step 4: Install Galaxy
+###Step 4: Install Galaxy
 
 You may wish to check out the instructions at Get Galaxy: https://wiki.galaxyproject.org/Admin/GetGalaxy
 
@@ -162,7 +158,7 @@ $> hg clone https://bitbucket.org/galaxy/galaxy-dist/
 $> cd galaxy-dist
 $> hg update stable
 
-Step 5: Add GalaxyM to Galaxy
+###Step 5: Add GalaxyM to Galaxy
 
 Obtain the latest version of GalaxyM from …
 
@@ -184,7 +180,7 @@ $> sh ~/galaxy-dist/run.sh
 
 If run in this way, Galaxy can be stopped by typing Ctrl-C.
 
-Step 6. Install Matlab
+###Step 6. Install Matlab
 
 a) install Java RunTime Environment and WebStart. 
 This enables you to use the Matlab installers as downloaded from the Mathworks website. Alternatively you can just download the product files directly. To install Java JRE, first check which version is available:
@@ -230,7 +226,7 @@ $> sudo ln -s /lib/x86_64-linux-gnu/libc.so.6 /lib64/libc.so
 
 
 
-Step 7. Install PLS Toolbox
+###Step 7. Install PLS Toolbox
 
 Log into the Eigenvector.com website and navigate to software downloads. Choose your version (we’re using 7.0.3) and download the .zip file. Assuming you’ve downloaded that to the ‘/home/your_user/Downloads’ folder (and that it’s version 7.0.3 and that you put your Matlab install in the default location), you can unzip it and place it in the Matlab toolbox folder as follows:
 
@@ -251,7 +247,7 @@ Once PLS_Toolbox is added to the path, return to the matlab commandline and type
 Here you will be asked for a license code - obtainable from the download page on the Eigenvector website. Accepting all the defaults should be fine although if you’re very keen to have exactly version 7.0.3 to copy the original GalaxyM installation, you may wish to uncheck the box (underneath where you enter the license code) that offers to look for updates and newer versions of code etc.
 
 
-Step 8. Install R
+###Step 8. Install R
 The LC-MS pipeline makes use of XCMS for an initial peak picking and alignment processing. This requires ‘R’ and various packages. R can be installed using:
 
 $> sudo apt-get install r-base
@@ -276,11 +272,11 @@ XCMS and CAMERA are installed from Bioconductor so the command is slightly diffe
 > biocLite("CAMERA")
 
 
-Step 9. Get the data
+###Step 9. Get the data
 
-The test data sets (both LCMS and DIMS) can be obtained from their larger data sets in Metabolights or from GigaDB. Download and if you want to copy the GalaxyM paper, move to ~/GalaxyM-TestData (with subfolders DIMS_DATA and LCMS_DATA for each modality). 
+The test data sets (both LCMS and DIMS) can be obtained from their larger data sets in Metabolights (DIMS: Accession MTBLS79; LCMS: Accession MTBLS146) or from GigaDB (accession to follow). In the case of the DIMS dataset, the MetaboLights accession does not include the necessary .dat files that allow SimStitch processing, therefore the GigaDB repository is required (or contact Viant Lab). Download the datasets and, if you want to copy the GalaxyM paper, move to ~/GalaxyM-TestData (with subfolders DIMS_DATA and LCMS_DATA for each modality). 
 
-Step 10. Run Galaxy
+###Step 10. Run Galaxy
 
 from the Linux commandline, start Galaxy if it’s not already running by typing:
 
@@ -290,7 +286,7 @@ To interact with Galaxy, open up a web-browser and point it at your server. If y
 
 Hopefully, you should be presented with  the main Galaxy landing page. There should be a list of tools in the left hand panel, a welcome page in the middle and a history in the right hand side. 
 
-Step 11. Log into Galaxy if you want to make use of workflows
+###Step 11. Log into Galaxy if you want to make use of workflows
 
 The GalaxyM installation has a user already registered and two workflows have been stored. If you wish to access these then the login details are:
 
