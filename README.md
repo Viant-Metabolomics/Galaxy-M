@@ -30,7 +30,16 @@ Availability and Requirements
 * no restrictions on use
 
 ###Pre-Installed Virtual Machine 
-A virtual machine implementation has been created to support reuse by the community. This will be available via the GigaDB repository (accession details to follow). Installation instructions to recreate the virtual machine can be found below. They are quite complex and can involve a lot of troubleshooting, so it is advised to work direct from the virtual machine where possible. We will aim to share the VM via Amazon AWS for access without download and eventually to provide a Vagrant provisioning file for easy setup of a new virtual machine. 
+A virtual machine implementation has been created to support reuse by the community. This will be available via the GigaDB repository (accession details to follow). Installation instructions to recreate the virtual machine can be found below. They are quite complex and can involve a lot of troubleshooting, so it is advised to work direct from the virtual machine where possible. We will aim to share the VM via Amazon AWS for access without download and eventually to provide a Vagrant provisioning file for easy setup of a new virtual machine. The GalaxyM installation has a user already registered and two workflows have been stored/published. If you wish to access the original user account then the login details are:
+
+user: galaxym@galaxm.org
+password: galaxym
+
+
+Location of data in published work:
+When logged in as galaxym user on the Ubuntu system,
+~/GalaxyM-TestData/LCMS_DATA
+~/GalaxyM-TestData/DIMS_DATA
 
 Installation instructions for Ubuntu 13.10 64bit
 ================================================
@@ -287,19 +296,6 @@ $> sh ~/galaxy-dist/run.sh
 To interact with Galaxy, open up a web-browser and point it at your server. If you have access to a browser on the same system as Galaxy, you can load that up and enter 127.0.0.1:8080 in the address bar. 127.0.0.1 means ‘localhost’ and the browser speaks to the system it is running on. Alternatively, if you are running the server on a remote system (in the cloud perhaps) then you’ll need to ensure that the ‘galaxy.ini’ file (galaxy-dist/config/galaxy.ini) has the line ‘host = 0.0.0.0’ rather than the default ‘host = 127.0.0.1’. This line tells Galaxy to expect traffic from the internet rather than just local requests. That setting has already been changed in the GalaxyM file (you may wish to change it back to 127.0.0.1 if you want to protect your Galaxy server from the wide web). 
 
 Hopefully, you should be presented with  the main Galaxy landing page. There should be a list of tools in the left hand panel, a welcome page in the middle and a history in the right hand side. 
-
-###Step 11. Log into Galaxy if you want to make use of workflows
-
-The GalaxyM installation has a user already registered and two workflows have been stored. If you wish to access these then the login details are:
-
-user: galaxym@galaxm.org
-password: galaxym
-
-
-Location of data in published work:
-When logged in as galaxym user on the Ubuntu system,
-~/GalaxyM-TestData/LCMS_DATA
-~/GalaxyM-TestData/DIMS_DATA
 
 
  
