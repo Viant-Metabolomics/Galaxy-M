@@ -1,0 +1,41 @@
+<tool id="pca_auto" name="PCA and Scores Test">
+	<description>Variables used by all/many SimStitch functions</description>
+	
+	
+	<command>
+#if $components.option=="auto"
+	matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/Statistics'); PCAScoresTest('${pls_dso}', '${classlist}', '${output}', '${output_results}', 0); exit;"
+#else
+	matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/Statistics'); PCAScoresTest('${pls_dso}', '${classlist}', '${output}', '${output_results}', $components.numcomps); exit;"
+#end if
+	</command>
+
+
+	<inputs>
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+
+		<param name="classlist" type="text" size="10" value="classes" label="Name of the classlist to use for Scores Test procedure (t-test or ANOVA). If name does not match, error will be returned in message file." />
+
+		<conditional name="components">
+			<param name="option" type="select" label="Automatically select number of components for model?">
+				<option value="auto">Auto</option>
+				<option value="manual">Manual</option>
+			</param>
+ 			<when value="manual">
+				<param name="numcomps" type="integer" size="3" value="5" label="Select number of components for PCA model. If number is larger than max number of components then all components will be used. " />
+			</when>
+  		</conditional> 
+	</inputs>
+
+
+	<outputs>
+    	<data format="xml" name="output" label="PCA and Scores Test on $pls_dso.hid:: PLS Model (.xml)" />
+		<data format="txt" name = "output_results" label="PCA and Scores Test on $pls_dso.hid: results" />
+		<data format="txt" name = "output_log" label="PCA and Scores Test on $pls_dso.hid: log" />
+	</outputs>
+
+
+	<help>
+	</help>
+
+</tool>

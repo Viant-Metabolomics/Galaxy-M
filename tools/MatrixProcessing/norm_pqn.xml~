@@ -1,0 +1,27 @@
+<tool id="norm_pqn" name="PQN Normalisation">
+	<description>Normalises samples held within a PLS Toolbox dataset object</description>
+	
+
+	<command>
+matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/metabproc'); NormalisePQN('${pls_dso}', '${output}'); exit;"
+	</command>
+
+
+	<inputs>
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+	</inputs>
+
+
+	<outputs>
+    	<data format="xml" name="output" label="PQN Normalisation on pls_dso.hid: DSO (.xml)" />
+		<data format="txt" name="output_log" label="PQN Normalisation on pls_dso.hid: log" />
+	</outputs>
+
+
+  <help>
+	This function applies Probabilistic Quotient Normalisation to data held within a PLS Toolbox (Eigenvector Research) dataset object. It is intended to be used with the output from the SimStitch pipeline.  
+NB: This version of the algorithm will make use of the PLS Toolbox dataset variable 'include' to produce a subset of the data with which to produce a reference spectrum (the mean of all 'include' samples). It will then apply the normalisation step to all samples using this reference, even those that are not flagged as 'include'. In normal circumstances, all samples would be included and so the reference would be the mean of all samples. However, in some circumstances it may be desirable to select a particular group for producing the reference spectrum (perhaps the Quality Control samples) in which case these should be the only samples flagged as 'include'. The algorithm will use them for creating the reference but apply the normalisation step to all samples included or not.
+Further, this algorithm attempts to compensate for the high likelihood of missing values in FTICR-DIMS data by performing the normalisation step on the subset of peaks shared between the reference spectrum and each individual spectrum. This means that where each spectrum has a different set of missing values, the normalisation step is likely being performed on a different set of peak values. It is hoped that the median, or most likely, quotient will be resistant to these slight discrepancies and indeed found more robustly due to the inclusion of the maximum number of peak values in each case.   
+  </help>
+
+</tool>

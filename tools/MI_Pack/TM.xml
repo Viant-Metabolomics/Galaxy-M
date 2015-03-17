@@ -1,0 +1,86 @@
+<tool id="Transformation Mapping" name="Transformation Mapping" version="1.0.0">
+  <description></description>
+  <command interpreter="python">run_mipack.py "TM" "$peaklist" "$ppm" "$conIons.ion_mode" "$conIons.SelectIons.ions" "$KEGG_COMPOUND" "$output_sql"</command>
+  <inputs>
+    <param format="tabular" name="peaklist" type="data" label="Transformation Mapping on" />
+    <param name="ppm" size="5" type="float" value="1.0" label="Mass tolerance (ppm)" help="">
+		<validator type="empty_field" message="Please enter valid contents."/>
+	</param>
+    <conditional name="conIons">
+    <param name="ion_mode" type="select" label="Ion mode">
+      <option value="POS">Positive</option>
+      <option value="NEG">Negative</option>
+		<validator type="no_options" message="Please select at least one option."/>
+    </param>
+	<when value="POS">
+	<conditional name="SelectIons">
+       <param name="defineIons" type="select" label="Ion library (positive)" help="">
+         <option value="default_POS">Default</option>
+         <option value="load_POS">Load data</option>
+		<validator type="no_options" message="Please select at least one option."/>
+       </param>
+       <when value="default_POS">
+         <param name="ions" type="select" multiple='True' label='Ions' help='Multi-select list - hold the appropriate key while clicking to select multiple options.'>
+			<option value="[M+H]+" selected="true">[M+H]+</option>
+            <option value="[M+Na]+" selected="true">[M+Na]+</option>
+			<option value="[M+K]+" selected="true">[M+K]+</option>
+            <option value="[M+(41K)]+" selected="true">[M+(41K)]+</option>
+		<validator type="no_options" message="Please select at least one option."/>
+		  </param>
+       </when>
+       <when value="load_POS">
+         <param name="ions" format="tabular" type="data" label="Ion from" help="Define the ion name and the accurate mass (e.g. [M+H]+	1.0072764). Tab-delimited."/>
+       </when>
+	</conditional>
+	</when>
+	<when value="NEG">
+	<conditional name="SelectIons">
+	   <param name="defineIons" type="select" label="Ion library (negative)" help="">
+         <option value="default_NEG">Default</option>
+         <option value="load_NEG">Load data</option>
+		<validator type="no_options" message="Please select at least one option."/>
+       </param>
+       <when value="default_NEG">
+         <param name="ions" type="select" multiple='True' label='Ions' help='Multi-select list - hold the appropriate key while clicking to select multiple options.'>
+			<option value="[M-H]-" selected="true">[M-H]-</option>
+            <option value="[M+Cl]-" selected="true">[M+Cl]-</option>
+			<option value="[M+(37Cl)]-" selected="true">[M+(37Cl)]-</option>
+            <option value="[M+Na-2H]-" selected="true">[M+Na-2H]-</option>
+            <option value="[M+K-2H]-" selected="true">[M+K-2H]-</option>
+            <option value="[M+Hac-H]-" selected="true">[M+Hac-H]-</option>
+		<validator type="no_options" message="Please select at least one option."/>
+		  </param>
+       </when>
+       <when value="load_NEG">
+         <param name="ions" format="tabular" type="data" label="Ions from" help="Define the ion name and the accurate mass (e.g. [M+K-2H]- 36.9486066). Tab-delimited."/>
+       </when>
+	</conditional>
+	</when>
+    </conditional>
+	<param name="KEGG_COMPOUND" type="select" multiple="true" label="Organism (KEGG COMPOUND)" help="Multi-select list - hold the appropriate key while clicking to select multiple options. Choose * for all.">
+			<option value="*" selected="true">*</option>
+			<option value="cfa">cfa</option>
+			<option value="cre">cre</option>
+			<option value="hsa">hsa</option>
+			<option value="psf">psf</option>
+			<option value="vvi">vvi</option>
+		<validator type="no_options" message="Please select at least one option."/>
+	</param>
+  </inputs>
+  <outputs>
+    <data format="tm.sqlite" name="output_sql" label= "$peaklist.name - TM"/>
+  </outputs>
+  <requirements>
+    <requirement type="python-module">MI_Pack</requirement>
+  </requirements>
+  
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>
+

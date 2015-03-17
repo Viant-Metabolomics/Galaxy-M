@@ -1,0 +1,31 @@
+<tool id="pls_toolbox_get_xmatrix" name="Get Xmatrix">
+	<description>Retrieves the dataset 'data' matrix</description>
+	
+
+	<command>
+matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/PLS_Toolbox'); GetXmatrix('${pls_dso}', '${output}'); exit;"
+	</command>
+
+
+	<inputs>
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+	</inputs>
+
+
+	<outputs>
+		<data format="csv" name="output" label="Get Xmatrix on $pls_dso.hid: Xmatrix (.csv)" />
+		<data format="txt" name = "output_log" label="Get Xmatrix on $pls_dso.hid: log" />
+	</outputs>
+
+
+	<help>
+This tool retrieves information from a PLS Dataset Object: it returns the Dataset's 'data' variable, commonly known in Metabolomics as the 'x matrix'. 
+
+The matrix is returned as a .CSV file for ease of interoperability. No headers or other information is returned. 
+
+Any missing values should be returned as NaN in the .CSV file.
+
+The log file output is purely for debugging purposes. It will report all commandline output and error messages from Matlab. 
+	</help>
+
+</tool>

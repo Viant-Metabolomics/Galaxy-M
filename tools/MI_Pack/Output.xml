@@ -1,0 +1,55 @@
+<tool id="Output" name="Combine Outputs" version="1.0.0">
+  <description></description>
+  <command interpreter="python">run_mipack.py "Output" "$peaklist" "$SPS_TM_Database.sqlite_SPS_TM" "$EFS_Database.sqlite_EFS" "$PPS_Database.sqlite_PPS" "$output_txt" "$output_sqlite"</command>
+  <inputs>
+
+    <param format="tabular" name="peaklist" type="data" label="Output on peaklist"/>
+
+	<conditional name="SPS_TM_Database">
+		<param name="SPS_TM" type="boolean" truevalue="True" falsevalue="False" label="Single Peak Search (SPS) / Transformation (TM) Mapping"/>
+		<when value="True">
+			<param format="sps.sqlite,tm.sqlite" name="sqlite_SPS_TM" type="data" label="Database"/>
+		</when>
+		<when value="False">
+			<param name="sqlite_SPS_TM" type="hidden" value="None" label=""/>
+		</when>
+	</conditional>
+
+	<conditional name="EFS_Database">
+		<param name="EFS" type="boolean" truevalue="True" falsevalue="False" label="Empirical Formular Search (EFS)"/>
+		<when value="True">
+			<param format="efs.sqlite" name="sqlite_EFS" type="data" label="Database"/>
+		</when>
+		<when value="False">
+			<param name="sqlite_EFS" type="hidden" value="None" label=""/>
+		</when>
+	</conditional>
+
+	<conditional name="PPS_Database">
+		<param name="PPS" type="boolean" truevalue="True" falsevalue="False" label="Peak Pattern Search (PPS)" help=""/>
+		<when value="True">
+			<param format="pps.sqlite" name="sqlite_PPS" type="data" label="Database" help="Note: One of the above (e.g. SPS, TM or EFS) is required for this option."/>
+		</when>
+		<when value="False">
+			<param name="sqlite_PPS" type="hidden" value="None" label=""/>
+		</when>
+	</conditional>
+
+  </inputs>
+  <outputs>
+    <data format="tabular" name="output_txt" label= "$peaklist.name - Output (Tab) "/>
+    <data format="output.sqlite" name="output_sqlite" label= "$peaklist.name - Output (Sqlite)"/>
+  </outputs>
+  <requirements>
+    <requirement type="python-module">MI_Pack</requirement>
+  </requirements>
+  
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>

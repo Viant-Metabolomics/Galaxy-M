@@ -1,0 +1,113 @@
+<tool id="Single Peak Search" name="Single Peak Search" version="1.0.0">
+  <description></description>
+  <command interpreter="python">run_mipack.py "SPS" "$peaklist" "$ppm" "$conIons.ion_mode" "$conIons.SelectIons.ions"  "$conDatabase.Database" "$conDatabase.ClassesDatabase" "$output_sql"</command>
+  <inputs>
+    <param format="tabular" name="peaklist" type="data" label="Single Peak Search on"/>	
+    <param name="ppm" size="5" type="float" value="1.0" label="Mass tolerance (ppm)" help="">
+		<validator type="empty_field" message="Please enter valid contents."/>
+	</param>
+	<conditional name="conIons">
+    <param name="ion_mode" type="select" label="Ion mode">
+      <option value="POS">Positive</option>
+      <option value="NEG">Negative</option>
+		<validator type="no_options" message="Please select at least one option."/>
+    </param>
+	<when value="POS">
+	<conditional name="SelectIons">
+       <param name="defineIons" type="select" label="Ion library (positive)" help="">
+         <option value="default_POS">Default</option>
+         <option value="load_POS">Load data</option>
+		<validator type="no_options" message="Please select at least one option."/>
+       </param>
+       <when value="default_POS">
+         <param name="ions" type="select" multiple='True' label='Ions' help='Multi-select list - hold the appropriate key while clicking to select multiple options.'>
+			<option value="[M+H]+" selected="true">[M+H]+</option>
+            <option value="[M+Na]+" selected="true">[M+Na]+</option>
+			<option value="[M+K]+" selected="true">[M+K]+</option>
+            <option value="[M+(41K)]+" selected="true">[M+(41K)]+</option>
+			<validator type="no_options" message="Please select at least one option."/>
+		  </param>
+       </when>
+       <when value="load_POS">
+         <param name="ions" format="tabular" type="data" label="Ions from" help="Define the ion name and the accurate mass (e.g. [M+H]+	1.0072764). Tab-delimited."/>
+       </when>
+	</conditional>
+	</when>
+	<when value="NEG">
+	<conditional name="SelectIons">
+	   <param name="defineIons" type="select" label="Ion library (negative)" help="">
+         <option value="default_NEG">Default</option>
+         <option value="load_NEG">Load data</option>
+		<validator type="no_options" message="Please select at least one option."/>
+       </param>
+       <when value="default_NEG">
+         <param name="ions" type="select" multiple='True' label='Ions' help='Multi-select list - hold the appropriate key while clicking to select multiple options.'>
+			<option value="[M-H]-" selected="true">[M-H]-</option>
+            <option value="[M+Cl]-" selected="true">[M+Cl]-</option>
+			<option value="[M+(37Cl)]-" selected="true">[M+(37Cl)]-</option>
+            <option value="[M+Na-2H]-" selected="true">[M+Na-2H]-</option>
+            <option value="[M+K-2H]-" selected="true">[M+K-2H]-</option>
+            <option value="[M+Hac-H]-" selected="true">[M+Hac-H]-</option>
+		<validator type="no_options" message="Please select at least one option."/>
+		  </param>
+       </when>
+       <when value="load_NEG">
+         <param name="ions" format="tabular" type="data" label="Ions from" help="Define the ion name and the accurate mass (e.g. [M+K-2H]- 36.9486066). Tab-delimited."/>
+       </when>
+	</conditional>
+	</when>
+    </conditional>
+
+	<conditional name="conDatabase">
+		<param name="Database" type="select" label="Database">
+		  <option value="KEGG_COMPOUND">KEGG COMPOUND</option>
+		  <option value="KEGG_DRUG">KEGG DRUG</option>
+		  <option value="LIPIDMAPS">LIPIDMAPS</option>
+		  <option value="BIOCYC">BIOCYC</option>
+		  <option value="HMDB">HMDB</option>
+		</param>
+
+		<when value="KEGG_COMPOUND">
+			<param name="ClassesDatabase" type="select" multiple="true" dynamic_options = "Classes('KEGG_COMPOUND')" label="Classes/Categories" help="Multi-select list - hold the appropriate key while clicking to select multiple options. Choose * for all."/>
+		</when>
+
+		<when value="KEGG_DRUG">
+			<param name="ClassesDatabase" type="select" multiple="true" label="Classes/Categories KEGG DRUG" dynamic_options = "Classes(None)"  help="Multi-select list - hold the appropriate key while clicking to select multiple options. Choose * for all." />
+		</when>
+
+		<when value="LIPIDMAPS">
+			<param name="ClassesDatabase" type="select" multiple="true" dynamic_options = "Classes('LIPIDMAPS')" label="Classes/Categories" help="Multi-select list - hold the appropriate key while clicking to select multiple options. Choose * for all."/>
+		</when>
+
+		<when value="BIOCYC">
+			<param name="ClassesDatabase" type="select" multiple="true" dynamic_options = "Classes('BIOCYC')" label="Classes/Categories" help="Multi-select list - hold the appropriate key while clicking to select multiple options. Choose * for all." />
+		</when>
+
+		<when value="DRUG_BANK">
+			<param name="ClassesDatabase" type="select" multiple="true" dynamic_options = "Classes(None)" label="Classes/Categories" help="Multi-select list - hold the appropriate key while clicking to select multiple options. Choose * for all."/>
+		</when>
+
+		<when value="HMDB">
+			<param name="ClassesDatabase" type="select" multiple="true" dynamic_options = "Classes('HMDB')" label="Classes/Categories" help="Multi-select list - hold the appropriate key while clicking to select multiple options. Choose * for all." />
+		</when>
+
+	</conditional>
+  </inputs>
+  <outputs>
+	  <data format="sps.sqlite" name="output_sql" label = "$peaklist.name - SPS"/>
+  </outputs>
+  <requirements>
+    <requirement type="python-module">MI_Pack</requirement>
+  </requirements>
+
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <code file="MIDB.py" />
+
+  <help>
+  </help>
+
+</tool>

@@ -1,0 +1,34 @@
+<tool id="glog_total" name="G-LOG Transform">
+  <description>Optimises and then applies the Generalised Logarithm Transform to data</description>
+  <command>
+
+matlab -nosplash -r "cd('/home/rob/galaxy-dist-noroot/tools/metabproc');dbstop in GLOG_Total_BB;GLOG_Total_BB('${pls_dso}', '${output}','${messages_out}');exit;"
+
+  </command>
+
+
+  <inputs>
+
+	<param format="xml" name="pls_dso" type="data" label="PLS dataset object in .xml format" />
+		
+ 
+
+  </inputs>
+
+
+  <outputs>
+
+    	<data format="xml" name="output" label="GLOG: PLS DSO.xml" />
+	<data format="txt" name = "messages_out" label="GLOG: messages" />
+  </outputs>
+
+
+  <help>
+	This function applies a GLOG (Generalised Logarithm) transformation to data held within a PLS Toolbox (Eigenvector Research) dataset object. It is intended to be used with the output from the SimStitch pipeline.
+
+	The algorithm initially optimises a 'lambda' parameter based on samples that are highlighted as 'included' in your dataset object. These samples ought to be the Quality Control (QC) samples from your experiment. By optimising the lambda parameter to the QC samples, the GLOG transform is able to reduce the technical variation in your data without suppressing the biological variation. 
+
+	This version of the algorithm also scales the data by a linear and a power factor to enable the optimisation algorithm to run on datasets with low signal and variation e.g. FT-ICR lipid spectra from very small biological volumes. 
+  </help>
+
+</tool>

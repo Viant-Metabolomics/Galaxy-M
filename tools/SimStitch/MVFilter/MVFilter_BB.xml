@@ -1,0 +1,31 @@
+<tool id="mvfilter" name="Missing Value Filter">
+  <description>Step7 of SimStitch. Filter samples that have too many missing values. </description>
+  <command>
+
+MVFilter_LWR.py --infile $input1 --conf $conf --tails $tails --sd_flag $sd_flag --outfile $output
+
+
+  </command>
+
+	<inputs>
+
+		<param format="tabular" name="input1" type="data" label="Common Variables e.g. Set# (from history)" />
+ 
+		<param name="conf" type="integer" size="3" value="95" label="Confidence limit (default 95 = 95%)" />
+		<param name="tails" type="boolean" checked="yes" truevalue="2-sided" falsevalue="1-sided" label="How many tails or sides for confidence limit (default 2-tails, un-check for 1-tail)" />
+		<param name="sd_flag" type="boolean" checked="yes" truevalue="SD" falsevalue="SE" label="To use Standard Deviations (SD) or Standard Errors (SE) (default SD, un-check for SE)" />
+				
+
+
+	</inputs>
+
+
+  	<outputs>
+    		<data format="tabular" name="output" />
+  	</outputs>
+
+  <help>
+This tool is purely a test for a) obtaining the user's IP address b) calling the LWR client from within the tool that is being run locally by Galaxy (using the user's IP address) c) passing a job to the user's computer for processing using the LWR client. 
+  </help>
+
+</tool>

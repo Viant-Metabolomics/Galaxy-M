@@ -1,0 +1,40 @@
+<tool id="pls_toolbox_set_include" name="Set Include">
+  <description>Alter the samples or variables that are included in analyses</description>
+  <command>
+
+matlab -nosplash -r "cd('../../../../tools/PLS_Toolbox'); SetInclude('${pls_dso}',$dim, '${include_file}', '${output}', '${output_messages}'); exit;"
+
+  </command>
+
+
+  <inputs>
+
+	<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+
+	<param name="dim" type="select" label="Dimension to set">
+		<option value="1"> sample </option>
+		<option value="2"> variable </option>
+	</param>
+	<param format="csv" name="include_file" type="data" label="CSV file containing a 1 or 0 for every sample/variable. 1=include, 0=exclude" />
+		
+ 
+
+  </inputs>
+
+
+  <outputs>
+
+    	<data format="xml" name="output" label="Set Include: PLS DSO.xml" />
+	<data format="txt" name = "output_messages" label="Set include: messages" />
+  </outputs>
+
+
+  <help>
+This tool allows the user to interact with the 'include' flag of a PLS Toolbox dataset object. 
+
+The flag is a simple boolean indicator for each sample or for each variable. The input should be a .csv file of 1s and 0s. 
+
+It is imperative that the number of entries in the .csv file is the same as the number of samples or variables (depending on what is chosen). If this is not the case, then the original dataset object will be returned to the output and an error message will be returned in the text output. 
+  </help>
+
+</tool>

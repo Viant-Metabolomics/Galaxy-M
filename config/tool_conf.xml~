@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<toolbox>
+
+	<section id="getext" name="Get Data">
+    		<tool file="data_source/upload.xml" />
+	</section>
+
+	<section name="XCMS" id="xcms">
+		<tool file="XCMS/XCMS.xml" />
+	</section>
+
+	<section name="SimStitch" id="simstitch">
+        	<tool file="SimStitch/FileListManager.xml" />
+		<tool file="SimStitch/SumTransients.xml" />
+    		<tool file="SimStitch/ProcessTransients.xml" />
+    		<tool file="SimStitch/Stitch.xml" />
+    		<tool file="SimStitch/RepFilter.xml" />
+    		<tool file="SimStitch/AlignSample.xml" />
+    		<tool file="SimStitch/CreateDSO.xml" />
+    		<tool file="SimStitch/BlankFilter.xml" />
+    		<tool file="SimStitch/MVFilter_LWR.xml" />
+    		<tool file="SimStitch/SampleFilter.xml" />
+	</section>
+
+	<section name = "Matrix Processing" id="matrixprocessing">
+		<tool file="MatrixProcessing/NormalisePQN.xml" />
+		<tool file="MatrixProcessing/ImputeKNN.xml" />
+		<tool file="MatrixProcessing/Glog.xml" />
+	</section>
+
+	<section id="statistics" name="Statistics" >
+		<tool file="Statistics/PCAScoresTest.xml" />
+	</section>
+
+	<section id="pls_toolbox" name="PLS Toolbox">
+	    <tool file="PLS_Toolbox/SetInclude.xml" />
+	    <tool file="PLS_Toolbox/AddClasslist.xml" />
+	    <tool file="PLS_Toolbox/GetPeaklist.xml" />
+            <tool file="PLS_Toolbox/GetXmatrix.xml" />
+            <tool file="PLS_Toolbox/GetAxisscale.xml" />
+            <tool file="PLS_Toolbox/GetClasslist.xml" />
+	</section>
+
+	<section id="mipack" name="MI Pack">
+		<tool file="MI_Pack/SPS.xml" />
+		<tool file="MI_Pack/TM.xml" />
+		<tool file="MI_Pack/EFS.xml" />
+		<tool file="MI_Pack/PPS.xml" />
+		<tool file="MI_Pack/Output.xml" />
+	</section>
+
+</toolbox>

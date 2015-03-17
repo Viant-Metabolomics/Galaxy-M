@@ -1,0 +1,39 @@
+<tool id="pls_toolbox_add_classlist" name="Add classlist">
+  <description>Add a new classlist to a dataset object</description>
+  <command>
+
+matlab -nosplash -r "cd('/home/rob/galaxy-dist-031114/tools/PLS_Toolbox');dbstop in add_classlist_BB;add_classlist_BB('${pls_dso}','${listname}', '${include_file}','${output}','${messages_out}');exit;"
+
+  </command>
+
+
+  <inputs>
+
+	<param format="xml" name="pls_dso" type="data" label="PLS dataset object in .xml format" />
+
+	<param name="listname" type="text" size="15" value="new_classlist" label="Name your class list" />
+
+	<param format="csv" name="include_file" type="data" label="CSV file containing a class label for each sample e.g. sample, QC, QC, sample ..." />
+		
+ 
+
+  </inputs>
+
+
+  <outputs>
+
+    	<data format="xml" name="output" label="Add ClassList: PLS DSO.xml" />
+	<data format="text" name = "messages_out" label="Add ClassList: messages" />
+  </outputs>
+
+
+  <help>
+This tool allows the user to add a 'classlist' to a PLS Toolbox dataset object. 
+
+The user must set a name for this classlist - which helps to interact with this classification later.
+The list itself must be a .csv file with a class label for each sample. For example, a 6 sample dataset might have a new classlist called 'treatment' where the list looks like:
+low, low, high, low, high, high
+ 
+  </help>
+
+</tool>

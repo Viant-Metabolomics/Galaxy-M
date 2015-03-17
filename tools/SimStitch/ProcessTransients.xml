@@ -1,0 +1,25 @@
+<tool id="proctrans" name="Process Transient Data">
+  <description>Step2 of SimStitch. Processes transient data</description>
+
+
+ 	<command>
+		matlab -logfile '${log}' -r "cd('../../../../tools/SimStitch'); try; ProcessTransients('${fileList}', '${html_input}', '${html_input.extra_files_path}', '${output_html}', '${output_html.files_path}'); catch; end; exit;"
+	</command>
+
+
+	<inputs>
+		<param format="xml" name="fileList" type="data" label="List of files (.xml) produced by File List manager" />
+		<param format="html" name="html_input" type="data" label=".html file produced by SumTransients" />
+	</inputs>
+
+
+  	<outputs>
+    	<data format="html" name="output_html" label="Process Transient Data on $html_input.hid: list of output files (.html)" />
+		<data format="txt" name="log" label="Process Transient Data on $html_input.hid: log"/>
+  	</outputs>
+
+  <help>
+Process Transients is the second step in SimStitch. It does not require any parameters and takes the output from SumTransients. 
+  </help>
+
+</tool>

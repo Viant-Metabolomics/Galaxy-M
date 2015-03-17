@@ -1,0 +1,35 @@
+<tool id="pls_toolbox_get_axisscale" name="Get Axisscale">
+	<description>Retrieves the m/z or sample-regression values from a dataset object</description>
+	
+
+	<command>
+matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/PLS_Toolbox'); GetAxisscale('${pls_dso}',$dimension, '${output}'); exit;"
+	</command>
+
+
+	<inputs>
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+		<param name="dimension" type="select" label="Choose axis (default for MZ is 2)" >
+		    <option value="1">1</option>
+            	    <option value="2" selected="true">2</option>
+		</param>
+	</inputs>
+
+
+	<outputs>
+		<data format="csv" name="output" label="Get Axisscale on $pls_dso.hid: Axisscale (.csv)" />
+		<data format="txt" name = "output_log" label="Get Axisscale on $pls_dso.hid: log" />
+	</outputs>
+
+
+	<help>
+This tool retrieves information from a PLS Dataset Object: the [1st] axisscale in the selected dimension. 
+
+The intended purpose of this tool is to produce a CSV file containing the MZ axis for a metabolomics mass spectrometry dataset. 
+
+PLS Toolbox dataset objects can have many axisscales for each dimension. It is assumed by this tool that the first axisscale in the given dimension, X, (referenced as dtst.axisscale{X,1}) contains the axisscale of choice. In most metabolomics datasets this ought to be true. 
+
+The log file output is purely for debugging purposes. It will report useful error messages for common errors such as PLS TOolbox not found etc.
+	</help>
+
+</tool>

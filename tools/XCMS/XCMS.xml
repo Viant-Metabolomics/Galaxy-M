@@ -1,0 +1,36 @@
+<tool id="xcms_bham" name="XCMS - Basic Birmingham Pipe">
+  <description>This script applies the XCMS peak picking and alignment algorithm to .mzML files</description>
+
+  <command>
+Rscript ../../../../tools/XCMS/XCMS_Basic.R '${mzMLDir}' $step $snthresh $mzdiff $bw $mzwid $cor_eic '${peakmatrix}' '${columnlabels}' '${rowlabels}' '${fullXCMSmatrix}' 
+
+
+  </command>
+
+	<inputs>
+
+		<param name="mzMLDir" type="text"  size="15" value="/home/galaxym/GalaxyM-TestData/LCMS_DATA/" label="Location of mzML files on Galaxy Server" />
+
+		<param name = "step" type="float" size = "3" value = "0.02" label="'step' variable for xcmsSet function" />
+		<param name = "snthresh" type ="float" size = "3" value = "3" label="'snthresh' variable for xcmsSet function" />
+		<param name = "mzdiff" type="float" size = "3" value = "0.05" label="'mzdiff' variable for xcmsSet function" />
+		<param name = "bw" type="integer" size = "3" value = "10" label="'bw' variable for group function" />
+		<param name = "mzwid" type="float" size = "3" value = "0.05" label="'mzwid' variable for group function" />
+		<param name = "cor_eic" type="float" size = "3" value = "0.00" label="'cor_eic_th' variable for annotate function" />
+
+
+	</inputs>
+
+  <outputs>
+    <data format="csv" name="peakmatrix" label="XCMS peakmatrix (.csv)"/>
+	<data format="csv" name="columnlabels" label="XCMS mz values (.csv)"/>
+	<data format="csv" name="rowlabels" label="XCMS row labels (.csv)"/>
+	<data format="csv" name="fullXCMSmatrix" label="XCMS full output (.csv)"/>
+  </outputs>
+
+
+  <help>
+This is a basic Galaxy wrapper for some XCMS functions that can take a directory of CDF files and turn them into a peak matrix in a .csv file.
+  </help>
+
+</tool>

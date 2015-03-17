@@ -1,0 +1,116 @@
+<tool id="Empirical Formular Search" name="Empirical Formular Search" version="1.0.0">
+  <description></description>
+  <command interpreter="python">run_mipack.py "EFS" "$peaklist" "$ppm" "$conIons.ion_mode" "$conIons.SelectIons.ions" "$DB_Cal.define_DB_Cal" "$DB_Cal.conAtoms.atoms" "$output_sql"</command>
+  <inputs>
+    <param format="tabular" name="peaklist" type="data" label="Empirical Formular Search on" />
+    <param name="ppm" size="5" type="float" value="1.0" label="Mass tolerance (ppm)" help="">
+		<validator type="empty_field" message="Please enter valid contents."/>
+	</param>
+    <conditional name="conIons">
+    <param name="ion_mode" type="select" label="Ion mode">
+      <option value="POS">Positive</option>
+      <option value="NEG">Negative</option>
+    </param>
+	<when value="POS">
+	<conditional name="SelectIons">
+       <param name="defineIons" type="select" label="Ion library (positive)" help="">
+         <option value="default_POS">Default</option>
+         <option value="load_POS">Load data</option>
+       </param>
+       <when value="default_POS">
+         <param name="ions" type="select" multiple='True' label='Ions' help='Multi-select list - hold the appropriate key while clicking to select multiple options.'>
+			<option value="[M+H]+" selected="True">[M+H]+</option>
+            <option value="[M+Na]+" selected="True">[M+Na]+</option>
+			<option value="[M+K]+" selected="True">[M+K]+</option>
+            <option value="[M+(41K)]+" selected="True">[M+(41K)]+</option>
+		  </param>
+       </when>
+       <when value="load_POS">
+         <param name="ions" format="tabular" type="data" label="Ions" help="Define the ion name and the accurate mass (e.g. [M+H]+	1.0072764). Tab-delimited."/>
+       </when>
+	</conditional>
+	</when>
+	<when value="NEG">
+	<conditional name="SelectIons">
+	   <param name="defineIons" type="select" label="Ion library (negative)" help="">
+         <option value="default_NEG">Default</option>
+         <option value="load_NEG">Load data</option>
+       </param>
+       <when value="default_NEG">
+         <param name="ions" type="select" multiple='True' label='Ions' help='Multi-select list - hold the appropriate key while clicking to select multiple options.'>
+			<option value="[M-H]-" selected="True">[M-H]-</option>
+            <option value="[M+Cl]-" selected="True">[M+Cl]-</option>
+			<option value="[M+(37Cl)]-" selected="True">[M+(37Cl)]-</option>
+            <option value="[M+Na-2H]-" selected="True">[M+Na-2H]-</option>
+            <option value="[M+K-2H]-" selected="True">[M+K-2H]-</option>
+            <option value="[M+Hac-H]-" selected="True">[M+Hac-H]-</option>
+		  </param>
+       </when>
+       <when value="load_NEG">
+         <param name="ions" format="tabular" type="data" label="Ions" help="Define the ion name and the accurate mass (e.g. [M+K-2H]-	36.9486066). Tab-delimited."/>
+       </when>
+	</conditional>
+	</when>
+    </conditional>
+	<conditional name="DB_Cal">
+		<param name="define_DB_Cal" type="select" label="Approach" help="">
+		    <option value="Cal">Calculator</option>
+			<!--<option value="DB">Use Database</option>-->
+		</param>
+		<when value="Cal">
+		<conditional name="conAtoms">
+		   <param name="defineAtoms" type="select" label="Atom library" help="">
+		     <option value="default">Default</option>
+		     <option value="load">Load data</option>
+		   </param>
+		   <when value="default">
+
+		     <param name="atoms" type="select" multiple="True" label="Atoms (Name Mass Limit)" help="">
+				<option value="C" selected="True">C 12.000000 0-35;</option>
+				<option value="(13C)" selected="False">(13C) 13.003355 0-2;</option>
+		        <option value="H" selected="True">H 1.007825 0-73;</option>
+				<option value="N" selected="True">N 14.003074 0-16</option>
+		        <option value="O" selected="True">O 15.994915 0-20;</option>
+		        <option value="P" selected="True">P 30.973763 0-8;</option>
+		        <option value="S" selected="True">S 31.972072 0-9;</option>
+			 </param>
+
+		   </when>
+		   <when value="load">
+		     <param name="atoms" format="tabular" type="data" label="Atoms from" help="Define atom name, accurate mass, the mininum and maxinum number (e.g. C	12.000000	0	34). Tab-delimited."/>
+		   </when>
+		</conditional>
+		</when>
+		<when value="DB">
+			<conditional name="conAtoms">
+			   <param name="defineAtoms" type="select" label="Atom library" help="">
+					<option value="default" selected="True">Default</option>
+					<option value="load">Load data</option>
+			   </param>
+			   <when value="default">
+				 <param name="atoms" type="hidden" value="C,(13C),H,N,O,P,S,(34S),[NaCl],[Na(37Cl)]" label="Atom types" help="Select the default atoms below."/>
+			   </when>
+			   <when value="load">
+				 <param name="atoms" format="tabular" type="data" label="Atom types" help="Define the atom name, accurate mass, the mininum and maxinum number (e.g. C	12.000000	0	34). Tab-delimited."/>
+			   </when>
+			</conditional>
+		</when>
+	</conditional>
+
+  </inputs>
+  <outputs>
+    <data format="efs.sqlite" name="output_sql" label= "$peaklist.name - EFS" />
+  </outputs>
+  <requirements>
+    <requirement type="python-module">MI_Pack</requirement>
+  </requirements>
+  
+  <tests>
+    <test>
+    </test>
+  </tests>
+
+  <help>
+  </help>
+
+</tool>
