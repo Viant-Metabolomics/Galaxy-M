@@ -29,6 +29,9 @@ Availability and Requirements
 ###Any restrictions to use by non-academics: 
 * no restrictions on use
 
+###Pre-Installed Virtual Machine 
+A virtual machine implementation has been created to support reuse by the community. This will be available via the GigaDB repository (accession details to follow). Installation instructions to recreate the virtual machine can be found below. They are quite complex and can involve a lot of troubleshooting, so it is advised to work direct from the virtual machine where possible. We will aim to share the VM via Amazon AWS for access without download and eventually to provide a Vagrant provisioning file for easy setup of a new virtual machine. 
+
 Installation instructions for Ubuntu 13.10 64bit
 ================================================
 
@@ -51,7 +54,9 @@ $> sudo apt-get update
 
 You may wish to see the official instructions here: https://www.winehq.org/download/ubuntu
 
-If using Ubuntu 64bit, there are problems with WINE and Python2.7 sometimes. WINE is notoriously difficult. Some nice people have set up an Ubuntu WINE repository and so it’s advised to set that up first:
+If using Ubuntu 64bit, there are problems with WINE and Python2.7 *sometimes*. WINE is notoriously difficult. Some nice people have set up an Ubuntu WINE repository and so it’s advised to set that up first - however, please notice that I describe this method, then details of 32bit installation issues that can apply when installing Wine on 64bit Ubuntu. These methods have worked or failed to work randomly (WINE is **notoriously difficult**) so you may need to try them both. Always, one approach has proved successful *so far*:
+
+**WINE approach 1**
 
 $> sudo add-apt-repository ppa:ubuntu-wine/ppa
 
@@ -126,10 +131,7 @@ At this stage, Wine may produce errors because it can’t register the XRawFile2
 $> sudo apt-get install winetricks
 $> winetricks vcrun2008
 
-
-
-
-WINE-32BIT-ATTEMPT
+** WINE approach 2: WINE-32BIT-ISSUES**
 It may be that MSFileReader requires 32bit (DLLs etc) and that WINE is automatically running in 64bit - being modern etc. In order to get WINE to run in 32bit, remove the .wine folder in your home directory (or move it to e.g. ~/.wine_backup) which will remove all installed software and data from WINE. Then set the ‘WINEARCH’ system variable by updating your ~/.profile with the line “export WINEARCH=win32” (place at end of file, don’t include the quotation marks). Then try installing the software as before…
 
 
@@ -137,8 +139,8 @@ It may be that MSFileReader requires 32bit (DLLs etc) and that WINE is automatic
 ###Step 3: Install MI Pack python package
 Download the MI Pack python package (there is a version installed on the GalaxyM VM already, the original package files are at /home/galaxym/Galaxy_MI_Pack/MI_Pack_Python_package/) and install as you would any standard Python package. That is to say:
 
-sudo python [path/to/package/]setup.py build
-sudo python [path/to/package/]setup.py install
+$> sudo python [path/to/package/]setup.py build
+$> sudo python [path/to/package/]setup.py install
 
 Then if you have multiple processing cores on your system and wish to make use of parallel processing to speed up e.g. Empirical Formula search, install Parallel Python. This can be downloaded from parallelpython.com or there is a version within the MI Pack folder on the VM. Install this package in the same way as MI Pack (sudo python setup.py install). It is NOT necessary to have parallelpython installed for MI Pack to work, but it is advised if you have multiple cores. 
 
@@ -182,7 +184,7 @@ If run in this way, Galaxy can be stopped by typing Ctrl-C.
 
 ###Step 6. Install Matlab
 
-a) install Java RunTime Environment and WebStart. 
+6a) install Java RunTime Environment and WebStart. 
 This enables you to use the Matlab installers as downloaded from the Mathworks website. Alternatively you can just download the product files directly. To install Java JRE, first check which version is available:
 
 $> sudo apt-cache search openjdk-*
@@ -195,7 +197,7 @@ In order to use the Mathworks’ ‘Download Agent’, you’ll also need java w
 
 $> sudo apt-get install icedtea-netx
 
-b) Download Matlab and Statistics Toolbox (version 2012a) using Download Agent
+6b) Download Matlab and Statistics Toolbox (version 2012a) using Download Agent
 Within your Mathworks website account, navigate to your licenses and start the download products process. The site intends you to use their Java ‘webstart’ based Download Agent but there are alternatives. The website will try to see that you have Java installed before download. If it can’t find your Java JRE but you installed it in the previous step, just click ‘i have java’ and continue. A file called Download Agent will start to download. 
 
 Your internet browser may ask if you want to open with IcedTea - feel free to do so. Alternatively download the file and then open with IcedTea. In theory you ought to be able to do this via the commandline using ‘javaws /path/to/my/file’ but I found this produced an error. However, simply opening up a file browser and double clicking on the file automatically opened it with the Iced Tea tool. 
