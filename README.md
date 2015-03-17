@@ -54,9 +54,9 @@ $> sudo apt-get update
 
 You may wish to see the official instructions here: https://www.winehq.org/download/ubuntu
 
-If using Ubuntu 64bit, there are problems with WINE and Python2.7 *sometimes*. WINE is notoriously difficult. Some nice people have set up an Ubuntu WINE repository and so it’s advised to set that up first - however, please notice that I describe this method, then details of 32bit installation issues that can apply when installing Wine on 64bit Ubuntu. These methods have worked or failed to work randomly (WINE is **notoriously difficult**) so you may need to try them both. Always, one approach has proved successful *so far*:
+If using Ubuntu 64bit, there are problems with WINE and Python2.7 *sometimes*. WINE is notoriously difficult. Some nice people have set up an Ubuntu WINE repository and so it’s advised to set that up first: 
 
-**WINE approach 1**
+To set up the WINE/Ubuntu repository:
 
 $> sudo add-apt-repository ppa:ubuntu-wine/ppa
 
@@ -131,7 +131,7 @@ At this stage, Wine may produce errors because it can’t register the XRawFile2
 $> sudo apt-get install winetricks
 $> winetricks vcrun2008
 
-** WINE approach 2: WINE-32BIT-ISSUES**
+**WINE TROUBLESHOOTING: 32BIT-ISSUES**
 It may be that MSFileReader requires 32bit (DLLs etc) and that WINE is automatically running in 64bit - being modern etc. In order to get WINE to run in 32bit, remove the .wine folder in your home directory (or move it to e.g. ~/.wine_backup) which will remove all installed software and data from WINE. Then set the ‘WINEARCH’ system variable by updating your ~/.profile with the line “export WINEARCH=win32” (place at end of file, don’t include the quotation marks). Then try installing the software as before…
 
 
