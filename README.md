@@ -145,8 +145,8 @@ It may be that MSFileReader requires 32bit (DLLs etc) and that WINE is automatic
 
 
 
-###Step 3: Install MI Pack python package
-Download the MI Pack python package (there is a version installed on the GalaxyM VM already, the original package files are at /home/galaxym/Galaxy_MI_Pack/MI_Pack_Python_package/) and install as you would any standard Python package. That is to say:
+###Step 3: Install MI-Pack python package
+Download the MI-Pack python package from https://github.com/Viant-Metabolomics/MI-Pack (there is a version installed on the GalaxyM VM already, the original package files are at /home/galaxym/Galaxy_MI_Pack/MI_Pack_Python_package/) and install as you would any standard Python package. That is to say:
 
 $> sudo python [path/to/package/]setup.py build
 $> sudo python [path/to/package/]setup.py install
