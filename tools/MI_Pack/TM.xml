@@ -1,7 +1,7 @@
 <tool id="Transformation Mapping" name="Transformation Mapping" version="1.0.0">
   <description></description>
   <requirements>
-    <requirement type="python-module">MI_Pack</requirement>
+    <requirement type="package">MI_Pack</requirement>
   </requirements>
   <command interpreter="python">run_mipack.py "TM" "$peaklist" "$ppm" "$conIons.ion_mode" "$conIons.SelectIons.ions" "$KEGG_COMPOUND" "$output_sql"</command>
   <inputs>

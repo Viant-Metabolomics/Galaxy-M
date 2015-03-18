@@ -1,7 +1,7 @@
 <tool id="Single Peak Search" name="Single Peak Search" version="1.0.0">
   <description></description>
   <requirements>
-    <requirement type="python-module">MI_Pack</requirement>
+    <requirement type="package">MI_Pack</requirement>
   </requirements>
   <code file="MIDB.py" />
   <command interpreter="python">run_mipack.py "SPS" "$peaklist" "$ppm" "$conIons.ion_mode" "$conIons.SelectIons.ions"  "$conDatabase.Database" "$conDatabase.ClassesDatabase" "$output_sql"</command>

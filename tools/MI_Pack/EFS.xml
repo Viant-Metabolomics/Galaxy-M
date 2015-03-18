@@ -1,7 +1,7 @@
 <tool id="Empirical Formula Search" name="Empirical Formula Search" version="1.0.0">
   <description></description>
   <requirements>
-    <requirement type="python-module">MI_Pack</requirement>
+    <requirement type="package">MI_Pack</requirement>
   </requirements>
   <command interpreter="python">run_mipack.py "EFS" "$peaklist" "$ppm" "$conIons.ion_mode" "$conIons.SelectIons.ions" "$DB_Cal.define_DB_Cal" "$DB_Cal.conAtoms.atoms" "$output_sql"</command>
   <inputs>

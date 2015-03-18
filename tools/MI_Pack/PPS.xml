@@ -1,7 +1,7 @@
 <tool id="Peak Pattern Search" name="Peak Pattern Search" version="1.0.0">
   <description></description>
   <requirements>
-    <requirement type="python-module">MI_Pack</requirement>
+    <requirement type="package">MI_Pack</requirement>
   </requirements>
   <command interpreter="python">run_mipack.py "PPS" "$peaklist" "$ppm" "$conIons.ion_mode" "$conIons.SelectIons.ions" "$conIsotopes.isotope_mode" "$conIsotopes.SelectIsotopes.isotopes" "$output_sql"</command>
   <inputs>
