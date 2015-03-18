@@ -1,4 +1,4 @@
-<tool id="createdso" name="Create DSO object">
+<tool id="createdso" name="Create DSO object" version="1.0.0">
   	<description>Step 6 of SimStitch. Puts merged replicate spectra into PLS Toolbox DSO object.</description>
   	
 	

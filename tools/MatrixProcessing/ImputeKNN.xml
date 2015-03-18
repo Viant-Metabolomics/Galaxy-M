@@ -1,4 +1,4 @@
-<tool id="mv_knn" name="KNN Missing Values Impute">
+<tool id="mv_knn" name="KNN Missing Values Impute" version="1.0.0">
 	<description>Uses a KNN algorithm  to impute missing values</description>
 	
 	

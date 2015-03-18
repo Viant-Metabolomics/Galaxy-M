@@ -1,4 +1,4 @@
-<tool id="pls_toolbox_get_toppca" name="Get Top PCA Loadings">
+<tool id="pls_toolbox_get_toppca" name="Get Top PCA Loadings" version="1.0.0">
 	<description>Retrieves the m/z and average intensity values from a certain percentage of any latent variable in a PLS Toolbox PCA model</description>
 	
 

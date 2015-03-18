@@ -1,4 +1,4 @@
-<tool id="pls_toolbox_set_include" name="Set Include">
+<tool id="pls_toolbox_set_include" name="Set Include" version="1.0.0">
   <description>Alter the samples or variables that are included in analyses</description>
   <command>
 

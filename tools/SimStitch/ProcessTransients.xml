@@ -1,4 +1,4 @@
-<tool id="proctrans" name="Process Transient Data">
+<tool id="proctrans" name="Process Transient Data" version="1.0.0">
   <description>Step2 of SimStitch. Processes transient data</description>
 
 

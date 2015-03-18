@@ -1,4 +1,4 @@
-<tool id="fileListManager" name="File List Manager">
+<tool id="fileListManager" name="File List Manager" version="1.0.0">
   	<description>Step 0 of SimStitch. </description>
 
 

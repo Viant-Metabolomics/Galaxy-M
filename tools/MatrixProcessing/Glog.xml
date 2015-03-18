@@ -1,4 +1,4 @@
-<tool id="glog_total" name="g-log Transform">
+<tool id="glog_total" name="g-log Transform" version="1.0.0">
 	<description>Optimises and then applies the Generalised Logarithm Transform to data</description>
   
 

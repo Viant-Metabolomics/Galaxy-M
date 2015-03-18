@@ -1,4 +1,4 @@
-<tool id="xcms_bham" name="XCMS - Basic Birmingham Pipe">
+<tool id="xcms_bham" name="XCMS - Basic Birmingham Pipe" version="1.0.0">
   <description>This script applies the XCMS peak picking and alignment algorithm to .mzML files</description>
 
   <command>

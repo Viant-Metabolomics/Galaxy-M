@@ -1,4 +1,4 @@
-<tool id="sumtrans" name="Sum Transient Data">
+<tool id="sumtrans" name="Sum Transient Data" version="1.0.0">
   	<description>Step1 of SimStitch. Sums transient data</description>
   	
 

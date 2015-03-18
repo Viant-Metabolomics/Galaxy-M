@@ -1,4 +1,4 @@
-<tool id="pls_toolbox_get_xmatrix" name="Get Xmatrix">
+<tool id="pls_toolbox_get_xmatrix" name="Get Xmatrix" version="1.0.0">
 	<description>Retrieves the dataset 'data' matrix</description>
 	
 

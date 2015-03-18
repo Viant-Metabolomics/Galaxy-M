@@ -1,4 +1,4 @@
-<tool id="pls_toolbox_add_classlist" name="Add Class list">
+<tool id="pls_toolbox_add_classlist" name="Add Class list" version="1.0.0">
 	<description>Add a new classlist to a dataset object</description>
 	
 	

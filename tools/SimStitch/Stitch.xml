@@ -1,4 +1,4 @@
-<tool id="stitch" name="Mass Calibration and SIM-stitching">
+<tool id="stitch" name="Mass Calibration and SIM-stitching" version="1.0.0">
   	<description>Step3 of SimStitch. Stitches transient data</description>
   	
 	<command>matlab -logfile '${output_log}' -nosplash -r "cd('../../../../tools/SimStitch'); try; Stitch('${$fileList}',

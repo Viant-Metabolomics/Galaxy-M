@@ -1,4 +1,4 @@
-<tool id="samplefilter" name="Sample Filtering">
+<tool id="samplefilter" name="Sample Filtering" version="1.0.0">
   	<description>Step 8 of SimStitch. Filter peaks based on presence across all samples. </description>
 
   	

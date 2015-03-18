@@ -1,4 +1,4 @@
-<tool id="blankfilter" name="Blank Filtering">
+<tool id="blankfilter" name="Blank Filtering" version="1.0.0">
   <description>Step 7 of SimStitch. Filters out peaks that are heavily present in blank spectra.</description>
   	
 	

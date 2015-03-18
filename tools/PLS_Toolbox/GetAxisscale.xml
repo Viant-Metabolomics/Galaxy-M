@@ -1,4 +1,4 @@
-<tool id="pls_toolbox_get_axisscale" name="Get Axisscale">
+<tool id="pls_toolbox_get_axisscale" name="Get Axisscale" version="1.0.0">
 	<description>Retrieves the m/z or sample-regression values from a dataset object</description>
 	
 

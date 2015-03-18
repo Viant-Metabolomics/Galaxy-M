@@ -1,4 +1,4 @@
-<tool id="norm_pqn" name="PQN Normalisation">
+<tool id="norm_pqn" name="PQN Normalisation" version="1.0.0">
 	<description>Normalises samples held within a PLS Toolbox dataset object</description>
 	
 

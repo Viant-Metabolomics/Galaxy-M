@@ -1,4 +1,4 @@
-<tool id="alignsample" name="Align Sample Spectra">
+<tool id="alignsample" name="Align Sample Spectra" version="1.0.0">
   	<description>Step 5 of SimStitch. Align sample spectra</description>
   
 

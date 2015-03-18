@@ -1,4 +1,4 @@
-<tool id="pls_toolbox_get_peaklist" name="Get Peaklist">
+<tool id="pls_toolbox_get_peaklist" name="Get Peaklist" version="1.0.0">
 	<description>Retrieves the m/z and average peak intensity values from a dataset object</description>
 	
 

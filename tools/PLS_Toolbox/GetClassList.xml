@@ -1,4 +1,4 @@
-<tool id="pls_toolbox_get_class_list" name="Get Class List">
+<tool id="pls_toolbox_get_class_list" name="Get Class List" version="1.0.0">
 	<description>Retrieves class labels from a dataset object</description>
 	
 

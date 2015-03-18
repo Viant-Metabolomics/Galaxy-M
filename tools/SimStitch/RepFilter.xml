@@ -1,4 +1,4 @@
-<tool id="repfilter" name="Replicate Filtering">
+<tool id="repfilter" name="Replicate Filtering" version="1.0.0">
   	<description>Step4 of SimStitch. Filters and merges replicates.</description>
   	
 

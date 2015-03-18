@@ -1,4 +1,4 @@
-<tool id="pca_auto" name="PCA and Scores Test">
+<tool id="pca_auto" name="PCA and Scores Test" version="1.0.0">
 	<description>Variables used by all/many SimStitch functions</description>
 	
 	
