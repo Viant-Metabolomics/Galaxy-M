@@ -1,5 +1,8 @@
 <tool id="Output" name="Combine Outputs" version="1.0.0">
   <description></description>
+  <requirements>
+    <requirement type="python-module">MI_Pack</requirement>
+  </requirements>
   <command interpreter="python">run_mipack.py "Output" "$peaklist" "$SPS_TM_Database.sqlite_SPS_TM" "$EFS_Database.sqlite_EFS" "$PPS_Database.sqlite_PPS" "$output_txt" "$output_sqlite"</command>
   <inputs>
 
@@ -40,10 +43,6 @@
     <data format="tabular" name="output_txt" label= "$peaklist.name - Output (Tab) "/>
     <data format="output.sqlite" name="output_sqlite" label= "$peaklist.name - Output (Sqlite)"/>
   </outputs>
-  <requirements>
-    <requirement type="python-module">MI_Pack</requirement>
-  </requirements>
-  
   <tests>
     <test>
     </test>

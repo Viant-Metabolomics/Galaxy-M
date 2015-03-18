@@ -1,5 +1,8 @@
 <tool id="Transformation Mapping" name="Transformation Mapping" version="1.0.0">
   <description></description>
+  <requirements>
+    <requirement type="python-module">MI_Pack</requirement>
+  </requirements>
   <command interpreter="python">run_mipack.py "TM" "$peaklist" "$ppm" "$conIons.ion_mode" "$conIons.SelectIons.ions" "$KEGG_COMPOUND" "$output_sql"</command>
   <inputs>
     <param format="tabular" name="peaklist" type="data" label="Transformation Mapping on" />
@@ -70,9 +73,6 @@
   <outputs>
     <data format="tm.sqlite" name="output_sql" label= "$peaklist.name - TM"/>
   </outputs>
-  <requirements>
-    <requirement type="python-module">MI_Pack</requirement>
-  </requirements>
   
   <tests>
     <test>
