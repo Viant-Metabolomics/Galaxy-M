@@ -34,4 +34,10 @@ Rscript $tool_directory/XCMS_Basic.R '${mzMLDir}' $step $snthresh $mzdiff $bw $m
 This is a basic Galaxy wrapper for some XCMS functions that can take a directory of CDF files and turn them into a peak matrix in a .csv file.
   </help>
 
+  <citations>
+    <citation type="doi">10.1021/ac051437y</citation>
+    <citation type="doi">10.1186/1471-2105-9-504</citation>
+    <citation type="doi">10.1093/bioinformatics/btq441</citation>
+  </citations>
+
 </tool>
