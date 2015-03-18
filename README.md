@@ -182,7 +182,7 @@ Obtain the latest version of GalaxyM from [github](https://github.com/Viant-Meta
 1. Merge or replace the ``galaxy-dist/tool-data/`` directory with ``GalaxyM/tool-data/``
 1. edit or replace ``galaxy-dist/config/tool_conf.xml`` with [the contents of] ``GalaxyM/config/tool_conf.xml`` 
 1. edit/replace/create ``galaxy-dist/config/datatypes_conf.xml`` with the SQLite ``datatype extension`` tags from ``GalaxyM/config/datatypes_conf.xml`` (or simply copy the GalaxyM file to your galaxy-dist/config/ directory).
-1. Copy ``galaxy-dist/lib/galaxy/datatypes/binary.py`` to include the 5 SQLite ``classes`` and subsequent ``Binary.register_sniffable…`` commands from  ``GalaxyM/lib/galaxy/datatypes/binary.py`` or simply replace the standard file with ours. 
+1. Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatypes/galaxym.py`` into the ``galaxy-dist/lib/galaxy/datatypes/`` directory.
 1. If you were already running Galaxy, restart now. 
 
 NB: to run Galaxy, you need to call the run.sh bash script within the main ``galaxy-dist`` folder e.g.
