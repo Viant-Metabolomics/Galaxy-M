@@ -3,7 +3,8 @@
   	
 	
 	<command>
-matlab -r "cd('../../../../tools/SimStitch'); CreateDSO('${fileList}', '${peakmatrix}', '${pmatrix_row}', '${pmatrix_col}', '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+matlab -r "cd('$tool_directory'); CreateDSO('${fileList}', '${peakmatrix}', '${pmatrix_row}', '${pmatrix_col}', '${output}'); exit;"
   	</command>
 
 

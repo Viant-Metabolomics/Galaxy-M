@@ -3,7 +3,8 @@
 	
 	
 	<command>
-matlab -nosplash -r "cd('../../../../tools/PLS_Toolbox'); AddClasslist('${pls_dso}', '${listname}',  '${include_file}', '${output}', '${output_messages}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -nosplash -r "cd('$tool_directory'); AddClasslist('${pls_dso}', '${listname}',  '${include_file}', '${output}', '${output_messages}'); exit;"
 	</command>
 
 

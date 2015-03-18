@@ -1,8 +1,8 @@
 <tool id="pls_toolbox_set_include" name="Set Include" version="1.0.0">
   <description>Alter the samples or variables that are included in analyses</description>
   <command>
-
-matlab -nosplash -r "cd('../../../../tools/PLS_Toolbox'); SetInclude('${pls_dso}', $dim, '${include_file}', '${output}', '${output_messages}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -nosplash -r "cd('$tool_directory'); SetInclude('${pls_dso}', $dim, '${include_file}', '${output}', '${output_messages}'); exit;"
 
   </command>
 

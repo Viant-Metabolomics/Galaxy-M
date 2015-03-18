@@ -3,7 +3,8 @@
 	
 
 	<command>
-matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/PLS_Toolbox'); GetAxisscale('${pls_dso}',$dimension, '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetAxisscale('${pls_dso}',$dimension, '${output}'); exit;"
 	</command>
 
 

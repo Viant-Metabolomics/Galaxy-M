@@ -3,7 +3,8 @@
   	
 	
 	<command >
-matlab -r "cd('../../../../tools/SimStitch');BlankFilter( '${pls_dso}', $thold_perc ,$maxmean, $thold_fold, '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+matlab -r "cd('$tool_directory');BlankFilter( '${pls_dso}', $thold_perc ,$maxmean, $thold_fold, '${output}'); exit;"
   	</command>
 
 

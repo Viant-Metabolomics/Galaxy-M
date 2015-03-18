@@ -3,7 +3,8 @@
 
 
  	<command>
-		matlab -logfile '${log}' -r "cd('../../../../tools/SimStitch'); try; ProcessTransients('${fileList}', '${html_input}', '${html_input.extra_files_path}', '${output_html}', '${output_html.files_path}'); catch; end; exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+matlab -logfile '${log}' -r "cd('$tool_directory'); try; ProcessTransients('${fileList}', '${html_input}', '${html_input.extra_files_path}', '${output_html}', '${output_html.files_path}'); catch; end; exit;"
 	</command>
 
 

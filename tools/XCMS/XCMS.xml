@@ -2,7 +2,8 @@
   <description>This script applies the XCMS peak picking and alignment algorithm to .mzML files</description>
 
   <command>
-Rscript ../../../../tools/XCMS/XCMS_Basic.R '${mzMLDir}' $step $snthresh $mzdiff $bw $mzwid $cor_eic '${peakmatrix}' '${columnlabels}' '${rowlabels}' '${fullXCMSmatrix}' 
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/XCMS')
+Rscript $tool_directory/XCMS_Basic.R '${mzMLDir}' $step $snthresh $mzdiff $bw $mzwid $cor_eic '${peakmatrix}' '${columnlabels}' '${rowlabels}' '${fullXCMSmatrix}' 
 
 
   </command>

@@ -2,7 +2,9 @@
   	<description>Step1 of SimStitch. Sums transient data</description>
   	
 
-	<command> matlab -logfile '${output_log}' -nosplash -r "cd('../../../../tools/SimStitch');try; SumTransients('${fileList}', $numscans, $mintic, $ignorecal, $maxmz, '${output_html}', '${output_html.files_path}', '${output_messages}'); catch; end; exit;" 
+	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory');try; SumTransients('${fileList}', $numscans, $mintic, $ignorecal, $maxmz, '${output_html}', '${output_html.files_path}', '${output_messages}'); catch; end; exit;" 
   	</command>
 
 

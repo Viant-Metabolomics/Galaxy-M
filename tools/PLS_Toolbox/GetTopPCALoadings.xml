@@ -3,7 +3,8 @@
 	
 
 	<command>
-matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/PLS_Toolbox'); GetTopPCALoadings('${pls_model}',$lv,$percent, '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory');  GetTopPCALoadings('${pls_model}',$lv,$percent, '${output}'); exit;"
 	</command>
 
 

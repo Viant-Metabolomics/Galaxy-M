@@ -3,7 +3,8 @@
 	
 
 	<command>
-matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/PLS_Toolbox'); GetXmatrix('${pls_dso}', '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetXmatrix('${pls_dso}', '${output}'); exit;"
 	</command>
 
 
