@@ -44,8 +44,6 @@
     <data format="output.sqlite" name="output_sqlite" label= "$peaklist.name - Output (Sqlite)"/>
   </outputs>
   <tests>
-    <test>
-    </test>
   </tests>
 
   <help>

@@ -105,8 +105,6 @@
     <data format="efs.sqlite" name="output_sql" label= "$peaklist.name - EFS" />
   </outputs>
   <tests>
-    <test>
-    </test>
   </tests>
 
   <help>
