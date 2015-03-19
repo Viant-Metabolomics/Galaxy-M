@@ -1,9 +1,10 @@
-<tool id="pls_toolbox_get_xmatrix" name="Get Xmatrix">
+<tool id="pls_toolbox_get_xmatrix" name="Get Xmatrix" version="1.0.0">
 	<description>Retrieves the dataset 'data' matrix</description>
 	
 
 	<command>
-matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/PLS_Toolbox'); GetXmatrix('${pls_dso}', '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetXmatrix('${pls_dso}', '${output}'); exit;"
 	</command>
 
 

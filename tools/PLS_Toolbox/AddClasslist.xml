@@ -1,9 +1,10 @@
-<tool id="pls_toolbox_add_classlist" name="Add Class list">
+<tool id="pls_toolbox_add_classlist" name="Add Class list" version="1.0.0">
 	<description>Add a new classlist to a dataset object</description>
 	
 	
 	<command>
-matlab -nosplash -r "cd('../../../../tools/PLS_Toolbox'); AddClasslist('${pls_dso}', '${listname}',  '${include_file}', '${output}', '${output_messages}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -nosplash -r "cd('$tool_directory'); AddClasslist('${pls_dso}', '${listname}',  '${include_file}', '${output}', '${output_messages}'); exit;"
 	</command>
 
 

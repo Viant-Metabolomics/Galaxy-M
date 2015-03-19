@@ -1,9 +1,10 @@
-<tool id="pls_toolbox_get_toppca" name="Get Top PCA Loadings">
+<tool id="pls_toolbox_get_toppca" name="Get Top PCA Loadings" version="1.0.0">
 	<description>Retrieves the m/z and average intensity values from a certain percentage of any latent variable in a PLS Toolbox PCA model</description>
 	
 
 	<command>
-matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/PLS_Toolbox'); GetTopPCALoadings('${pls_model}',$lv,$percent, '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory');  GetTopPCALoadings('${pls_model}',$lv,$percent, '${output}'); exit;"
 	</command>
 
 

@@ -1,9 +1,10 @@
-<tool id="alignsample" name="Align Sample Spectra">
+<tool id="alignsample" name="Align Sample Spectra" version="1.0.0">
   	<description>Step 5 of SimStitch. Align sample spectra</description>
   
 
 	<command>
-matlab -logfile '${output_log}' -nosplash -r "cd('../../../../tools/SimStitch'); try; AlignSample('${fileList}', '${html_input}', '${html_input.extra_files_path}', $blankPPM, $samplePPM, $combPPM, '${peakmatrix}', '${peakmatrix_row}', '${peakmatrix_col}'); catch; end; exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; AlignSample('${fileList}', '${html_input}', '${html_input.extra_files_path}', $blankPPM, $samplePPM, $combPPM, '${peakmatrix}', '${peakmatrix_row}', '${peakmatrix_col}'); catch; end; exit;"
   	</command>
 
 

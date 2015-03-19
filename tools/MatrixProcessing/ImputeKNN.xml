@@ -1,9 +1,10 @@
-<tool id="mv_knn" name="KNN Missing Values Impute">
+<tool id="mv_knn" name="KNN Missing Values Impute" version="1.0.0">
 	<description>Uses a KNN algorithm  to impute missing values</description>
 	
 	
 	<command>
-matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/MatrixProcessing'); ImputeKNN('${pls_dso}', $k,$col_t,$row_t, '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/MatrixProcessing')
+matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); ImputeKNN('${pls_dso}', $k,$col_t,$row_t, '${output}'); exit;"
 	</command>
 
 

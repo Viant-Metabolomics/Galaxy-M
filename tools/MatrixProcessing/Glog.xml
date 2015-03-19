@@ -1,9 +1,10 @@
-<tool id="glog_total" name="g-log Transform">
+<tool id="glog_total" name="g-log Transform" version="1.0.0">
 	<description>Optimises and then applies the Generalised Logarithm Transform to data</description>
   
 
 	<command>
-matlab -logfile '${output_log}' -nosplash -r "cd('../../../../tools/MatrixProcessing'); Glog('${pls_dso}', '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/MatrixProcessing')
+matlab -logfile '${output_log}' -nosplash -r "cd($tool_directory); Glog('${pls_dso}', '${output}'); exit;"
   	</command>
 
 

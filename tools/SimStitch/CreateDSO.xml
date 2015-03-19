@@ -1,9 +1,10 @@
-<tool id="createdso" name="Create DSO object">
+<tool id="createdso" name="Create DSO object" version="1.0.0">
   	<description>Step 6 of SimStitch. Puts merged replicate spectra into PLS Toolbox DSO object.</description>
   	
 	
 	<command>
-matlab -r "cd('../../../../tools/SimStitch'); CreateDSO('${fileList}', '${peakmatrix}', '${pmatrix_row}', '${pmatrix_col}', '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+matlab -r "cd('$tool_directory'); CreateDSO('${fileList}', '${peakmatrix}', '${pmatrix_row}', '${pmatrix_col}', '${output}'); exit;"
   	</command>
 
 

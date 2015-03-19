@@ -1,9 +1,10 @@
-<tool id="norm_pqn" name="PQN Normalisation">
+<tool id="norm_pqn" name="PQN Normalisation" version="1.0.0">
 	<description>Normalises samples held within a PLS Toolbox dataset object</description>
 	
 
 	<command>
-matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/MatrixProcessing'); NormalisePQN('${pls_dso}', '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/MatrixProcessing')
+matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); NormalisePQN('${pls_dso}', '${output}'); exit;"
 	</command>
 
 

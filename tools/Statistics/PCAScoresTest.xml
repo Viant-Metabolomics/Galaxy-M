@@ -1,12 +1,13 @@
-<tool id="pca_auto" name="PCA and Scores Test">
+<tool id="pca_auto" name="PCA and Scores Test" version="1.0.0">
 	<description>Variables used by all/many SimStitch functions</description>
 	
 	
 	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/Statistics')
 #if $components.option=="auto"
-	matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/Statistics'); PCAScoresTest('${pls_dso}', '${classlist}', '${output}', '${output_results}', 0); exit;"
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); PCAScoresTest('${pls_dso}', '${classlist}', '${output}', '${output_results}', 0); exit;"
 #else
-	matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/Statistics'); PCAScoresTest('${pls_dso}', '${classlist}', '${output}', '${output_results}', $components.numcomps); exit;"
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); PCAScoresTest('${pls_dso}', '${classlist}', '${output}', '${output_results}', $components.numcomps); exit;"
 #end if
 	</command>
 

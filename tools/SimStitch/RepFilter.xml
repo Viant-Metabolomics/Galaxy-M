@@ -1,8 +1,10 @@
-<tool id="repfilter" name="Replicate Filtering">
+<tool id="repfilter" name="Replicate Filtering" version="1.0.0">
   	<description>Step4 of SimStitch. Filters and merges replicates.</description>
   	
 
-	<command> matlab -logfile '${output_log}' -nosplash -r "cd('../../../../tools/SimStitch'); try; ReplicateFilter('${fileList}', '${html_input}', '${html_input.extra_files_path}', $ppm, $minpeak, $force, '${output_html}', '${output_html.files_path}', '${output_summary}'); catch; end; exit;"
+	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; ReplicateFilter('${fileList}', '${html_input}', '${html_input.extra_files_path}', $ppm, $minpeak, $force, '${output_html}', '${output_html.files_path}', '${output_summary}'); catch; end; exit;"
   	</command>
 
 

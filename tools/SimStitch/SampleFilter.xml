@@ -1,12 +1,13 @@
-<tool id="samplefilter" name="Sample Filtering">
+<tool id="samplefilter" name="Sample Filtering" version="1.0.0">
   	<description>Step 8 of SimStitch. Filter peaks based on presence across all samples. </description>
 
   	
 	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
 #if $class.class_select=="within_class"	
-	matlab -r "cd('../../../../tools/SimStitch'); SampleFilter('${pls_dso}', $thold, '${class.classname}', '${output}');  exit;"
+	matlab -r "cd('$tool_directory'); SampleFilter('${pls_dso}', $thold, '${class.classname}', '${output}');  exit;"
 #else
-	matlab -r "cd('../../../../tools/SimStitch'); SampleFilter('${pls_dso}', $thold, '', '${output}'); exit;"
+	matlab -r "cd('$tool_directory'); SampleFilter('${pls_dso}', $thold, '', '${output}'); exit;"
 #end if
   	</command>  
 

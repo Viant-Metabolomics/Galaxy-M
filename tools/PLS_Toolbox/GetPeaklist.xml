@@ -1,9 +1,10 @@
-<tool id="pls_toolbox_get_peaklist" name="Get Peaklist">
+<tool id="pls_toolbox_get_peaklist" name="Get Peaklist" version="1.0.0">
 	<description>Retrieves the m/z and average peak intensity values from a dataset object</description>
 	
 
 	<command>
-matlab -logfile ${output_log} -nosplash -r "cd('../../../../tools/PLS_Toolbox'); GetPeaklist('${pls_dso}', '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
+matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory');  GetPeaklist('${pls_dso}', '${output}'); exit;"
 	</command>
 
 

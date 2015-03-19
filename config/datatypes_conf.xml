@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <datatypes>
   <registration converters_path="lib/galaxy/datatypes/converters" display_path="display_applications">
-    
-	<datatype extension="sps.sqlite" type="galaxy.datatypes.binary:SQliteSPS" mimetype="application/octet-stream" display_in_upload="true"/>
-	<datatype extension="tm.sqlite" type="galaxy.datatypes.binary:SQliteTM" mimetype="application/octet-stream" display_in_upload="true"/>
-	<datatype extension="efs.sqlite" type="galaxy.datatypes.binary:SQliteEFS" mimetype="application/octet-stream" display_in_upload="true"/>
-	<datatype extension="pps.sqlite" type="galaxy.datatypes.binary:SQlitePPS" mimetype="application/octet-stream" display_in_upload="true"/>
-	<datatype extension="output.sqlite" type="galaxy.datatypes.binary:SQliteOutput" mimetype="application/octet-stream" display_in_upload="true"/>
+  <!-- Begin: New datatypes for Galaxy-M -->
+	<datatype extension="sps.sqlite" type="galaxy.datatypes.galaxym:SQliteSPS" mimetype="application/octet-stream" display_in_upload="true"/>
+	<datatype extension="tm.sqlite" type="galaxy.datatypes.galaxym:SQliteTM" mimetype="application/octet-stream" display_in_upload="true"/>
+	<datatype extension="efs.sqlite" type="galaxy.datatypes.galaxym:SQliteEFS" mimetype="application/octet-stream" display_in_upload="true"/>
+	<datatype extension="pps.sqlite" type="galaxy.datatypes.galaxym:SQlitePPS" mimetype="application/octet-stream" display_in_upload="true"/>
+	<datatype extension="output.sqlite" type="galaxy.datatypes.galaxym:SQliteOutput" mimetype="application/octet-stream" display_in_upload="true"/>
+  <!-- End: New datatypes for Galaxy-M -->
 
 	<datatype extension="ab1" type="galaxy.datatypes.binary:Ab1" mimetype="application/octet-stream" display_in_upload="true" description="A binary sequence file in 'ab1' format with a '.ab1' file extension.  You must manually select this 'File Format' when uploading the file." description_url="https://wiki.galaxyproject.org/Learn/Datatypes#Ab1"/>
     <datatype extension="afg" type="galaxy.datatypes.assembly:Amos" display_in_upload="false" />
