@@ -11,20 +11,21 @@ Availability and Requirements
 =============================
 
 ###Programming languages (versions given were used for development, other versions may also be compatible): 
-* Python (version 2.7)
-* Matlab (version 2012a)
-* PLS-Toolbox for PCA tools (version 7.0.3) 
-* R programming language (version 3.0.1, x86 64bit)
+* [Python (version 2.7)](https://www.python.org/download/releases/2.7/)
+* [R programming language (version 3.0.1, x86 64bit)](http://cran.r-project.org/bin/windows/base/)
+* [MATLAB Compiler Runtime (MCR) (version 8.1)](http://uk.mathworks.com/supportfiles/MCR_Runtime/R2013a/MCR_R2013a_glnxa64_installer.zip) - (Note: The MATLAB Runtime is a standalone set of shared libraries that enables the execution of compiled MATLAB applications or components on computers that do not have MATLAB installed. Each [release](https://github.com/Viant-Metabolomics/Galaxy-M/releases) includes executables for most of the tools)
+* [Matlab (version 2012a)](http://uk.mathworks.com/products/matlab/) (Optional: tool development and use of [most recent source code](https://github.com/Viant-Metabolomics/Galaxy-M))
+* [PLS-Toolbox for PCA tools (version 7.0.3)](http://www.eigenvector.com/software/pls_toolbox.htm) (Optional: few of the tools are PLS-toolbox dependent)
 
 ###Other requirements: 
-* Galaxy [www.getgalaxy.org - Stable branch on Mercurial: changeset 14929:5fc83b69fe24, date Thu Dec 11]
-* MI-Pack [https://github.com/Viant-Metabolomics/MI-Pack]
-* WineHQ (version 1.6.2, [winehq.org])
-* XCMS [https://metlin.scripps.edu/xcms/] 
-* MSFileReader package (Thermo Scientific [http://sjsupport.thermofinnigan.com/public/detail.asp?id=703])
+* [Galaxy (Stable branch on Mercurial: changeset 14929:5fc83b69fe24, date Thu Dec 11)](http://www.getgalaxy.org)
+* [MI-Pack (Metabolite Identification Package)](https://github.com/Viant-Metabolomics/MI-Pack)
+* [XCMS](https://metlin.scripps.edu/xcms/)
+* [Thermo Scientific MSFileReader package](http://sjsupport.thermofinnigan.com/public/detail.asp?id=703)
+* [WineHQ (version 1.6.2)](winehq.org)
 
 ###License: 
-* GNU General Public License version 3.0 (GPLv3)
+* [GNU General Public License version 3.0 (GPLv3)](https://www.gnu.org/licenses/quick-guide-gplv3.html)
 
 ###Any restrictions to use by non-academics: 
 * no restrictions on use
@@ -44,10 +45,12 @@ When logged in as ``galaxym`` user on the Ubuntu system:
 * `~/GalaxyM-TestData/LCMS_DATA`
 * `~/GalaxyM-TestData/DIMS_DATA`
 
-Installation instructions for Ubuntu 13.10 64bit
+Installation instructions for Ubuntu 13.10 64bit / Ubuntu 12.04 64bit
 ================================================
 
-These instructions are aimed solely at installation on Ubuntu 13.10 64bit edition. This system was chosen because it is one of the few that can be uploaded to Amazon AWS. It is freely available as an ISO and can be run from within VMWare (cost) or Virtualbox (free).
+These instructions are aimed at installation on [Ubuntu 13.10 64bit](http://old-releases.ubuntu.com/releases/saucy/) or [Ubuntu 12.04 64bit](http://old-releases.ubuntu.com/releases/precise/) editions. 
+
+Ubuntu 13.10 64bit edition was chosen because it is one of the few that can be uploaded to Amazon AWS. It is freely available as an ISO and can be run from within VMWare (cost) or Virtualbox (free).
 
 ###Step 0. Update the package manager
 
@@ -138,7 +141,9 @@ Below I’m printing out the full path for clarity. If your downloaded/extracted
 
 Install visual C using winetricks
 
-At this stage, Wine may produce errors because it can’t register the XRawFile2.dll required for MSFileReader. You may already have installed winetricks during the previous step when you installed wine1.7 but in case you haven’t , you can install it using apt-get. Then you need to install Visual C. These two steps can be done as follows (the vc install will ask you to accept various agreements etc, just say yes!):
+At this stage, Wine may produce errors because it can not register the XRawFile2.dll required for MSFileReader. 
+You may already have installed winetricks during the previous step when you installed wine 1.7 but in case you haven not, you can install it using apt-get. Then you need to install Visual C. 
+These two steps can be done as follows (the vc install will ask you to accept various agreements etc, just say yes!):
 
     $> sudo apt-get install winetricks
     $> winetricks vcrun2008
@@ -148,15 +153,26 @@ At this stage, Wine may produce errors because it can’t register the XRawFile2
 It may be that MSFileReader requires 32bit (DLLs etc) and that WINE is automatically running in 64bit - being modern etc. In order to get WINE to run in 32bit, remove the .wine folder in your home directory (or move it to e.g. ~/.wine_backup) which will remove all installed software and data from WINE. Then set the ``WINEARCH`` system variable by updating your ``~/.profile`` with the line ``export WINEARCH=win32`` (place at end of file, don’t include the quotation marks). Then try installing the software as before...
 
 
-
 ###Step 3: Install MI-Pack python package
 Download the MI-Pack python package from https://github.com/Viant-Metabolomics/MI-Pack (there is a version installed on the GalaxyM VM already, the original package files are at ``/home/galaxym/Galaxy_MI_Pack/MI_Pack_Python_package/``) and install as you would any standard Python package. That is to say:
+    
+    $> sudo apt-get install git
+    $> cd ~
+    $> git clone https://github.com/Viant-Metabolomics/MI-Pack.git
+    $> cd MI-Pack
+    $> sudo python setup.py build
+    $> sudo python setup.py install
 
-    $> sudo python [path/to/package/]setup.py build
-    $> sudo python [path/to/package/]setup.py install
+Then if you have multiple processing cores on your system and wish to make use of parallel processing to speed up e.g. Empirical Formula search, install Parallel Python. This can be downloaded from [parallelpython.com](http://www.parallelpython.com/) or there is a version within the MI-Pack folder on the VM.
+Install this package in the same way as MI-Pack (``sudo python setup.py install``). 
+It is NOT necessary to have parallel python installed for MI-Pack to work, but it is advised if you have multiple cores. 
 
-Then if you have multiple processing cores on your system and wish to make use of parallel processing to speed up e.g. Empirical Formula search, install Parallel Python. This can be downloaded from [parallelpython.com](http://www.parallelpython.com/) or there is a version within the MI Pack folder on the VM. Install this package in the same way as MI Pack (``sudo python setup.py install``). It is NOT necessary to have parallelpython installed for MI Pack to work, but it is advised if you have multiple cores. 
-
+    $> cd ~
+    $> curl --remote-name http://www.parallelpython.com/downloads/pp/pp-1.6.4.tar.gz
+    $> tar -xzvf pp-1.6.4.tar.gz
+    $> cd pp-1.6.4/
+    $> sudo python setup.py build
+    $> sudo python setup.py install
 
 
 ###Step 4: Install Galaxy
@@ -169,6 +185,7 @@ First, install ``mercurial`` if it's not already on your VM.
 
 Upon download, the Galaxy distribution (using the following settings) will create a folder called ``galaxy-dist`` in the directory that you call the command from. So if you are copying these instructions verbatim, make sure you're in a directory you’re happy to work from. I’ll be in my user’s home directory ``/home/galaxym``. 
 
+    $> cd ~
     $> hg clone https://bitbucket.org/galaxy/galaxy-dist/
     $> cd galaxy-dist
     $> hg update stable
@@ -177,23 +194,78 @@ Upon download, the Galaxy distribution (using the following settings) will creat
 
 Obtain the latest version of GalaxyM from [github](https://github.com/Viant-Metabolomics/Galaxy-M).
 
-1. Merge or replace the ``galaxy-dist/tools/`` directory with ``GalaxyM/tools/``
-1. Merge or replace the ``galaxy-dist/test-data/`` directory with ``GalaxyM/test-data/``
-1. Merge or replace the ``galaxy-dist/tool-data/`` directory with ``GalaxyM/tool-data/``
-1. edit or replace ``galaxy-dist/config/tool_conf.xml`` with [the contents of] ``GalaxyM/config/tool_conf.xml`` 
-1. edit/replace/create ``galaxy-dist/config/datatypes_conf.xml`` with the SQLite ``datatype extension`` tags from ``GalaxyM/config/datatypes_conf.xml`` (or simply copy the GalaxyM file to your galaxy-dist/config/ directory).
-1. Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatypes/galaxym.py`` into the ``galaxy-dist/lib/galaxy/datatypes/`` directory.
-1. If you were already running Galaxy, restart now. 
+    $> cd ~
+    $> git clone https://github.com/Viant-Metabolomics/Galaxy-M.git
+
+Merge or replace the:
+
+``galaxy-dist/tools/`` directory with-dat ``GalaxyM/tools/``
+
+    $> cp -r Galaxy-M/tools/ galaxy-dist/
+
+``galaxy-dist/test-data/`` directory with ``GalaxyM/test-data/``
+
+    $> cp -r Galaxy-M/tool-data/ galaxy-dist/
+
+``galaxy-dist/tool-data/`` directory with ``GalaxyM/tool-data/``
+
+    $> cp -r Galaxy-M/test-data/ galaxy-dist/
+
+Edit/replace/create ``galaxy-dist/config/tool_conf.xml`` with [the contents of] ``GalaxyM/config/tool_conf.xml`` 
+
+    $> cp Galaxy-M/config/tool_conf.xml galaxy-dist/config/.
+
+Edit/replace/create ``galaxy-dist/config/datatypes_conf.xml`` with the SQLite ``datatype extension`` tags from ``GalaxyM/config/datatypes_conf.xml`` (or simply copy the GalaxyM file to your galaxy-dist/config/ directory).
+
+    $> cp Galaxy-M/config/datatypes_conf.xml galaxy-dist/config/.
+
+Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatypes/galaxym.py`` into the ``galaxy-dist/lib/galaxy/datatypes/`` directory.
+
+    $> cp Galaxy-M/lib/galaxy/datatypes/galaxym.py galaxy-dist/lib/galaxy/datatypes/.
+
+Copy the Galaxy-M welcome page files from ``GalaxyM/static/`` into the ``galaxy-dist/static/`` directory.
+
+    $> cp -r Galaxy-M/static/welcome.html galaxy-dist/static/.
+    $> cp Galaxy-M/static/images/logos/ galaxy-dist/static/images/
+
+If you were already running Galaxy, restart now.
 
 NB: to run Galaxy, you need to call the run.sh bash script within the main ``galaxy-dist`` folder e.g.
 
     $> sh ~/galaxy-dist/run.sh
 
-If run in this way, Galaxy can be stopped by typing Ctrl-C.
+If run in this way, Galaxy can be stopped with the command Ctrl-C.
 
-###Step 6. Install Matlab
 
-6a) install Java RunTime Environment and WebStart. 
+###Step 6. MATLAB Compiler Runtime (MCR)
+
+The MATLAB Runtime is a standalone set of shared libraries that enables the execution of compiled MATLAB applications or components on computers that do not have MATLAB installed. Each [release](https://github.com/Viant-Metabolomics/Galaxy-M/releases) includes executables for most of the tools
+
+    $> cd ~
+    $> curl http://uk.mathworks.com/supportfiles/MCR_Runtime/R2013a/MCR_R2013a_glnxa64_installer.zip
+    $> unzip MCR_R2013a_glnxa64_installer.zip -d MCR_R2013a_glnxa64_installer
+    $> cd MCR_R2013a_glnxa64_installer
+    $> sudo ./install
+    
+Follow the instructions on the screen to install MCR. 
+
+Append the following to your LD_LIBRARY_PATH environment variable
+
+    $> export LD_LIBRARY_PATH=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/bin/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/sys/os/glnxa64:
+
+Set the XAPPLRESDIR environment variable to the following value
+
+    $> export XAPPLRESDIR=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/X11/app-defaults
+
+Note: Point the MCR_CACHE_ROOT environment variable to a local temporary directory when you receive the folllowing error running compiled matlab appliations: "Could not access the MCR component cache."
+
+    $> MCR_CACH_ROOT=/tmp/mcr_cache_$USER/
+    $> $MCR_CACH_ROOT 
+ 
+
+###Step 7. Install Matlab (Optional: tool development and use of most recent source code)
+
+7a) install Java RunTime Environment and WebStart. 
 This enables you to use the Matlab installers as downloaded from the Mathworks website. Alternatively you can just download the product files directly. To install Java JRE, first check which version is available:
 
     $> sudo apt-cache search openjdk-*
@@ -206,7 +278,7 @@ In order to use the Mathworks’ ‘Download Agent’, you’ll also need java w
 
     $> sudo apt-get install icedtea-netx
 
-6b) Download Matlab and Statistics Toolbox (version 2012a) using Download Agent
+7b) Download Matlab and Statistics Toolbox (version 2012a) using Download Agent
 Within your Mathworks website account, navigate to your licenses and start the download products process. The site intends you to use their Java ‘webstart’ based Download Agent but there are alternatives. The website will try to see that you have Java installed before download. If it can’t find your Java JRE but you installed it in the previous step, just click ‘i have java’ and continue. A file called Download Agent will start to download. 
 
 Your internet browser may ask if you want to open with IcedTea - feel free to do so. Alternatively download the file and then open with IcedTea. In theory you ought to be able to do this via the commandline using ‘javaws /path/to/my/file’ but I found this produced an error. However, simply opening up a file browser and double clicking on the file automatically opened it with the Iced Tea tool. 
@@ -235,9 +307,7 @@ Next step is to create the symbolic link between that result (where the file act
 
     $> sudo ln -s /lib/x86_64-linux-gnu/libc.so.6 /lib64/libc.so
 
-
-
-###Step 7. Install PLS Toolbox
+###Step 8. Install PLS Toolbox (Optional: few of the statistics tools are PLS-toolbox dependent)
 
 Log into the Eigenvector.com website and navigate to software downloads. Choose your version (we’re using 7.0.3) and download the .zip file. Assuming you’ve downloaded that to the ``/home/your_user/Downloads`` folder (and that it’s version 7.0.3 and that you put your Matlab install in the default location), you can unzip it and place it in the Matlab toolbox folder as follows:
 
@@ -258,7 +328,7 @@ Once PLS_Toolbox is added to the path, return to the matlab commandline and type
 Here you will be asked for a license code - obtainable from the download page on the Eigenvector website. Accepting all the defaults should be fine although if you’re very keen to have exactly version 7.0.3 to copy the original GalaxyM installation, you may wish to uncheck the box (underneath where you enter the license code) that offers to look for updates and newer versions of code etc.
 
 
-###Step 8. Install R
+###Step 9. Install R
 
 The LC-MS pipeline makes use of XCMS for an initial peak picking and alignment processing. This requires ‘R’ and various packages. R can be installed using:
 
@@ -284,11 +354,11 @@ XCMS and CAMERA are installed from Bioconductor so the command is slightly diffe
     > biocLite("CAMERA")
 
 
-###Step 9. Get the data
+###Step 10. Get the data
 
 The test data sets (both LCMS and DIMS) can be obtained from their larger data sets in Metabolights (DIMS: Accession MTBLS79; LCMS: Accession MTBLS146) or from GigaDB (accession to follow). In the case of the DIMS dataset, the MetaboLights accession does not include the necessary .dat files that allow SimStitch processing, therefore the GigaDB repository is required (or contact Viant Lab). Download the datasets and, if you want to copy the GalaxyM paper, move to ``~/GalaxyM-TestData`` (with subfolders DIMS_DATA and LCMS_DATA for each modality). 
 
-###Step 10. Run Galaxy
+###Step 11. Run Galaxy
 
 from the Linux commandline, start Galaxy if it’s not already running by typing:
 
