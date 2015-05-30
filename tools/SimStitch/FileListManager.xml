@@ -28,7 +28,7 @@ fileListManager.py --dir "$dir" --numreps $numreps --incsv "$condFiles.fileListC
 		%This will be changed at some point in future so that sample number/ID is stored within the CSV file such that samples can be in any order and different samples can have different number of replicates (accounting for varied failure rates etc). 
 	</inputs>
 
-    <code file="userData.py" />
+        <!--<code file="userData.py" />-->
 
   	<outputs>
     		<data format="xml" name="output" label="File List Manager on $condFiles.fileListCSV.hid: list of files (.xml)"/>

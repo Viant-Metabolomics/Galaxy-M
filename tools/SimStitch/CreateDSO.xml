@@ -4,7 +4,12 @@
 	
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
-matlab -r "cd('$tool_directory'); CreateDSO('${fileList}', '${peakmatrix}', '${pmatrix_row}', '${pmatrix_col}', '${output}'); exit;"
+#if str($executable.value) == "true"
+	sh $tool_directory/run_CreateDSO.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${fileList}' '${peakmatrix}' '${pmatrix_row}' '${pmatrix_col}' '${output}'
+
+#else
+	matlab -r "cd('$tool_directory'); CreateDSO('${fileList}', '${peakmatrix}', '${pmatrix_row}', '${pmatrix_col}', '${output}'); exit;"
+#end if
   	</command>
 
 
@@ -13,6 +18,7 @@ matlab -r "cd('$tool_directory'); CreateDSO('${fileList}', '${peakmatrix}', '${p
 		<param format="txt" name="peakmatrix" type="data" label="PeakMatrix (.csv)" />
 		<param format="txt" name="pmatrix_row" type="data" label="Row Labels (.csv)" />
 		<param format="txt" name="pmatrix_col" type="data" label="Column Labels (.csv)" />
+		<param name="executable" type="hidden" value="true" />	
 	</inputs>
 
 

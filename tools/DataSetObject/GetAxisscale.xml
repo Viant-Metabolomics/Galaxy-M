@@ -1,10 +1,14 @@
 <tool id="pls_toolbox_get_axisscale" name="Get Axisscale" version="1.0.0">
 	<description>Retrieves the m/z or sample-regression values from a dataset object</description>
 	
-
 	<command>
-#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
-matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetAxisscale('${pls_dso}',$dimension, '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/DataSetObject')
+#if str($executable.value) == "true"
+	sh $tool_directory/run_GetAxisscale.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' $dimension '${output}' > '${output_log}'
+
+#else
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetAxisscale('${pls_dso}', $dimension, '${output}');"
+#end if
 	</command>
 
 
@@ -14,12 +18,13 @@ matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetAxisscale(
 		    <option value="1">1</option>
             	    <option value="2" selected="true">2</option>
 		</param>
+		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 
 	<outputs>
 		<data format="csv" name="output" label="Get Axisscale on $pls_dso.hid: Axisscale (.csv)" />
-		<data format="txt" name = "output_log" label="Get Axisscale on $pls_dso.hid: log" />
+		<data format="txt" name ="output_log" label="Get Axisscale on $pls_dso.hid: log" />
 	</outputs>
 
 

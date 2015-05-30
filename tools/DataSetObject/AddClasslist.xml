@@ -1,10 +1,14 @@
 <tool id="pls_toolbox_add_classlist" name="Add Class list" version="1.0.0">
 	<description>Add a new classlist to a dataset object</description>
 	
-	
 	<command>
-#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
-matlab -nosplash -r "cd('$tool_directory'); AddClasslist('${pls_dso}', '${listname}',  '${include_file}', '${output}', '${output_messages}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/DataSetObject')
+#if str($executable.value) == "true"
+	sh $tool_directory/run_AddClasslist.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${listname}',  '${include_file}', '${output}' > '${output_log}'
+
+#else
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); AddClasslist('${pls_dso}', '${listname}', '${include_file}', '${output}'); exit;"
+#end if
 	</command>
 
 
@@ -12,12 +16,13 @@ matlab -nosplash -r "cd('$tool_directory'); AddClasslist('${pls_dso}', '${listna
 		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
 		<param name="listname" type="text" size="15" value="new_classlist" label="Name your class list" />
 		<param format="csv" name="include_file" type="data" label="CSV file containing a class label for each sample e.g. sample, QC, QC, sample ..." />
+		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 
 	<outputs>
 		<data format="xml" name="output" label="Add Class List on pls_dso.hid: PLS DSO.xml" />
-		<data format="txt" name = "output_messages" label="Add Class List on pls_dso.hid:  messages" />
+		<data format="txt" name="output_log" label="Add Class List on pls_dso.hid: log" />
 	</outputs>
 
 

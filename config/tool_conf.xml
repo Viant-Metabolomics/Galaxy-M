@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <toolbox>
 
-	<section id="getext" name="Get Data">
+	<section id="getext" name="Get Data" >
     		<tool file="data_source/upload.xml" />
 	</section>
 
-	<section name="XCMS" id="xcms">
+	<section id="xcms" name="XCMS" >
 		<tool file="XCMS/XCMS.xml" />
 	</section>
 
-	<section name="SimStitch" id="simstitch">
+	<section id="simstitch" name="SIM-stitching" >
         	<tool file="SimStitch/FileListManager.xml" />
 		<tool file="SimStitch/SumTransients.xml" />
     		<tool file="SimStitch/ProcessTransients.xml" />
@@ -22,7 +22,7 @@
     		<tool file="SimStitch/SampleFilter.xml" />
 	</section>
 
-	<section name = "Matrix Processing" id="matrixprocessing">
+	<section id="matrixprocessing" name = "Matrix Processing" >
 		<tool file="MatrixProcessing/NormalisePQN.xml" />
 		<tool file="MatrixProcessing/ImputeKNN.xml" />
 		<tool file="MatrixProcessing/Glog.xml" />
@@ -32,17 +32,17 @@
 		<tool file="Statistics/PCAScoresTest.xml" />
 	</section>
 
-	<section id="pls_toolbox" name="PLS Toolbox">
-	    <tool file="PLS_Toolbox/SetInclude.xml" />
-	    <tool file="PLS_Toolbox/AddClasslist.xml" />
-	    <tool file="PLS_Toolbox/GetPeaklist.xml" />
-            <tool file="PLS_Toolbox/GetXmatrix.xml" />
-            <tool file="PLS_Toolbox/GetAxisscale.xml" />
-            <tool file="PLS_Toolbox/GetClasslist.xml" />
-            <tool file="PLS_Toolbox/GetTopPCALoadings.xml" />
+	<section id="DataSetObject" name="DataSet Object" >
+	    <tool file="DataSetObject/SetInclude.xml" />
+	    <tool file="DataSetObject/AddClasslist.xml" />
+	    <tool file="DataSetObject/GetPeaklist.xml" />
+            <tool file="DataSetObject/GetXmatrix.xml" />
+            <tool file="DataSetObject/GetAxisscale.xml" />
+            <tool file="DataSetObject/GetClasslist.xml" />
+            <tool file="DataSetObject/GetTopPCALoadings.xml" />
 	</section>
 
-	<section id="mipack" name="MI Pack">
+	<section id="mipack" name="MI Pack" >
 		<tool file="MI_Pack/SPS.xml" />
 		<tool file="MI_Pack/TM.xml" />
 		<tool file="MI_Pack/EFS.xml" />

@@ -4,10 +4,18 @@
   	
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
-#if $class.class_select=="within_class"	
-	matlab -r "cd('$tool_directory'); SampleFilter('${pls_dso}', $thold, '${class.classname}', '${output}');  exit;"
+#if str($executable.value) == "true"
+	#if $class.class_select=="within_class"	
+		sh $tool_directory/run_SampleFilter.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' $thold, '${class.classname}' '${output}'
+	#else
+		sh $tool_directory/run_SampleFilter.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' $thold '' '${output}'
+	#end if
 #else
-	matlab -r "cd('$tool_directory'); SampleFilter('${pls_dso}', $thold, '', '${output}'); exit;"
+	#if $class.class_select=="within_class"	
+		matlab -r "cd('$tool_directory'); SampleFilter('${pls_dso}', $thold, '${class.classname}', '${output}');  exit;"
+	#else
+		matlab -r "cd('$tool_directory'); SampleFilter('${pls_dso}', $thold, '', '${output}'); exit;"
+	#end if
 #end if
   	</command>  
 
@@ -24,6 +32,7 @@
 				<param name="classname" type="text" size="6" value="classes" label="ClassList title (from DSO) to identify which class list should be used for Sample Filter. Default 'classes' is the standard created by CreateDSO. " />
 			</when>
   		</conditional> 
+		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 

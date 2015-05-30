@@ -4,12 +4,17 @@
 
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/MatrixProcessing')
-matlab -logfile '${output_log}' -nosplash -r "cd($tool_directory); Glog('${pls_dso}', '${output}'); exit;"
+#if str($executable.value) == "true"
+	sh $tool_directory/run_Glog.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${output}' > '${output_log}'
+#else
+	matlab -logfile '${output_log}' -nosplash -r "cd($tool_directory); Glog('${pls_dso}', '${output}'); exit;"
+#end if
   	</command>
 
 
 	<inputs>
 		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+		<param name="executable" type="hidden" value="true" />	
 	</inputs>
 
 

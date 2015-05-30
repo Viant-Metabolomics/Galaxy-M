@@ -4,7 +4,12 @@
 
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
-matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; AlignSample('${fileList}', '${html_input}', '${html_input.extra_files_path}', $blankPPM, $samplePPM, $combPPM, '${peakmatrix}', '${peakmatrix_row}', '${peakmatrix_col}'); catch; end; exit;"
+#if str($executable.value) == "true"
+	sh $tool_directory/run_AlignSample.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${fileList}' '${html_input}' '${html_input.extra_files_path}' $blankPPM $samplePPM $combPPM '${peakmatrix}' '${peakmatrix_row}' '${peakmatrix_col}' > '${output_log}'
+
+#else
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; AlignSample('${fileList}', '${html_input}', '${html_input.extra_files_path}', $blankPPM, $samplePPM, $combPPM, '${peakmatrix}', '${peakmatrix_row}', '${peakmatrix_col}'); catch; end; exit;"
+#end if
   	</command>
 
 
@@ -14,6 +19,7 @@ matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; AlignS
 		<param name="blankPPM" type="integer" size="3" value="2" label="the ppm error to be used for the blanks (default = 2)" />
 		<param name="samplePPM" type="integer" size="3" value="2" label="the ppm error to be used for the samples (default = 2)" />
 		<param name="combPPM" type="integer" size="3" value="2" label="the ppm error to be used for aligning samples to blanks (default = 2)" />
+		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 

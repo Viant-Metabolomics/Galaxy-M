@@ -1,10 +1,14 @@
 <tool id="pls_toolbox_get_class_list" name="Get Class List" version="1.0.0">
 	<description>Retrieves class labels from a dataset object</description>
 	
-
 	<command>
-#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/PLS_Toolbox')
-matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetClassList('${pls_dso}','${listname}',$asnum, '${output}'); exit;"
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/DataSetObject')
+#if str($executable.value) == "true"
+	sh $tool_directory/run_GetClassList.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${listname}' $asnum, '${output}' > '${output_log}'
+
+#else
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetClassList('${pls_dso}', '${listname}', $asnum, '${output}'); exit;"
+#end if
 	</command>
 
 
@@ -15,6 +19,7 @@ matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetClassList(
 		    <option value="0" selected="true">Text label</option>
             	    <option value="1">Number label</option>
 		</param>
+		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 

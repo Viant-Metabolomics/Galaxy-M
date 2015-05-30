@@ -4,7 +4,11 @@
 
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
-matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory');try; SumTransients('${fileList}', $numscans, $mintic, $ignorecal, $maxmz, '${output_html}', '${output_html.files_path}', '${output_messages}'); catch; end; exit;" 
+#if str($executable.value) == "true"
+	sh $tool_directory/run_SumTransients.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${fileList}' $numscans $mintic $ignorecal $maxmz '${output_html}' '${output_html.files_path}' '${output_messages}' > '${output_log}'
+#else
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; SumTransients('${fileList}', $numscans, $mintic, $ignorecal, $maxmz, '${output_html}', '${output_html.files_path}', '${output_messages}'); catch; end; exit;"
+#end if
   	</command>
 
 
@@ -14,6 +18,7 @@ matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory');try; SumTran
 		<param name="mintic" type="integer" size="3" value="0" label="Minimum total ion current (TIC) chromatogram" help="Set to 0 to allow all (Default), or threshold as percentage of maximum TIC" />
 		<param name="ignorecal" type="boolean" checked="no" truevalue="1" falsevalue="0" label="Discard scans with varying A and B estimates (external calibration)" help="uncheck for false (default), check for true)" />
 		<param name="maxmz" type="integer" size="3" value="0" label="Maximum m/z value" help="This value can be used to set the maximum m/z value to be included. Set to 0 for automatic estimation." />
+		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 

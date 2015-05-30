@@ -3,7 +3,10 @@
   	
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
-matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; Stitch('${$fileList}',
+#if str($executable.value) == "true"
+	sh $tool_directory/run_Stitch.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${$fileList}' '${html_input}' '${html_input.extra_files_path}' '${condCali.ListofCalibrants}' '1,0\n2,0\n3,${noisefilt}\n4,${incnoise}\n5,${minsnr}\n6,${condRemKnown.remknown}\n7,${condRemKnown.knownnoise}\n8,${condCali.calon}\n9,${condCali.calblank}\n10,${calmode}\n11,${calweighted}\n12,${calminrange}\n13,${calmaxpkd}\n14,${calminsnr}\n15,${calacm}\n 16,${calacc}\n17,${calacp}\n18,${mzalign}\n19,${intcorr}\n20,${alignmin}\n21,${alignminsnr}\n22,${alignmaxpkd}\n23,${nullmzmin}\n24,${nullmzmax}\n25,${nullstart}\n26,${nullend}\n27,${nullbnd}\n28,0,0\n' '${output_html_mat}' '${output_html_mat.extra_files_path}' '${output_html_txt}' '${output_html_txt.extra_files_path}' '${output_noise}' '${output_alignment}' > '${output_log}'
+#else
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; Stitch('${$fileList}',
 '${html_input}',
 '${html_input.extra_files_path}',
 '${condCali.ListofCalibrants}',
@@ -36,9 +39,11 @@ matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; Stitch
 27,${nullbnd}\n
 28,0,0\n',
 '${output_html_mat}', '${output_html_mat.extra_files_path}', '${output_html_txt}', '${output_html_txt.extra_files_path}', '${output_noise}', '${output_alignment}'); catch; end; exit;"
+#end if
   	</command>
 
-	<inputs>	
+	<inputs>
+		<param name="executable" type="hidden" value="true" />	
 		<param format="xml" name="fileList" type="data" label="List of files (.xml) produced by File List manager" />
 		<param format="html" name="html_input" type="data" label="List of ouput .txt files (.html) produced by ProcessTransients" />
 		<param name="noisefilt" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Measure and filter noise" help="Check for true (default)" />
@@ -147,7 +152,6 @@ Calibration only includes calibratins/peaks with at a minimum SNR defined by the
     		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $html_input.hid: list of output .txt files (.html)" />
 		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $html_input.hid: list of output .mat files (.html)" />
 		<data format="txt" name="output_log" label="Mass Calibration and SIM-stitching on $html_input.hid: log" />
-		<!--<data format="txt" name="output_messages" label="Mass Calibration and SIM-stitching on $html_input.hid: messages" />-->
 		<data format="txt" name="output_noise" label="Mass Calibration and SIM-stitching on $html_input.hid: noise" />
 		<data format="txt" name="output_alignment" label="Mass Calibration and SIM-stitching on $html_input.hid: alignment" />
   	</outputs>

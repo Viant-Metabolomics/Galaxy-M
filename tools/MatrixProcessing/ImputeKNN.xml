@@ -4,7 +4,12 @@
 	
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/MatrixProcessing')
-matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); ImputeKNN('${pls_dso}', $k,$col_t,$row_t, '${output}'); exit;"
+#if str($executable.value) == "true"
+	sh $tool_directory/run_ImputeKNN.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' $k $col_t $row_t '${output}' > '${output_log}'
+
+#else
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); ImputeKNN('${pls_dso}', $k, $col_t, $row_t, '${output}'); exit;"
+#end if
 	</command>
 
 
@@ -13,6 +18,7 @@ matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); ImputeKNN('${
 		<param name="k" type="integer" size="2" value="5" label="Neighbourhood for KNN (default=5)" />
 		<param name="col_t" type="integer" size="3" value="20" label="The MIN percentage of rows that must contain a peak (default=20). Any peaks that fail this threshold will be thrown out." />
 		<param name="row_t" type="integer" size="3" value="70" label="The MAX percentage of missing values that any row can have (default=70). Any samples that fail this threshold will have each missing peak estimated as an average of all other instances of that peak that are present in other samples." />
+		<param name="executable" type="hidden" value="true" />	
 	</inputs>
 
 
