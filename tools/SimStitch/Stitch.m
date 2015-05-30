@@ -67,10 +67,13 @@ catch err
 
 
 	%make an output for Galaxy
-	fid = fopen(html_outfile,'w');
+	fid = fopen(html_outfile_peaks,'w');
 	fprintf(fid,'Stitch.m failed at reading config.csv file!');
 	fclose(fid);
 
+	fid = fopen(html_outfile_stitch,'w');
+	fprintf(fid,'Stitch.m failed at reading config.csv file!');
+	fclose(fid);
 
     return
 end
@@ -1742,81 +1745,84 @@ fprintf(fid,'</p>');
 fprintf(fid,'</div>');
 fprintf(fid,'</body></html>');
 fclose(fid);
+fclose all;
+exit;
 
 %save parameters to text file
-fileName = message_file;
-fprintf('Saving parameters to file: %s\n',fileName);
-fid = fopen(fileName,'w');
-if ~fid, error('Cannot create message file'); end
-fprintf(fid,'FILE VERSION:\t%s',mfilename);
+%fileName = message_file;
+%fprintf('Saving parameters to file: %s\n',fileName);
+%fid = fopen(fileName,'w');
+%if ~fid, error('Cannot create message file'); end
+%fprintf(fid,'FILE VERSION:\t%s',mfilename);
 % debug
-fprintf(fid,'\r\n\r\nDEBUG:\r\n');
-fn = fieldnames(DEBUG);
-for i=1:length(fn)
-    val = DEBUG.(fn{i});
-    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
-    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
-    if ~fc, error('Cannot write to message file'); end
-end
+%fprintf(fid,'\r\n\r\nDEBUG:\r\n');
+%fn = fieldnames(DEBUG);
+%for i=1:length(fn)
+%    val = DEBUG.(fn{i});
+%    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
+%    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
+%    if ~fc, error('Cannot write to message file'); end
+%end
 % input files
-fprintf(fid,'\r\n\r\nFILES:\r\n');
-fn = fieldnames(FILES);
-for i=1:length(fn)
-    val = FILES.(fn{i});
-    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
-    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
-    if ~fc, error('Cannot write to message file'); end
-end
+%fprintf(fid,'\r\n\r\nFILES:\r\n');
+%fn = fieldnames(FILES);
+%for i=1:length(fn)
+%    val = FILES.(fn{i});
+%    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
+%    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
+%    if ~fc, error('Cannot write to message file'); end
+%end
 % noise filtering
-fprintf(fid,'\r\n\r\nNOISE FILTERING:\r\n');
-fn = fieldnames(NOISE);
-for i=1:length(fn)
-    val = NOISE.(fn{i});
-    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
-    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
-    if ~fc, error('Cannot write to message file'); end
-end
-fprintf(fid,'\r\n\r\nHIGHNOISEKNOWNREGIONS_MZ:\r\n');
-if ~NOISE.NOISEREMOVEALLKNOWN_ON
-    fprintf(fid,'\tSelected at runtime, defaults are:\r\n');
-else
-    for i=1:size(HIGHNOISEKNOWNREGIONS_MZ,1)
-        fprintf(fid,'\t%.5g\t%.5g\r\n',HIGHNOISEKNOWNREGIONS_MZ(i,:));
-    end
-end
+%fprintf(fid,'\r\n\r\nNOISE FILTERING:\r\n');
+%fn = fieldnames(NOISE);
+%for i=1:length(fn)
+%    val = NOISE.(fn{i});
+%    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
+%    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
+%    if ~fc, error('Cannot write to message file'); end
+%end
+%fprintf(fid,'\r\n\r\nHIGHNOISEKNOWNREGIONS_MZ:\r\n');
+%if ~NOISE.NOISEREMOVEALLKNOWN_ON
+%    fprintf(fid,'\tSelected at runtime, defaults are:\r\n');
+%else
+%    for i=1:size(HIGHNOISEKNOWNREGIONS_MZ,1)
+%        fprintf(fid,'\t%.5g\t%.5g\r\n',HIGHNOISEKNOWNREGIONS_MZ(i,:));
+%    end
+%end
 % calibration
-fprintf(fid,'\r\n\r\nCAL:\r\n');
-fn = fieldnames(CAL);
-for i=1:length(fn)
-    val = CAL.(fn{i});
-    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
-    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
-    if ~fc, error('Cannot write to message file'); end
-end
+%fprintf(fid,'\r\n\r\nCAL:\r\n');
+%fn = fieldnames(CAL);
+%for i=1:length(fn)
+%    val = CAL.(fn{i});
+%    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
+%    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
+%    if ~fc, error('Cannot write to message file'); end
+%end
 % alignment
-fprintf(fid,'\r\n\r\nALIGN:\r\n');
-fn = fieldnames(ALIGN);
-for i=1:length(fn)
-    val = ALIGN.(fn{i});
-    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
-    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
-    if ~fc, error('Cannot write to message file'); end
-end
+%fprintf(fid,'\r\n\r\nALIGN:\r\n');
+%fn = fieldnames(ALIGN);
+%for i=1:length(fn)
+%    val = ALIGN.(fn{i});
+%    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
+%    else fc=fprintf(fid,'\t%s: %.10g \r\n',fn{i},val); end
+%    if ~fc, error('Cannot write to message file'); end
+%end
 % stitch edge effects
-fprintf(fid,'\r\n\r\nSTITCH.NULL_REGION:\r\n');
-fn = fieldnames(STITCH.NULL_REGION);
-for i=1:length(fn)
-    val = STITCH.NULL_REGION.(fn{i});
-    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
-    else
-        fc=fprintf(fid,'\r\n\t%s:',fn{i});
-        fc=fc & fprintf(fid,'\t%.10g',val);
-    end
-    if ~fc, error('Cannot write to message file'); end
-end
-fprintf('done\n');
-fclose(fid);
-fclose all;
+%fprintf(fid,'\r\n\r\nSTITCH.NULL_REGION:\r\n');
+%fn = fieldnames(STITCH.NULL_REGION);
+%for i=1:length(fn)
+%    val = STITCH.NULL_REGION.(fn{i});
+%    if ischar(val), fc=fprintf(fid,'\t%s: %s \r\n',fn{i},val);
+%    else
+%        fc=fprintf(fid,'\r\n\t%s:',fn{i});
+%        fc=fc & fprintf(fid,'\t%.10g',val);
+%    end
+%    if ~fc, error('Cannot write to message file'); end
+%end
+%fprintf('done\n');
+%fclose(fid);
+%fclose all;
+
 
 
 function fileList_struct = import_filelist_xml(file_location)

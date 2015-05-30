@@ -33,14 +33,33 @@ function SumTransients_BB(fileList, numscans, mintic, ignorecal, maxmz, html_out
 %
 %	 
 
-
 %set input parameters to fit existing legacy code
 SET = fileList; %this needs CHANGED now that an individual xml file is being passed
 
-PARAMS.NSCANS = numscans; %number of scans to read in (set to 0 for all scans)
-PARAMS.TICTHRESH_PC = mintic; %the minimum allowable TIC for a scan to be included (as % of maximum TIC), typically ~40
-PARAMS.IGNORECHANGINGCALPARAMS_ON = ignorecal; %ignore scans which have varying A and B parameters? (Usually caused by underfill)
-PARAMS.FIXEDMAX_MZ = maxmz; %manually set the maximum m/z (set to 0 for automatic max m/z taken from the .raw file)
+if isa(numscans, 'char')
+	PARAMS.NSCANS = str2num(numscans); %number of scans to read in (set to 0 for all scans)
+else
+	PARAMS.NSCANS = numscans; %number of scans to read in (set to 0 for all scans)
+end
+if isa(mintic, 'char')
+	PARAMS.TICTHRESH_PC = str2num(mintic); %the minimum allowable TIC for a scan to be included (as % of maximum TIC), typically ~40
+else
+	PARAMS.TICTHRESH_PC = mintic; %the minimum allowable TIC for a scan to be included (as % of maximum TIC), typically
+end
+
+if isa(ignorecal, 'char')
+	PARAMS.IGNORECHANGINGCALPARAMS_ON = str2num(ignorecal); %ignore scans which have varying A and B parameters? (Usually caused by underfill)
+else
+	PARAMS.IGNORECHANGINGCALPARAMS_ON = ignorecal;
+end
+if isa(maxmz, 'char')
+	PARAMS.FIXEDMAX_MZ = str2num(maxmz); %manually set the maximum m/z (set to 0 for automatic max m/z taken from the .raw file)
+else
+	PARAMS.FIXEDMAX_MZ = maxmz;
+end
+
+
+
 
 %set some basic parameters required later. These are never changed in regular practice so were not added to Galaxy input form.
 DISPLAY_HDRS = 0;  %display file header info
@@ -229,7 +248,7 @@ fprintf(fid,'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "htt
 fprintf(fid,'<html><head>');
 fprintf(fid,'<title>Sum Transient Data - Output</title>');
 fprintf(fid,'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
-fprintf(fid,'<link href="/static/style/base.css?v=1415642706" media="screen" rel="stylesheet" type="text/css" />');
+fprintf(fid,'<link href="/static/style/base.css" media="screen" rel="stylesheet" type="text/css" />');
 fprintf(fid,'</head>');
 fprintf(fid,'<body>');
 fprintf(fid,'<div class="donemessagelarge">');

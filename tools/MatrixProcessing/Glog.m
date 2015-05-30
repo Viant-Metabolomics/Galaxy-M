@@ -1,4 +1,4 @@
-function GLOG_Total_Galaxy(dso_xml, outfile)
+function Glog(dso_xml, outfile)
 % -------------------------------------------------------------------
 % Performs glog optimisation on the input dataset. If a dataset object,
 % only the QCs should be tagged as 'included' so that only they will be
@@ -32,74 +32,74 @@ function GLOG_Total_Galaxy(dso_xml, outfile)
 % -------------------------------------------------------------------
 
 %% CHECK FOR PLS TOOLBOX IN PATH
+if ~isdeployed
+	try
+	    dtst = dataset(rand(10,100));       %attempt to create a dataset object
+	    props = properties(dtst);           %request the properties of said object
+	catch err
+	    if strcmp(err.identifier,'MATLAB:UndefinedFunction') %if dataset function not available then neither PLS Toolbox or Stats Toolbox are installed.
+		
+		%fid = fopen(messagefile,'w');
+		sprintf('Matlab does not recognise dataset function. Neither PLSToolbox or Stats toolbox installed. Please amend and try again.');
+		%fclose(fid);
+		return
 
-try
-    dtst = dataset(rand(10,100));       %attempt to create a dataset object
-    props = properties(dtst);           %request the properties of said object
-catch err
-    if strcmp(err.identifier,'MATLAB:UndefinedFunction') %if dataset function not available then neither PLS Toolbox or Stats Toolbox are installed.
-        
-        %fid = fopen(messagefile,'w');
-        sprintf('Matlab does not recognise dataset function. Neither PLSToolbox or Stats toolbox installed. Please amend and try again.');
-        %fclose(fid);
-        return
+	    end
+	end
 
-    end
+
+
+
+
+	if ~isempty(props) %PLS Toolbox datasets have no properties at initiation whereas Matlab datasets have 2.
+	    
+	    % if here, Statistics Toolbox version has been used. need to move stats toolbox below pls toolbox.
+	    clear dtst
+	    clear classes   %need to remove the statistics toolbox dataset class
+	    
+	    original_path = path; %save original path
+	    rem = original_path;
+	    pls_path = '';
+	    rem_path = '';
+	    while true
+		[str,rem] = strtok(rem,pathsep);
+		if isempty(str)
+		    break
+		elseif strfind(str,'pls_toolbox') %covers all pls_toolbox entries
+		    pls_path = [pls_path,str,pathsep];
+		else
+		    rem_path = [rem_path,str,pathsep];
+		end
+	    end
+	    
+	    if ~isempty(pls_path) %check for no PLS toolbox installed
+		path(pls_path,rem_path); %put PLS at the top!
+		rehash pathreset;
+		rehash toolboxreset;
+		
+		dtst = dataset(rand(10,100));
+		props = properties(dtst);
+		if ~isempty(props) % if rehash has not worked, quit.
+		    %fid = fopen(messagefile,'w');
+		    sprintf('Cannot appropriately rejig path. Please manually place PLSToolbox above Stats Toolbox in path.');
+		    %fclose(fid);
+		    path(original_path);
+		    return
+		end
+		
+	    else    % If no stats toolbox entries have been found in path there is a more serious problem.
+		%fid = fopen(messagefile,'w');
+		sprintf('PLS Toolbox not on path. Please Install and try again.');
+		%fclose(fid);
+		path(original_path);
+		return
+	    end
+	    
+	else
+	    sprintf('PLS Toolbox dataset objects are available. Continuing.')
+	    original_path = path;
+	end
 end
-
-
-
-
-
-if ~isempty(props) %PLS Toolbox datasets have no properties at initiation whereas Matlab datasets have 2.
-    
-    % if here, Statistics Toolbox version has been used. need to move stats toolbox below pls toolbox.
-    clear dtst
-    clear classes   %need to remove the statistics toolbox dataset class
-    
-    original_path = path; %save original path
-    rem = original_path;
-    pls_path = '';
-    rem_path = '';
-    while true
-        [str,rem] = strtok(rem,pathsep);
-        if isempty(str)
-            break
-        elseif strfind(str,'pls_toolbox') %covers all pls_toolbox entries
-            pls_path = [pls_path,str,pathsep];
-        else
-            rem_path = [rem_path,str,pathsep];
-        end
-    end
-    
-    if ~isempty(pls_path) %check for no PLS toolbox installed
-        path(pls_path,rem_path); %put PLS at the top!
-        rehash pathreset;
-        rehash toolboxreset;
-        
-        dtst = dataset(rand(10,100));
-        props = properties(dtst);
-        if ~isempty(props) % if rehash has not worked, quit.
-            %fid = fopen(messagefile,'w');
-            sprintf('Cannot appropriately rejig path. Please manually place PLSToolbox above Stats Toolbox in path.');
-            %fclose(fid);
-            path(original_path);
-            return
-        end
-        
-    else    % If no stats toolbox entries have been found in path there is a more serious problem.
-        %fid = fopen(messagefile,'w');
-        sprintf('PLS Toolbox not on path. Please Install and try again.');
-        %fclose(fid);
-        path(original_path);
-        return
-    end
-    
-else
-    sprintf('PLS Toolbox dataset objects are available. Continuing.')
-    original_path = path;
-end
-
 
 
 %% LOAD PLS DATASET OBJECT
@@ -250,10 +250,12 @@ autoexport(dtst_out, outfile, 'xml');
 %fclose(fid);
  
 
-%% RETURN PATH TO NORMAL
-path(original_path);
-rehash pathreset;
-rehash toolbox;
+%% RETURN PATH TO ORIGINAL STATE
+if ~isdeployed
+	path(original_path);
+	rehash pathreset;
+	rehash toolbox;
+end
 
 return
 end
@@ -276,8 +278,8 @@ for i=1:N
     end
 end
 % Plot to show turning point
-plot(lambda,s,'bo', 'MarkerFaceColor','k','MarkerSize', 10)
-hold on
+%plot(lambda,s,'bo', 'MarkerFaceColor','k','MarkerSize', 10)
+%hold on
 L=s;
 %disp([alpha lambda L])
 end

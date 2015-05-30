@@ -36,62 +36,69 @@ function SampleFilter_BB(pls_dso_file, filt_thold, class_name, dso_outfile)
 
 %% CHECK FOR PLS TOOLBOX IN PATH
 
-try
-    dtst = dataset(rand(10,100));       %attempt to create a dataset object
-    props = properties(dtst);           %request the properties of said object
-catch err
-    if strcmp(err.identifier,'MATLAB:UndefinedFunction') %if dataset function not available then neither PLS Toolbox or Stats Toolbox are installed.
-        sprintf('Matlab does not recognise dataset function. Neither PLSToolbox or Stats toolbox installed. Please amend and try again.')
-        return
-    end
+
+if isa(filt_thold, 'char')
+	filt_thold = str2num(filt_thold);
 end
 
+if ~isdeployed
+	try
+		dtst = dataset(rand(10,100));       %attempt to create a dataset object
+		props = properties(dtst);           %request the properties of said object
+	catch err
+		if strcmp(err.identifier,'MATLAB:UndefinedFunction') %if dataset function not available then neither PLS Toolbox or Stats Toolbox are installed.
+		    sprintf('Matlab does not recognise dataset function. Neither PLSToolbox or Stats toolbox installed. Please amend and try again.')
+		    return
+		end
+	end
 
 
 
 
-if ~isempty(props) %PLS Toolbox datasets have no properties at initiation whereas Matlab datasets have 2.
-    
-    % if here, Statistics Toolbox version has been used. need to move stats toolbox below pls toolbox.
-    clear dtst
-    clear classes   %need to remove the statistics toolbox dataset class
-    
-    original_path = path; %save original path
-    rem = original_path;
-    pls_path = '';
-    rem_path = '';
-    while true
-        [str,rem] = strtok(rem,pathsep);
-        if isempty(str)
-            break
-        elseif strfind(str,'pls_toolbox') %covers all pls_toolbox entries
-            pls_path = [pls_path,str,pathsep];
-        else
-            rem_path = [rem_path,str,pathsep];
-        end
-    end
-    
-    if ~isempty(pls_path) %check for no PLS toolbox installed
-        path(pls_path,rem_path); %put PLS at the top!
-        rehash pathreset;
-        rehash toolboxreset;
-        
-        dtst = dataset(rand(10,100));
-        props = properties(dtst);
-        if ~isempty(props) % if rehash has not worked, quit.
-            sprintf('Cannot appropriately rejig path. Please manually place PLSToolbox above Stats Toolbox in path.')
-            path(original_path);
-            return
-        end
-        
-    else    % If no stats toolbox entries have been found in path there is a more serious problem.
-        sprintf('PLS Toolbox not on path. Please Install and try again.')
-        return
-    end
-    
-else
-    sprintf('PLS Toolbox dataset objects are available. Continuing.')
-    original_path = path;
+
+	if ~isempty(props) %PLS Toolbox datasets have no properties at initiation whereas Matlab datasets have 2.
+		
+		% if here, Statistics Toolbox version has been used. need to move stats toolbox below pls toolbox.
+		clear dtst
+		clear classes   %need to remove the statistics toolbox dataset class
+		
+		original_path = path; %save original path
+		rem = original_path;
+		pls_path = '';
+		rem_path = '';
+		while true
+		    [str,rem] = strtok(rem,pathsep);
+		    if isempty(str)
+		        break
+		    elseif strfind(str,'pls_toolbox') %covers all pls_toolbox entries
+		        pls_path = [pls_path,str,pathsep];
+		    else
+		        rem_path = [rem_path,str,pathsep];
+		    end
+		end
+		
+		if ~isempty(pls_path) %check for no PLS toolbox installed
+		    path(pls_path,rem_path); %put PLS at the top!
+		    rehash pathreset;
+		    rehash toolboxreset;
+		    
+		    dtst = dataset(rand(10,100));
+		    props = properties(dtst);
+		    if ~isempty(props) % if rehash has not worked, quit.
+		        sprintf('Cannot appropriately rejig path. Please manually place PLSToolbox above Stats Toolbox in path.')
+		        path(original_path);
+		        return
+		    end
+		    
+		else    % If no stats toolbox entries have been found in path there is a more serious problem.
+		    sprintf('PLS Toolbox not on path. Please Install and try again.')
+		    return
+		end
+		
+	else
+		sprintf('PLS Toolbox dataset objects are available. Continuing.')
+		original_path = path;
+	end
 end
 
 
@@ -103,7 +110,7 @@ end
 class_name_flag = 1;
 
 if isempty(class_name) %check for an empty class name  
-    class_name_flag = 0;
+	class_name_flag = 0;
 end
 
 
@@ -272,9 +279,11 @@ autoexport(dso_out, dso_outfile, 'xml');
 
 %% RETURN PATH TO ORIGINAL STATE
 %clear classes (required, but only to be implemented after file is saved somewhere...)
-path(original_path);
-rehash pathreset;
-rehash toolbox;
+if ~isdeployed
+	path(original_path);
+	rehash pathreset;
+	rehash toolbox;
+end
 
 return
 end

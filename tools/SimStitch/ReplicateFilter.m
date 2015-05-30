@@ -1,4 +1,4 @@
-function ReplicateFilter_BB(fileList_in, html_infile, html_indir,  rf_ppm, rf_minpeaks, rf_forcepeak, outfile_peaks, outdir_peaks, outfile_rf)
+function ReplicateFilter_BB(fileList_in, html_infile, html_indir, rf_ppm, rf_minpeaks, rf_forcepeak, outfile_peaks, outdir_peaks, outfile_rf)
 % 
 %   Inputs:
 %       1. fileList_in	: the path to a .xml file in FileListManager format
@@ -24,13 +24,24 @@ function ReplicateFilter_BB(fileList_in, html_infile, html_indir,  rf_ppm, rf_mi
 %
 
 
-
 %% PARAMETERS
-    
+if isa(rf_ppm, 'char')
+	PARAMS.MAXSPREAD_PPM = str2num(rf_ppm);
+else
+	PARAMS.MAXSPREAD_PPM = rf_ppm;
+end
 
-PARAMS.MAXSPREAD_PPM = rf_ppm;
-PARAMS.MINPEAKS = rf_minpeaks;
-PARAMS.FORCE_ALLREP_MEAN_INT = rf_forcepeak;
+if isa(rf_minpeaks, 'char')
+	PARAMS.MINPEAKS = str2num(rf_minpeaks);
+else
+	PARAMS.MINPEAKS = rf_minpeaks;
+end
+
+if isa(rf_forcepeak, 'char')
+	PARAMS.FORCE_ALLREP_MEAN_INT = str2num(rf_forcepeak);
+else
+	PARAMS.FORCE_ALLREP_MEAN_INT = rf_forcepeak;
+end
 
 
 batchList = import_filelist_xml(fileList_in);
@@ -39,63 +50,63 @@ batchList.filtPkDir = [outdir_peaks, filesep]; %using one of Galaxy's chosen 'ex
 
 PARAMS.NUMREPS = batchList.numReps;
 
+if ~isdeployed
+	%% SORT PATH (MOVE STATS TOOLBOX ABOVE PLSTOOLBOX IF NECESSARY)
 
-%% SORT PATH (MOVE STATS TOOLBOX ABOVE PLSTOOLBOX IF NECESSARY)
+	original_path = path; %save original path
 
-original_path = path; %save original path
+	% Attempt a basic cluster, using stats toolbox. 
+	try
+		Y = pdist(rand(1,100)','cityblock');
+		Z = linkage(Y,'complete');
+		test = cluster(Z,'criterion','distance','cutoff',PARAMS.MAXSPREAD_PPM);
 
-% Attempt a basic cluster, using stats toolbox. 
-try
-    Y = pdist(rand(1,100)','cityblock');
-    Z = linkage(Y,'complete');
-    test = cluster(Z,'criterion','distance','cutoff',PARAMS.MAXSPREAD_PPM);
-
-catch err   %check errors if fail
-    if strcmp(err.identifier,'MATLAB:TooManyInputs')       %likely error 1
-        sprintf('Problem with too many inputs to cluster commands. Probably path order. Attempting temporary rejig')
-        
-        rem = original_path;
-        stats_path = '';
-        rem_path = '';
-        while true
-            [str,rem] = strtok(rem,pathsep);
-            if isempty(str)
-                break
-            elseif strfind(str,['stats',filesep,'stats']) %covers both '...\toolbox\stats\stats' and '...\toolbox\stats\statsdemos'
-                stats_path = [stats_path,str,pathsep];
-            elseif strfind(str,['stats',filesep,'classreg']) %covers the 3rd and final stats toolbox folder (as of 07/08/2013)
-                stats_path = [stats_path,str,pathsep];
-            else
-                rem_path = [rem_path,str,pathsep];
-            end
-        end
-        
-        if ~isempty(stats_path) %check for no stats toolbox installed
-            path(stats_path,rem_path);
-            rehash pathreset;
-            rehash toolbox;
-            
-            try
-                Y = pdist(rand(1,100)','cityblock');
-                Z = linkage(Y,'complete');
-                test = cluster(Z,'criterion','distance','cutoff',PARAMS.MAXSPREAD_PPM);
-                sprintf('success!')
-            catch err
-                sprintf('cannot fix problems with Cluster function. Possible path not resetting. Fail.')
-                return
-            end
-        else
-            sprintf('stats toolbox apparently not installed! Fail.')
-            return
-        end
-            
-    elseif strcmp(err.identifier,'MATLAB:UndefinedFunction') % likely error 2
-        sprintf('Matlab does not recognise cluster functions. Either PLSToolbox or Stats toolbox installed. Please amend and try again.')
-        return
-    end
-    
+	catch err   %check errors if fail
+		if strcmp(err.identifier,'MATLAB:TooManyInputs')       %likely error 1
+		    sprintf('Problem with too many inputs to cluster commands. Probably path order. Attempting temporary rejig')
+		    
+		    rem = original_path;
+		    stats_path = '';
+		    rem_path = '';
+		    while true
+		        [str,rem] = strtok(rem,pathsep);
+		        if isempty(str)
+		            break
+		        elseif strfind(str,['stats',filesep,'stats']) %covers both '...\toolbox\stats\stats' and '...\toolbox\stats\statsdemos'
+		            stats_path = [stats_path,str,pathsep];
+		        elseif strfind(str,['stats',filesep,'classreg']) %covers the 3rd and final stats toolbox folder (as of 07/08/2013)
+		            stats_path = [stats_path,str,pathsep];
+		        else
+		            rem_path = [rem_path,str,pathsep];
+		        end
+		    end
+		    
+		    if ~isempty(stats_path) %check for no stats toolbox installed
+		        path(stats_path,rem_path);
+		        rehash pathreset;
+		        rehash toolbox;
+		        
+		        try
+		            Y = pdist(rand(1,100)','cityblock');
+		            Z = linkage(Y,'complete');
+		            test = cluster(Z,'criterion','distance','cutoff',PARAMS.MAXSPREAD_PPM);
+		            sprintf('success!')
+		        catch err
+		            sprintf('cannot fix problems with Cluster function. Possible path not resetting. Fail.')
+		            return
+		        end
+		    else
+		        sprintf('stats toolbox apparently not installed! Fail.')
+		        return
+		    end
+		        
+		elseif strcmp(err.identifier,'MATLAB:UndefinedFunction') % likely error 2
+		    sprintf('Matlab does not recognise cluster functions. Either PLSToolbox or Stats toolbox installed. Please amend and try again.')
+		    return
+		end
+		
+	end
 end
-
 
 
 
@@ -380,10 +391,11 @@ fclose(fid);
 %fclose(fid);
 
 %% RETURN PATH TO ORIGINAL STATE (In case of rejigging due to cluster function issues)
-
-path(original_path);
-rehash pathreset;
-rehash toolbox;
+if ~isdeployed
+	path(original_path);
+	rehash pathreset;
+	rehash toolbox;
+end
 
 
 

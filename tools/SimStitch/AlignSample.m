@@ -1,4 +1,4 @@
-function AlignSample_BB(fileList_in,html_infile, html_indir, blankPPM,samplePPM, combPPM,out_pm, out_pm_row, out_pm_col)
+function AlignSample_BB(fileList_in, html_infile, html_indir, blankPPM,samplePPM, combPPM,out_pm, out_pm_row, out_pm_col)
 %
 %
 % AlignSample_BB(fileList_in,html_infile, html_indir,repfilter_file, blankPPM,samplePPM, combPPM,outfile)
@@ -35,69 +35,82 @@ function AlignSample_BB(fileList_in,html_infile, html_indir, blankPPM,samplePPM,
 %   
 
 %% %%%%%%%%%%Parameters
+if isa(blankPPM, 'char')
+	PARAMS.BLANK_MAXSPREAD_PPM = str2num(blankPPM); % the maximum spread (ppm) for aligning blanks
+else
+	PARAMS.BLANK_MAXSPREAD_PPM = blankPPM;
+end
 
-PARAMS.BLANK_MAXSPREAD_PPM = blankPPM; % the maximum spread (ppm) for aligning blanks
-PARAMS.SAMPLE_MAXSPREAD_PPM = samplePPM; % the maximum spread (ppm) for aligning samples
-PARAMS.COMBINED_MAXSPREAD_PPM = combPPM; % the maximum spread (ppm) for aligning blanks with samples.
+if isa(samplePPM, 'char')
+	PARAMS.SAMPLE_MAXSPREAD_PPM = str2num(samplePPM); % the maximum spread (ppm) for aligning samples
+else
+	PARAMS.SAMPLE_MAXSPREAD_PPM = samplePPM;
+end
+
+if isa(combPPM, 'char')
+	PARAMS.COMBINED_MAXSPREAD_PPM = str2num(combPPM); % the maximum spread (ppm) for aligning blanks with samples.
+else
+	PARAMS.COMBINED_MAXSPREAD_PPM = combPPM;
+end
 
 %one more parameter!
 BLANKSTR = 'blank';
 %% SORT PATH (MOVE STATS TOOLBOX ABOVE PLSTOOLBOX IF NECESSARY)
+if ~isdeployed
+	original_path = path; %save original path
 
-original_path = path; %save original path
+	% Attempt a basic cluster, using stats toolbox. 
+	try
+		Y = pdist(rand(1,100)','cityblock');
+		Z = linkage(Y,'complete');
+		test = cluster(Z,'criterion','distance','cutoff',PARAMS.SAMPLE_MAXSPREAD_PPM);
 
-% Attempt a basic cluster, using stats toolbox. 
-try
-    Y = pdist(rand(1,100)','cityblock');
-    Z = linkage(Y,'complete');
-    test = cluster(Z,'criterion','distance','cutoff',PARAMS.SAMPLE_MAXSPREAD_PPM);
-
-catch err   %check errors if fail
-    if strcmp(err.identifier,'MATLAB:TooManyInputs')       %likely error 1
-        sprintf('Problem with too many inputs to cluster commands. Probably path order. Attempting temporary rejig')
-        
-        rem = original_path;
-        stats_path = '';
-        rem_path = '';
-        while true
-            [str,rem] = strtok(rem,pathsep);
-            if isempty(str)
-                break
-            elseif strfind(str,['stats',filesep,'stats']) %covers both '...\toolbox\stats\stats' and '...\toolbox\stats\statsdemos'
-                stats_path = [stats_path,str,pathsep];
-            elseif strfind(str,['stats',filesep,'classreg']) %covers the 3rd and final stats toolbox folder (as of 07/08/2013)
-                stats_path = [stats_path,str,pathsep];
-            else
-                rem_path = [rem_path,str,pathsep];
-            end
-        end
-        
-        if ~isempty(stats_path) %check for no stats toolbox installed
-            path(stats_path,rem_path);
-            rehash pathreset;
-            rehash toolbox;
-            
-            try
-                Y = pdist(rand(1,100)','cityblock');
-                Z = linkage(Y,'complete');
-                test = cluster(Z,'criterion','distance','cutoff',PARAMS.SAMPLE_MAXSPREAD_PPM);
-                sprintf('success!')
-            catch err
-                sprintf('cannot fix problems with Cluster function. Possible path not resetting. Fail.')
-                return
-            end
-        else
-            sprintf('stats toolbox apparently not installed! Fail.')
-            return
-        end
-            
-    elseif strcmp(err.identifier,'MATLAB:UndefinedFunction') % likely error 2
-        sprintf('Matlab does not recognise cluster functions. Either PLSToolbox or Stats toolbox installed. Please amend and try again.')
-        return
-    end
-    
+	catch err   %check errors if fail
+		if strcmp(err.identifier,'MATLAB:TooManyInputs')       %likely error 1
+		    sprintf('Problem with too many inputs to cluster commands. Probably path order. Attempting temporary rejig')
+		    
+		    rem = original_path;
+		    stats_path = '';
+		    rem_path = '';
+		    while true
+		        [str,rem] = strtok(rem,pathsep);
+		        if isempty(str)
+		            break
+		        elseif strfind(str,['stats',filesep,'stats']) %covers both '...\toolbox\stats\stats' and '...\toolbox\stats\statsdemos'
+		            stats_path = [stats_path,str,pathsep];
+		        elseif strfind(str,['stats',filesep,'classreg']) %covers the 3rd and final stats toolbox folder (as of 07/08/2013)
+		            stats_path = [stats_path,str,pathsep];
+		        else
+		            rem_path = [rem_path,str,pathsep];
+		        end
+		    end
+		    
+		    if ~isempty(stats_path) %check for no stats toolbox installed
+		        path(stats_path,rem_path);
+		        rehash pathreset;
+		        rehash toolbox;
+		        
+		        try
+		            Y = pdist(rand(1,100)','cityblock');
+		            Z = linkage(Y,'complete');
+		            test = cluster(Z,'criterion','distance','cutoff',PARAMS.SAMPLE_MAXSPREAD_PPM);
+		            sprintf('success!')
+		        catch err
+		            sprintf('cannot fix problems with Cluster function. Possible path not resetting. Fail.')
+		            return
+		        end
+		    else
+		        sprintf('stats toolbox apparently not installed! Fail.')
+		        return
+		    end
+		        
+		elseif strcmp(err.identifier,'MATLAB:UndefinedFunction') % likely error 2
+		    sprintf('Matlab does not recognise cluster functions. Either PLSToolbox or Stats toolbox installed. Please amend and try again.')
+		    return
+		end
+		
+	end
 end
-
 
 
 %% %%%%%%%%%%Load Data (from replicate filter output)
@@ -303,12 +316,11 @@ fprintf('done\n');
 
 
 %% RETURN PATH TO ORIGINAL STATE (In case of rejigging due to cluster function issues)
-
-path(original_path);
-rehash pathreset;
-rehash toolbox;
-
-
+if ~isdeployed
+	path(original_path);
+	rehash pathreset;
+	rehash toolbox;
+end
 
 
 %% FINISHED
