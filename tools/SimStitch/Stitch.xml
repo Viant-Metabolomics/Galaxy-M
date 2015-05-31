@@ -1,17 +1,24 @@
 <tool id="stitch" name="Mass Calibration and SIM-stitching" version="1.0.0">
-  	<description>Step3 of SimStitch. Stitches transient data</description>
+  	<description>Step3 of SimStitch. Stitches transient data or spectral data within .RAW files</description>
   	
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+
+#if int($RawFilesOnly.RawFilesOnlySelect) == 1
+	#set $html_input_path = "None"
+#else
+	#set $html_input_path = $RawFilesOnly.html_input.extra_files_path
+#end if
+
 #if str($executable.value) == "true"
-	sh $tool_directory/run_Stitch.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${$fileList}' '${html_input}' '${html_input.extra_files_path}' '${condCali.ListofCalibrants}' '1,0\n2,0\n3,${noisefilt}\n4,${incnoise}\n5,${minsnr}\n6,${condRemKnown.remknown}\n7,${condRemKnown.knownnoise}\n8,${condCali.calon}\n9,${condCali.calblank}\n10,${calmode}\n11,${calweighted}\n12,${calminrange}\n13,${calmaxpkd}\n14,${calminsnr}\n15,${calacm}\n 16,${calacc}\n17,${calacp}\n18,${mzalign}\n19,${intcorr}\n20,${alignmin}\n21,${alignminsnr}\n22,${alignmaxpkd}\n23,${nullmzmin}\n24,${nullmzmax}\n25,${nullstart}\n26,${nullend}\n27,${nullbnd}\n28,0,0\n' '${output_html_mat}' '${output_html_mat.extra_files_path}' '${output_html_txt}' '${output_html_txt.extra_files_path}' '${output_noise}' '${output_alignment}' > '${output_log}'
+	sh $tool_directory/run_Stitch.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${$fileList}' '${RawFilesOnly.html_input}' '$html_input_path' '${condCali.ListofCalibrants}' '1,0\n2,${RawFilesOnly.RawFilesOnlySelect}\n3,${noisefilt}\n4,${incnoise}\n5,${minsnr}\n6,${condRemKnown.remknown}\n7,${condRemKnown.knownnoise}\n8,${condCali.calon}\n9,${condCali.calblank}\n10,${calmode}\n11,${calweighted}\n12,${calminrange}\n13,${calmaxpkd}\n14,${calminsnr}\n15,${calacm}\n 16,${calacc}\n17,${calacp}\n18,${mzalign}\n19,${intcorr}\n20,${alignmin}\n21,${alignminsnr}\n22,${alignmaxpkd}\n23,${nullmzmin}\n24,${nullmzmax}\n25,${nullstart}\n26,${nullend}\n27,${nullbnd}\n28,0,0\n' '${output_html_mat}' '${output_html_mat.extra_files_path}' '${output_html_txt}' '${output_html_txt.extra_files_path}' '${output_noise}' '${output_alignment}' > '${output_log}'
 #else
 	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; Stitch('${$fileList}',
-'${html_input}',
-'${html_input.extra_files_path}',
+'${RawFilesOnly.html_input}',
+'$html_input_path',
 '${condCali.ListofCalibrants}',
 '1,0\n
-2,0\n
+2,${RawFilesOnly.RawFilesOnlySelect}\n
 3,${noisefilt}\n
 4,${incnoise}\n
 5,${minsnr}\n
@@ -45,7 +52,20 @@
 	<inputs>
 		<param name="executable" type="hidden" value="true" />	
 		<param format="xml" name="fileList" type="data" label="List of files (.xml) produced by File List manager" />
-		<param format="html" name="html_input" type="data" label="List of ouput .txt files (.html) produced by ProcessTransients" />
+
+		<conditional name="RawFilesOnly">
+			<param name="RawFilesOnlySelect" type="select" label="Process .RAW files only (no transient data available)." help="This allows the user to process a dataset but no transient data is available.">
+            			<option value="1">Yes</option>
+            			<option value="0" selected="true">No</option>
+			</param>
+			<when value="1">
+				<param name="html_input" type="hidden" label="None" />
+			</when>
+			<when value="0">
+				<param format="html" name="html_input" type="data" label="List of output files (.html) produced by ProcessTransients" />
+			</when>
+		</conditional>
+
 		<param name="noisefilt" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Measure and filter noise" help="Check for true (default)" />
 
 		<param name="incnoise" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Include Noise Peaks in output" help="Check for true (default)"/>
@@ -54,8 +74,8 @@
 
 		<conditional name="condRemKnown">
 			<param name="remknown" type="select" label="Remove known regions of noise" help="Check for true (default)">
-            	<option value="1" selected="true">Yes</option>
-            	<option value="0">No</option>
+		    		<option value="1" selected="true">Yes</option>
+		    		<option value="0">No</option>
 			</param>
 			<when value="1">
 				<param name="knownnoise" type="text" size="15" value="" label="Known regions of high noise" help="Must be in pairs (start and end m/z value) and separated by commas. For example: 101.6, 102.1, 101.32, 101.42"/>			
@@ -148,12 +168,39 @@ Calibration only includes calibratins/peaks with at a minimum SNR defined by the
 	</inputs>
 
 
-  	<outputs>
-    		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $html_input.hid: list of output .txt files (.html)" />
-		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $html_input.hid: list of output .mat files (.html)" />
-		<data format="txt" name="output_log" label="Mass Calibration and SIM-stitching on $html_input.hid: log" />
-		<data format="txt" name="output_noise" label="Mass Calibration and SIM-stitching on $html_input.hid: noise" />
-		<data format="txt" name="output_alignment" label="Mass Calibration and SIM-stitching on $html_input.hid: alignment" />
+  	<outputs>		
+    		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $html_input.hid: list of output .txt files (.html)">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
+		</data>
+		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $html_input.hid: list of output .mat files (.html)">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
+		</data>
+		<data format="txt" name="output_log" label="Mass Calibration and SIM-stitching on $html_input.hid: log">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
+		</data>
+		<data format="txt" name="output_noise" label="Mass Calibration and SIM-stitching on $html_input.hid: noise">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
+		</data>
+		<data format="txt" name="output_alignment" label="Mass Calibration and SIM-stitching on $html_input.hid: alignment">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
+		</data>
+
+    		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .txt files (.html)">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
+		</data>
+		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .mat files (.html)">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
+		</data>
+		<data format="txt" name="output_log" label="Mass Calibration and SIM-stitching on $fileList.hid: log">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
+		</data>
+		<data format="txt" name="output_noise" label="Mass Calibration and SIM-stitching on $fileList.hid: noise">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
+		</data>
+		<data format="txt" name="output_alignment" label="Mass Calibration and SIM-stitching on $fileList.hid: alignment">
+			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
+		</data>
+
   	</outputs>
 
 
