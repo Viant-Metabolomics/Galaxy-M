@@ -39,7 +39,6 @@
             <tool file="DataSetObject/GetXmatrix.xml" />
             <tool file="DataSetObject/GetAxisscale.xml" />
             <tool file="DataSetObject/GetClasslist.xml" />
-            <tool file="DataSetObject/GetTopPCALoadings.xml" />
 	</section>
 
 	<section id="mipack" name="MI Pack" >

@@ -12,7 +12,7 @@ def Classes(db_name):
 
 	l = []
 
-	if db_name != None and db_name != "None":
+	if db_name != None:
 		
 		cursor.execute("select class from database_class where db_name = '%s'" % (db_name))		
 		records = cursor.fetchall()

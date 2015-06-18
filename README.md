@@ -226,7 +226,7 @@ Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatyp
 Copy the Galaxy-M welcome page files from ``GalaxyM/static/`` into the ``galaxy-dist/static/`` directory.
 
     $> cp -r Galaxy-M/static/welcome.html galaxy-dist/static/.
-    $> cp Galaxy-M/static/images/logos/ galaxy-dist/static/images/
+    $> cp -r Galaxy-M/static/images/logos/ galaxy-dist/static/images/.
 
 If you were already running Galaxy, restart now.
 
@@ -242,7 +242,7 @@ If run in this way, Galaxy can be stopped with the command Ctrl-C.
 The MATLAB Runtime is a standalone set of shared libraries that enables the execution of compiled MATLAB applications or components on computers that do not have MATLAB installed. Each [release](https://github.com/Viant-Metabolomics/Galaxy-M/releases) includes executables for most of the tools
 
     $> cd ~
-    $> curl http://uk.mathworks.com/supportfiles/MCR_Runtime/R2013a/MCR_R2013a_glnxa64_installer.zip
+    $> curl --remote-name http://uk.mathworks.com/supportfiles/MCR_Runtime/R2013a/MCR_R2013a_glnxa64_installer.zip
     $> unzip MCR_R2013a_glnxa64_installer.zip -d MCR_R2013a_glnxa64_installer
     $> cd MCR_R2013a_glnxa64_installer
     $> sudo ./install
@@ -257,13 +257,52 @@ Set the XAPPLRESDIR environment variable to the following value
 
     $> export XAPPLRESDIR=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/X11/app-defaults
 
-Note: Point the MCR_CACHE_ROOT environment variable to a local temporary directory when you receive the folllowing error running compiled matlab appliations: "Could not access the MCR component cache."
+Note: Point the MCR_CACHE_ROOT environment variable to a local temporary directory when you receive the folllowing error running compiled matlab appliations: "Could not access the MCR component cache." See [here](https://help.ubuntu.com/community/EnvironmentVariables) for more info on Environment Variables (Section Persistent environment variables).
 
-    $> MCR_CACH_ROOT=/tmp/mcr_cache_$USER/
-    $> $MCR_CACH_ROOT 
- 
+    $> MCR_CACHE_ROOT=/tmp/mcr_cache_$USER/
+    $> mkdir $MCR_CACHE_ROOT
+    $> $MCR_CACHE_ROOT
 
-###Step 7. Install Matlab (Optional: tool development and use of most recent source code)
+###Step 7. Install R
+
+The LC-MS pipeline makes use of XCMS for an initial peak picking and alignment processing. This requires ‘R’ and various packages. R can be installed using:
+
+    $> sudo apt-get install r-base
+    $> sudo apt-get install r-cran-rcpp
+    $> sudo apt-get install libnetcdf-dev
+
+Then you need to run R and install [Hmisc](http://cran.r-project.org/web/packages/Hmisc/index.html), [XCMS](https://metlin.scripps.edu/xcms/) and [CAMERA](http://bioconductor.org/packages/release/bioc/html/CAMERA.html) 
+
+From the commandline, start R by typing simply:
+
+    $> sudo R
+
+NB: it is advisable to run with sudo because various packages complain about not being able to write to various directories. Then within R, use ``install.packages`` to install Hmisc. 
+
+    > install.packages(“Hmisc”, dependencies=TRUE )
+
+XCMS and CAMERA are installed from Bioconductor so the command is slightly different
+
+    > source("http://bioconductor.org/biocLite.R")
+    > biocLite(“BiocUpgrade”)
+    > biocLite("xcms")
+    > biocLite("CAMERA")
+
+###Step 8. Get the data
+
+The test data sets (both LCMS and DIMS) can be obtained from their larger data sets in Metabolights (DIMS: Accession MTBLS79; LCMS: Accession MTBLS146) or from GigaDB (accession to follow). In the case of the DIMS dataset, the MetaboLights accession does not include the necessary .dat files that allow SimStitch processing, therefore the GigaDB repository is required (or contact Viant Lab). Download the datasets and, if you want to copy the GalaxyM paper, move to ``~/GalaxyM-TestData`` (with subfolders DIMS_DATA and LCMS_DATA for each modality). 
+
+###Step 9. Run Galaxy
+
+from the Linux commandline, start Galaxy if it’s not already running by typing:
+
+    $> sh ~/galaxy-dist/run.sh
+
+To interact with Galaxy, open up a web-browser and point it at your server. If you have access to a browser on the same system as Galaxy, you can load that up and enter ``127.0.0.1:8080`` in the address bar. ``127.0.0.1`` means ``localhost`` and the browser speaks to the system it is running on. Alternatively, if you are running the server on a remote system (in the cloud perhaps) then you’ll need to ensure that the ``galaxy.ini`` file (``galaxy-dist/config/galaxy.ini``) has the line ``host = 0.0.0.0`` rather than the default ``host = 127.0.0.1``. This line tells Galaxy to expect traffic from the internet rather than just local requests. That setting has already been changed in the GalaxyM file (you may wish to change it back to ``127.0.0.1`` if you want to protect your Galaxy server from the wide web). 
+
+Hopefully, you should be presented with  the main Galaxy landing page. There should be a list of tools in the left hand panel, a welcome page in the middle and a history in the right hand side. 
+
+###Install Matlab (Optional: tool development and use of most recent source code)
 
 7a) install Java RunTime Environment and WebStart. 
 This enables you to use the Matlab installers as downloaded from the Mathworks website. Alternatively you can just download the product files directly. To install Java JRE, first check which version is available:
@@ -307,7 +346,7 @@ Next step is to create the symbolic link between that result (where the file act
 
     $> sudo ln -s /lib/x86_64-linux-gnu/libc.so.6 /lib64/libc.so
 
-###Step 8. Install PLS Toolbox (Optional: few of the statistics tools are PLS-toolbox dependent)
+###Install PLS Toolbox (Optional: tool development and use of most recent source code)
 
 Log into the Eigenvector.com website and navigate to software downloads. Choose your version (we’re using 7.0.3) and download the .zip file. Assuming you’ve downloaded that to the ``/home/your_user/Downloads`` folder (and that it’s version 7.0.3 and that you put your Matlab install in the default location), you can unzip it and place it in the Matlab toolbox folder as follows:
 
@@ -326,49 +365,5 @@ Once PLS_Toolbox is added to the path, return to the matlab commandline and type
     >> evriinstall
 
 Here you will be asked for a license code - obtainable from the download page on the Eigenvector website. Accepting all the defaults should be fine although if you’re very keen to have exactly version 7.0.3 to copy the original GalaxyM installation, you may wish to uncheck the box (underneath where you enter the license code) that offers to look for updates and newer versions of code etc.
-
-
-###Step 9. Install R
-
-The LC-MS pipeline makes use of XCMS for an initial peak picking and alignment processing. This requires ‘R’ and various packages. R can be installed using:
-
-    $> sudo apt-get install r-base
-    $> sudo apt-get install r-cran-rcpp
-    $> sudo apt-get install libnetcdf-dev
-
-Then you need to run R and install [Hmisc](http://cran.r-project.org/web/packages/Hmisc/index.html), [XCMS](https://metlin.scripps.edu/xcms/) and [CAMERA](http://bioconductor.org/packages/release/bioc/html/CAMERA.html) 
-
-From the commandline, start R by typing simply:
-
-    $> sudo R
-
-NB: it is advisable to run with sudo because various packages complain about not being able to write to various directories. Then within R, use ``install.packages`` to install Hmisc. 
-
-    > install.packages(“Hmisc”, dependencies=TRUE )
-
-XCMS and CAMERA are installed from Bioconductor so the command is slightly different
-
-    > source("http://bioconductor.org/biocLite.R")
-    > biocLite(“BiocUpgrade”)
-    > biocLite("xcms")
-    > biocLite("CAMERA")
-
-
-###Step 10. Get the data
-
-The test data sets (both LCMS and DIMS) can be obtained from their larger data sets in Metabolights (DIMS: Accession MTBLS79; LCMS: Accession MTBLS146) or from GigaDB (accession to follow). In the case of the DIMS dataset, the MetaboLights accession does not include the necessary .dat files that allow SimStitch processing, therefore the GigaDB repository is required (or contact Viant Lab). Download the datasets and, if you want to copy the GalaxyM paper, move to ``~/GalaxyM-TestData`` (with subfolders DIMS_DATA and LCMS_DATA for each modality). 
-
-###Step 11. Run Galaxy
-
-from the Linux commandline, start Galaxy if it’s not already running by typing:
-
-    $> sh ~/galaxy-dist/run.sh
-
-To interact with Galaxy, open up a web-browser and point it at your server. If you have access to a browser on the same system as Galaxy, you can load that up and enter ``127.0.0.1:8080`` in the address bar. ``127.0.0.1`` means ``localhost`` and the browser speaks to the system it is running on. Alternatively, if you are running the server on a remote system (in the cloud perhaps) then you’ll need to ensure that the ``galaxy.ini`` file (``galaxy-dist/config/galaxy.ini``) has the line ``host = 0.0.0.0`` rather than the default ``host = 127.0.0.1``. This line tells Galaxy to expect traffic from the internet rather than just local requests. That setting has already been changed in the GalaxyM file (you may wish to change it back to ``127.0.0.1`` if you want to protect your Galaxy server from the wide web). 
-
-Hopefully, you should be presented with  the main Galaxy landing page. There should be a list of tools in the left hand panel, a welcome page in the middle and a history in the right hand side. 
-
-
- 
 
 

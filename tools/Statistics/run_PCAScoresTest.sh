@@ -33,7 +33,7 @@ else
       args="${args} \"${token}\"" 
       shift
   done
-  eval "\"${exe_dir}/GetPeaklist\"" $args
+  eval "\"${exe_dir}/PCAScoresTest\"" $args
 fi
 exit
 

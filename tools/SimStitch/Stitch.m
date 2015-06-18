@@ -2083,8 +2083,9 @@ if ~isfield(options,'sumScans'), error('sumScans not specified'); end
 %%%% hRaw = GetRawHandle(fileList.rawFull{file});
 %%%% hDetector = GetDetectorHandle(hRaw);
 
-if isunix
-    system(['wine python ', which('MSFileReaderPy.py'), ' -i "' fileList.rawFull{file}, '" -o "', fullfile(fileList.datDir, 'temp.mat"')]);
+if isunix 
+	['wine C:\\python27\\python.exe ', which('MSFileReaderPy.py'), ' -i "' fileList.rawFull{file}, '" -o "', fullfile(fileList.datDir, 'temp.mat"')]
+    system(['wine C:\\python27\\python.exe ', which('MSFileReaderPy.py'), ' -i "' fileList.rawFull{file}, '" -o "', fullfile(fileList.datDir, 'temp.mat"')]);
 else
     system([which('MSFileReaderPy.exe'), ' -i "' fileList.rawFull{file}, '" -o "', fullfile(fileList.datDir, 'temp.mat"')]);
 end
@@ -2401,7 +2402,7 @@ if options.getSpec
 
         %each data point will have a new index relative to the first frequency
         newIdx = (spectrum(i).f-spectrum(i).f(1))./deltaf;  %index relative to first freq. val
-        if find(abs(round(newIdx)-newIdx)>0.3), warning(['Possible error finding data indices in GetRawProfileFS.m! Press any key to continue...']); pause; end
+        if find(abs(round(newIdx)-newIdx)>0.3), warning(['Possible error finding data indices in GetRawProfileFS.m! Press any key to continue...']); end %pause; end
         newIdx = round(newIdx) + 1;
 
         %spread out the data into the new data matrix, at the same time padding the gaps with zero

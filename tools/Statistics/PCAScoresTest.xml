@@ -1,13 +1,21 @@
-<tool id="pca_auto" name="PCA and Scores Test" version="1.0.0">
+<tool id="pca_auto" name="PCA and Scores Test">
 	<description>Variables used by all/many SimStitch functions</description>
 	
 	
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/Statistics')
-#if $components.option=="auto"
-	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); PCAScoresTest('${pls_dso}', '${classlist}', '${output}', '${output_results}', 0); exit;"
+#if str($executable.value) == "true"
+	#if $components.option=="auto"
+		sh $tool_directory/run_PCAScoresTest.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${classlist}' '${output_l}' '${output_s}' '${output_v}' '${output_results}' 0
+	#else
+		sh $tool_directory/run_PCAScoresTest.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${classlist}' '${output_l}' '${output_s}' '${output_v}' '${output_results}' $components.numcomps
+	#end if
 #else
-	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); PCAScoresTest('${pls_dso}', '${classlist}', '${output}', '${output_results}', $components.numcomps); exit;"
+	#if $components.option=="auto"
+		matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); PCAScoresTest('${pls_dso}', '${classlist}', '${output_l}','${output_s}','${output_v}', '${output_results}', 0); exit;"
+	#else
+		matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); PCAScoresTest('${pls_dso}', '${classlist}', '${output_l}','${output_s}','${output_v}', '${output_results}', $components.numcomps); exit;"
+	#end if
 #end if
 	</command>
 
@@ -26,12 +34,15 @@
 				<param name="numcomps" type="integer" size="3" value="5" label="Select number of components for PCA model. If number is larger than max number of components then all components will be used. " />
 			</when>
   		</conditional> 
+		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 
 	<outputs>
-    	<data format="xml" name="output" label="PCA and Scores Test on $pls_dso.hid:: PLS Model (.xml)" />
 		<data format="txt" name = "output_results" label="PCA and Scores Test on $pls_dso.hid: results" />
+		<data format="tab" name = "output_l" label="PCA and Scores Test on $pls_dso.hid: loadings (.csv)" />
+		<data format="tab" name = "output_s" label="PCA and Scores Test on $pls_dso.hid: scores (.csv)" />
+		<data format="tab" name = "output_v" label="PCA and Scores Test on $pls_dso.hid: eigenvalues (.csv)" />
 		<data format="txt" name = "output_log" label="PCA and Scores Test on $pls_dso.hid: log" />
 	</outputs>
 

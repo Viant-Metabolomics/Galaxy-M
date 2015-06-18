@@ -6,6 +6,12 @@
 
 #if int($RawFilesOnly.RawFilesOnlySelect) == 1
 	#set $html_input_path = "None"
+
+	#set $output_html_txt = $output_html_txt_raw
+	#set $output_html_mat = $output_html_mat_raw
+	#set $output_log = $output_log_raw
+	#set $output_noise = $output_noise_raw
+	#set $output_alignment = $output_alignment_raw
 #else
 	#set $html_input_path = $RawFilesOnly.html_input.extra_files_path
 #end if
@@ -168,36 +174,36 @@ Calibration only includes calibratins/peaks with at a minimum SNR defined by the
 	</inputs>
 
 
-  	<outputs>		
-    		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $html_input.hid: list of output .txt files (.html)">
+  	<outputs>	
+    		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: list of output .txt files (.html)">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
 		</data>
-		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $html_input.hid: list of output .mat files (.html)">
+		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: list of output .mat files (.html)">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
 		</data>
-		<data format="txt" name="output_log" label="Mass Calibration and SIM-stitching on $html_input.hid: log">
+		<data format="txt" name="output_log" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: log">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
 		</data>
-		<data format="txt" name="output_noise" label="Mass Calibration and SIM-stitching on $html_input.hid: noise">
+		<data format="txt" name="output_noise" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: noise">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
 		</data>
-		<data format="txt" name="output_alignment" label="Mass Calibration and SIM-stitching on $html_input.hid: alignment">
+		<data format="txt" name="output_alignment" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: alignment">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
 		</data>
 
-    		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .txt files (.html)">
+    		<data format="html" name="output_html_txt_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .txt files (.html)">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
 		</data>
-		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .mat files (.html)">
+		<data format="html" name="output_html_mat_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .mat files (.html)">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
 		</data>
-		<data format="txt" name="output_log" label="Mass Calibration and SIM-stitching on $fileList.hid: log">
+		<data format="txt" name="output_log_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: log">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
 		</data>
-		<data format="txt" name="output_noise" label="Mass Calibration and SIM-stitching on $fileList.hid: noise">
+		<data format="txt" name="output_noise_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: noise">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
 		</data>
-		<data format="txt" name="output_alignment" label="Mass Calibration and SIM-stitching on $fileList.hid: alignment">
+		<data format="txt" name="output_alignment_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: alignment">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
 		</data>
 
