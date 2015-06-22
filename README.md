@@ -45,18 +45,15 @@ When logged in as ``galaxym`` user on the Ubuntu system:
 * `~/GalaxyM-TestData/LCMS_DATA`
 * `~/GalaxyM-TestData/DIMS_DATA`
 
-Installation instructions for Ubuntu 13.10 64bit / Ubuntu 12.04 64bit
+Installation instructions for Ubuntu 14.04LTS 64bit 
 ================================================
 
-These instructions are aimed at installation on [Ubuntu 13.10 64bit](http://old-releases.ubuntu.com/releases/saucy/) or [Ubuntu 12.04 64bit](http://old-releases.ubuntu.com/releases/precise/) editions. 
-
-Ubuntu 13.10 64bit edition was chosen because it is one of the few that can be uploaded to Amazon AWS. It is freely available as an ISO and can be run from within VMWare (cost) or Virtualbox (free).
 
 ###Step 0. Update the package manager
 
 You may need to run this with superuser privileges, I’ll assume that you do so my commands will begin ‘sudo’. This requires you to provide your password and Ubuntu will check that you have superuser privileges
 
-If you are running a 64bit (amd) version of Ubuntu (13.10) then it may be problematic to install WINE because it expects an i386 architecture. A workaround is:
+If you are running a 64bit (amd) version of Ubuntu (14.04) then it may be problematic to install WINE because it expects an i386 architecture. A workaround is:
 
     $> sudo dpkg --add-architecture i386
     $> sudo apt-get update
@@ -117,7 +114,7 @@ For MSFileReader, you need to go to ThermoFisher’s site and register ( https:/
 Extract the downloaded .zip file into your ~/wine-soft folder to join the other packages. It will produce a couple of folders, one for standard x86 architecture and one for 64bit. WINE is working off 32bit so the file you are looking for is MSFileReader.exe in the standard (non 64bit) folder. 
 
 Install packages: python2.7
-WINE can’t install .MSI files directly. You need to use the msiexec command as follows:
+WINE can’t install .MSI files directly. You need to use the msiexec command (see below). When presented with Python installation GUI, just accept the defaults. Update: For Ubuntu 14.04, you may be asked to confirm installation of the Wine MONO installer, and Wine Gecko installer etc. Just agree to 'install':
 
     $> wine msiexec /i python-2.7.8.msi
 
@@ -213,7 +210,7 @@ Merge or replace the:
 
 Edit/replace/create ``galaxy-dist/config/tool_conf.xml`` with [the contents of] ``GalaxyM/config/tool_conf.xml`` 
 
-    $> cp Galaxy-M/config/tool_conf.xml galaxy-dist/config/.
+    $> cp Galaxy-M/config/tool_conf.xml galaxy-dist/config/
 
 Edit/replace/create ``galaxy-dist/config/datatypes_conf.xml`` with the SQLite ``datatype extension`` tags from ``GalaxyM/config/datatypes_conf.xml`` (or simply copy the GalaxyM file to your galaxy-dist/config/ directory).
 
@@ -221,7 +218,7 @@ Edit/replace/create ``galaxy-dist/config/datatypes_conf.xml`` with the SQLite ``
 
 Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatypes/galaxym.py`` into the ``galaxy-dist/lib/galaxy/datatypes/`` directory.
 
-    $> cp Galaxy-M/lib/galaxy/datatypes/galaxym.py galaxy-dist/lib/galaxy/datatypes/.
+    $> cp Galaxy-M/lib/galaxy/datatypes/galaxym.py galaxy-dist/lib/galaxy/datatypes/
 
 Copy the Galaxy-M welcome page files from ``GalaxyM/static/`` into the ``galaxy-dist/static/`` directory.
 
@@ -269,7 +266,7 @@ The LC-MS pipeline makes use of XCMS for an initial peak picking and alignment p
 
     $> sudo apt-get install r-base
     $> sudo apt-get install r-cran-rcpp
-    $> sudo apt-get install libnetcdf-dev
+    $> sudo apt-get install libnetcdf-dev netcdf-bin
 
 Then you need to run R and install [Hmisc](http://cran.r-project.org/web/packages/Hmisc/index.html), [XCMS](https://metlin.scripps.edu/xcms/) and [CAMERA](http://bioconductor.org/packages/release/bioc/html/CAMERA.html) 
 
@@ -280,11 +277,13 @@ From the commandline, start R by typing simply:
 NB: it is advisable to run with sudo because various packages complain about not being able to write to various directories. Then within R, use ``install.packages`` to install Hmisc. 
 
     > install.packages(“Hmisc”, dependencies=TRUE )
+    
+If errors appear, saying that e.g. "Installation of packages 'ggplot2' had non-zero exit status", check your R version and if it's less than 3.1 (Ubuntu 14.04LTS apt-get base R is 3.0.2), then you'll need to upgrade. We followed these instructions for the Virtual Machine released to support this package (http://sysads.co.uk/2014/06/install-r-base-3-1-0-ubuntu-14-04/)
 
 XCMS and CAMERA are installed from Bioconductor so the command is slightly different
 
     > source("http://bioconductor.org/biocLite.R")
-    > biocLite(“BiocUpgrade”)
+    > biocLite()
     > biocLite("xcms")
     > biocLite("CAMERA")
 
