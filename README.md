@@ -34,7 +34,7 @@ Availability and Requirements
 A virtual machine implementation has been created to support reuse by the community. This will be available via the GigaDB repository (accession details to follow). Installation instructions to recreate the virtual machine can be found below. They are quite complex and can involve a lot of troubleshooting, so it is advised to work direct from the virtual machine where possible. We will aim to share the VM via Amazon AWS for access without download and eventually to provide a Vagrant provisioning file for easy setup of a new virtual machine. The GalaxyM installation has a user already registered and two workflows have been stored/published. If you wish to access the original user account then the login details are:
 
 
-    user: galaxym@galaxm.org
+    user: galaxym@galaxym.org
     password: galaxym
 
 
