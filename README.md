@@ -136,7 +136,7 @@ Below I’m printing out the full path for clarity. If your downloaded/extracted
     $> wine ~/wine-soft/MSFileReader\ 3.0\ SP2/MSFileReader_x86_Standalone/MSFileReader.exe
 
 
-Install visual C using winetricks
+Install visual C using winetricks (NB: This will not work in China. download.microsoft.com is not accessible, tested 7th Aug 2015)
 
 At this stage, Wine may produce errors because it can not register the XRawFile2.dll required for MSFileReader. 
 You may already have installed winetricks during the previous step when you installed wine 1.7 but in case you haven not, you can install it using apt-get. Then you need to install Visual C. 
