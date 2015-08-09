@@ -176,16 +176,14 @@ It is NOT necessary to have parallel python installed for MI-Pack to work, but i
 
 You may wish to check out the instructions at [Get Galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy).
 
-First, install ``mercurial`` if it's not already on your VM. 
 
-    $> sudo apt-get install mercurial
 
-Upon download, the Galaxy distribution (using the following settings) will create a folder called ``galaxy-dist`` in the directory that you call the command from. So if you are copying these instructions verbatim, make sure you're in a directory you’re happy to work from. I’ll be in my user’s home directory ``/home/galaxym``. 
+Upon download, the Galaxy distribution (using the following settings) will create a folder called ``galaxy`` in the directory that you call the command from. So if you are copying these instructions verbatim, make sure you're in a directory you’re happy to work from. I’ll be in my user’s home directory ``/home/galaxym``. 
 
     $> cd ~
-    $> hg clone https://bitbucket.org/galaxy/galaxy-dist/
-    $> cd galaxy-dist
-    $> hg update stable
+    $> git clone https://github.com/galaxyproject/galaxy/
+    $> cd galaxy
+    $> git checkout -b master origin/master
 
 ###Step 5: Add GalaxyM to Galaxy
 
@@ -196,40 +194,40 @@ Obtain the latest version of GalaxyM from [github](https://github.com/Viant-Meta
 
 Merge or replace the:
 
-``galaxy-dist/tools/`` directory with-dat ``GalaxyM/tools/``
+``galaxy/tools/`` directory with-dat ``GalaxyM/tools/``
 
-    $> cp -r Galaxy-M/tools/ galaxy-dist/
+    $> cp -r Galaxy-M/tools/ galaxy/
 
-``galaxy-dist/test-data/`` directory with ``GalaxyM/test-data/``
+``galaxy/test-data/`` directory with ``GalaxyM/test-data/``
 
-    $> cp -r Galaxy-M/tool-data/ galaxy-dist/
+    $> cp -r Galaxy-M/tool-data/ galaxy/
 
-``galaxy-dist/tool-data/`` directory with ``GalaxyM/tool-data/``
+``galaxy/tool-data/`` directory with ``GalaxyM/tool-data/``
 
-    $> cp -r Galaxy-M/test-data/ galaxy-dist/
+    $> cp -r Galaxy-M/test-data/ galaxy/
 
-Edit/replace/create ``galaxy-dist/config/tool_conf.xml`` with [the contents of] ``GalaxyM/config/tool_conf.xml`` 
+Edit/replace/create ``galaxy/config/tool_conf.xml`` with [the contents of] ``GalaxyM/config/tool_conf.xml`` 
 
-    $> cp Galaxy-M/config/tool_conf.xml galaxy-dist/config/
+    $> cp Galaxy-M/config/tool_conf.xml galaxy/config/
 
-Edit/replace/create ``galaxy-dist/config/datatypes_conf.xml`` with the SQLite ``datatype extension`` tags from ``GalaxyM/config/datatypes_conf.xml`` (or simply copy the GalaxyM file to your galaxy-dist/config/ directory).
+Edit/replace/create ``galaxy/config/datatypes_conf.xml`` with the SQLite ``datatype extension`` tags from ``GalaxyM/config/datatypes_conf.xml`` (or simply copy the GalaxyM file to your galaxy/config/ directory).
 
-    $> cp Galaxy-M/config/datatypes_conf.xml galaxy-dist/config/.
+    $> cp Galaxy-M/config/datatypes_conf.xml galaxy/config/.
 
-Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatypes/galaxym.py`` into the ``galaxy-dist/lib/galaxy/datatypes/`` directory.
+Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatypes/galaxym.py`` into the ``galaxy/lib/galaxy/datatypes/`` directory.
 
-    $> cp Galaxy-M/lib/galaxy/datatypes/galaxym.py galaxy-dist/lib/galaxy/datatypes/
+    $> cp Galaxy-M/lib/galaxy/datatypes/galaxym.py galaxy/lib/galaxy/datatypes/
 
-Copy the Galaxy-M welcome page files from ``GalaxyM/static/`` into the ``galaxy-dist/static/`` directory.
+Copy the Galaxy-M welcome page files from ``GalaxyM/static/`` into the ``galaxy/static/`` directory.
 
-    $> cp -r Galaxy-M/static/welcome.html galaxy-dist/static/.
-    $> cp -r Galaxy-M/static/images/logos/ galaxy-dist/static/images/.
+    $> cp -r Galaxy-M/static/welcome.html galaxy/static/.
+    $> cp -r Galaxy-M/static/images/logos/ galaxy/static/images/.
 
 If you were already running Galaxy, restart now.
 
-NB: to run Galaxy, you need to call the run.sh bash script within the main ``galaxy-dist`` folder e.g.
+NB: to run Galaxy, you need to call the run.sh bash script within the main ``galaxy`` folder e.g.
 
-    $> sh ~/galaxy-dist/run.sh
+    $> sh ~/galaxy/run.sh
 
 If run in this way, Galaxy can be stopped with the command Ctrl-C.
 
@@ -295,9 +293,9 @@ The test data sets (both LCMS and DIMS) can be obtained from their larger data s
 
 from the Linux commandline, start Galaxy if it’s not already running by typing:
 
-    $> sh ~/galaxy-dist/run.sh
+    $> sh ~/galaxy/run.sh
 
-To interact with Galaxy, open up a web-browser and point it at your server. If you have access to a browser on the same system as Galaxy, you can load that up and enter ``127.0.0.1:8080`` in the address bar. ``127.0.0.1`` means ``localhost`` and the browser speaks to the system it is running on. Alternatively, if you are running the server on a remote system (in the cloud perhaps) then you’ll need to ensure that the ``galaxy.ini`` file (``galaxy-dist/config/galaxy.ini``) has the line ``host = 0.0.0.0`` rather than the default ``host = 127.0.0.1``. This line tells Galaxy to expect traffic from the internet rather than just local requests. That setting has already been changed in the GalaxyM file (you may wish to change it back to ``127.0.0.1`` if you want to protect your Galaxy server from the wide web). 
+To interact with Galaxy, open up a web-browser and point it at your server. If you have access to a browser on the same system as Galaxy, you can load that up and enter ``127.0.0.1:8080`` in the address bar. ``127.0.0.1`` means ``localhost`` and the browser speaks to the system it is running on. Alternatively, if you are running the server on a remote system (in the cloud perhaps) then you’ll need to ensure that the ``galaxy.ini`` file (``galaxy/config/galaxy.ini``) has the line ``host = 0.0.0.0`` rather than the default ``host = 127.0.0.1``. This line tells Galaxy to expect traffic from the internet rather than just local requests. That setting has already been changed in the GalaxyM file (you may wish to change it back to ``127.0.0.1`` if you want to protect your Galaxy server from the wide web). 
 
 Hopefully, you should be presented with  the main Galaxy landing page. There should be a list of tools in the left hand panel, a welcome page in the middle and a history in the right hand side. 
 
