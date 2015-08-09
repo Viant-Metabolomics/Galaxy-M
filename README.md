@@ -212,7 +212,7 @@ Edit/replace/create ``galaxy/config/tool_conf.xml`` with [the contents of] ``Gal
 
 Edit/replace/create ``galaxy/config/datatypes_conf.xml`` with the SQLite ``datatype extension`` tags from ``GalaxyM/config/datatypes_conf.xml`` (or simply copy the GalaxyM file to your galaxy/config/ directory).
 
-    $> cp Galaxy-M/config/datatypes_conf.xml galaxy/config/.
+    $> cp Galaxy-M/config/datatypes_conf.xml galaxy/config/
 
 Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatypes/galaxym.py`` into the ``galaxy/lib/galaxy/datatypes/`` directory.
 
@@ -220,8 +220,8 @@ Copy the Galaxy-M binary type definitions file from ``GalaxyM/lib/galaxy/datatyp
 
 Copy the Galaxy-M welcome page files from ``GalaxyM/static/`` into the ``galaxy/static/`` directory.
 
-    $> cp -r Galaxy-M/static/welcome.html galaxy/static/.
-    $> cp -r Galaxy-M/static/images/logos/ galaxy/static/images/.
+    $> cp -r Galaxy-M/static/welcome.html galaxy/static/
+    $> cp -r Galaxy-M/static/images/logos/ galaxy/static/images/
 
 If you were already running Galaxy, restart now.
 
