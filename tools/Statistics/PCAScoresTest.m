@@ -155,7 +155,11 @@ loadings = coeff(:,1:lvs)';
 scores = score(:,1:lvs);
 values = latent(1:lvs);
 
+% add MZ values to loadings output
+ax = dso.axisscale{2,1};
+ax = ax(dso.include{2,1});
 
+loadings = [ax;loadings];
 
 %% SAVE OUTPUT MODEL
 

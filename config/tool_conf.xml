@@ -18,7 +18,6 @@
     		<tool file="SimStitch/AlignSample.xml" />
     		<tool file="SimStitch/CreateDSO.xml" />
     		<tool file="SimStitch/BlankFilter.xml" />
-    		<tool file="SimStitch/MVFilter_LWR.xml" />
     		<tool file="SimStitch/SampleFilter.xml" />
 	</section>
 
