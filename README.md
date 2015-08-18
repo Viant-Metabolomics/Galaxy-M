@@ -79,12 +79,14 @@ Then update
 It is then advised to install the latest version of WINE (made available by the new repository). I’ll be installing WINE1.7 but you may wish to check which versions are available to you using:
 
     $> sudo apt-cache search wine
-
+    
 We then perform the standard ‘apt-get install’ on our chosen WINE version. On running the command, the package manager will ask you if you are sure you want to install the package - type Y to confirm.
 
     $> sudo apt-get install wine1.7
 
 Once it’s finished downloading all the packages, it might present you with an End User Agreement for Microsoft software that you can scroll through with the arrow keys and select the ‘yes’/‘no’ options by pressing Tab and then Enter or Space to select. Having agreed, more installation will proceed. On my most recent WINE1.7 install, none of this happened, but on previous attempts it did.
+
+IMPERATIVE!: You must force wine to install everything in 32bit mode (because Thermo Fisher won't update their dlls). In order to get WINE to run in 32bit, remove the .wine folder in your home directory (or move it to e.g. ~/.wine_backup) which will remove all installed software and data from WINE. Then set the ``WINEARCH`` system variable by updating your ``~/.profile`` file with the line ``export WINEARCH=win32`` (place at end of file). Then try installing the software as follows... if you do not do this, you will likely get errors from the SimStitch tools along the lines of 'Invalid file identifier' - this is because they can't use the MSFileReader tool to open the DIMS data.
 
 ###Step 2. Install Windows packages in WINE
 
@@ -144,10 +146,6 @@ These two steps can be done as follows (the vc install will ask you to accept va
 
     $> sudo apt-get install winetricks
     $> winetricks vcrun2008
-
-**WINE TROUBLESHOOTING: 32BIT-ISSUES**
-
-It may be that MSFileReader requires 32bit (DLLs etc) and that WINE is automatically running in 64bit - being modern etc. In order to get WINE to run in 32bit, remove the .wine folder in your home directory (or move it to e.g. ~/.wine_backup) which will remove all installed software and data from WINE. Then set the ``WINEARCH`` system variable by updating your ``~/.profile`` with the line ``export WINEARCH=win32`` (place at end of file, don’t include the quotation marks). Then try installing the software as before...
 
 
 ###Step 3: Install MI-Pack python package
