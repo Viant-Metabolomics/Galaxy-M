@@ -86,7 +86,8 @@ We then perform the standard ‘apt-get install’ on our chosen WINE version. O
 
 Once it’s finished downloading all the packages, it might present you with an End User Agreement for Microsoft software that you can scroll through with the arrow keys and select the ‘yes’/‘no’ options by pressing Tab and then Enter or Space to select. Having agreed, more installation will proceed. On my most recent WINE1.7 install, none of this happened, but on previous attempts it did.
 
-IMPERATIVE!: You must force wine to install everything in 32bit mode (because Thermo Fisher won't update their dlls). In order to get WINE to run in 32bit, remove the .wine folder in your home directory (or move it to e.g. ~/.wine_backup) which will remove all installed software and data from WINE. Then set the ``WINEARCH`` system variable by updating your ``~/.profile`` file with the line ``export WINEARCH=win32`` (place at end of file). Then try installing the software as follows... if you do not do this, you will likely get errors from the SimStitch tools along the lines of 'Invalid file identifier' - this is because they can't use the MSFileReader tool to open the DIMS data.
+IMPERATIVE!: You must force wine to install everything in 32bit mode (because Thermo Fisher won't update their dlls). In order to get WINE to run in 32bit, remove the .wine folder in your home directory (or move it to e.g. ~/.wine_backup) which will remove all installed software and data from WINE. Then set the ``WINEARCH`` system variable by updating your ``~/.profile`` file with the line ``export WINEARCH=win32`` (place at end of file). Then try installing the software as follows... if you do not do this, you will likely get errors from the SimStitch tools along the lines of 'Invalid file identifier' - this is because they can't use the MSFileReader tool to open the DIMS data. 
+Note that if this is the first time wine has been installed and it has yet to be configured the .wine folder will not have been created yet so will not need to be removed.
 
 ###Step 2. Install Windows packages in WINE
 
@@ -192,7 +193,7 @@ Obtain the latest version of GalaxyM from [github](https://github.com/Viant-Meta
 
 Merge or replace the:
 
-``galaxy/tools/`` directory with-dat ``GalaxyM/tools/``
+``galaxy/tools/`` directory with ``GalaxyM/tools/``
 
     $> cp -r Galaxy-M/tools/ galaxy/
 
@@ -284,7 +285,7 @@ From the commandline, start R by typing simply:
 
 NB: it is advisable to run with sudo because various packages complain about not being able to write to various directories. Then within R, use ``install.packages`` to install Hmisc. 
 
-    > install.packages(“Hmisc”, dependencies=TRUE )
+    > install.packages('Hmisc', dependencies=TRUE )
     
 If errors appear, saying that e.g. "Installation of packages 'ggplot2' had non-zero exit status", check your R version and if it's less than 3.1 (Ubuntu 14.04LTS apt-get base R is 3.0.2), then you'll need to upgrade. We followed these instructions for the Virtual Machine released to support this package (http://sysads.co.uk/2014/06/install-r-base-3-1-0-ubuntu-14-04/)
 
