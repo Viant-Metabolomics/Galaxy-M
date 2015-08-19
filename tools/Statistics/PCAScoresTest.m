@@ -137,7 +137,7 @@ if ncomp==0 %user has asked script to automatically choose number of components
     
     potential_pcs = intersect(find(cum_varz>cum_thresh),find(single_props>single_thresh)); %this is combining two rules of thumb for picking components
     if length(potential_pcs)==0
-        lvs = min(cum_vars>cum_thresh); %if there are no PCs after the cumulative variance threshold that have high individual variance, just use the cumulative variance threshold
+        lvs = min(find(cum_varz>cum_thresh)); %if there are no PCs after the cumulative variance threshold that have high individual variance, just use the cumulative variance threshold
     else
         lvs = max(potential_pcs); % if there are PCs with relatively high variance, after cumulative variance has reached a threshold, keep them in.
     end

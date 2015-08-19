@@ -14,6 +14,7 @@
                     "name": "Input Dataset"
                 }
             ], 
+            "label": null, 
             "name": "Input dataset", 
             "outputs": [], 
             "position": {
@@ -25,7 +26,8 @@
             "tool_state": "{\"name\": \"Input Dataset\"}", 
             "tool_version": null, 
             "type": "data_input", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "914ea92b-db20-4763-9d57-b3effd34dee2"
         }, 
         "1": {
             "annotation": "", 
@@ -37,6 +39,7 @@
                     "name": "Input Dataset"
                 }
             ], 
+            "label": null, 
             "name": "Input dataset", 
             "outputs": [], 
             "position": {
@@ -48,7 +51,8 @@
             "tool_state": "{\"name\": \"Input Dataset\"}", 
             "tool_version": null, 
             "type": "data_input", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "b9912c8c-0ede-4c61-9aea-ec921d0c25b8"
         }, 
         "2": {
             "annotation": "", 
@@ -60,6 +64,7 @@
                     "name": "Input Dataset"
                 }
             ], 
+            "label": null, 
             "name": "Input dataset", 
             "outputs": [], 
             "position": {
@@ -71,7 +76,8 @@
             "tool_state": "{\"name\": \"Input Dataset\"}", 
             "tool_version": null, 
             "type": "data_input", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "5021188e-d196-4338-99cb-d456bf9bb268"
         }, 
         "3": {
             "annotation": "", 
@@ -83,6 +89,7 @@
                     "name": "Input Dataset"
                 }
             ], 
+            "label": null, 
             "name": "Input dataset", 
             "outputs": [], 
             "position": {
@@ -94,7 +101,8 @@
             "tool_state": "{\"name\": \"Input Dataset\"}", 
             "tool_version": null, 
             "type": "data_input", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "ebd22c3a-1313-45ec-92a8-dc8162863f0f"
         }, 
         "4": {
             "annotation": "", 
@@ -106,6 +114,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "File List Manager", 
             "outputs": [
                 {
@@ -120,10 +129,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "fileListManager", 
-            "tool_state": "{\"__page__\": 0, \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"__rerun_remap_job_id__\": null, \"condFiles\": \"{\\\"condFilesSelect\\\": \\\"history\\\", \\\"fileListCSV\\\": null, \\\"__current_case__\\\": 1}\", \"dir\": \"\\\"/home/galaxym/GalaxyM-TestData/DIMS_DATA/\\\"\", \"numreps\": \"\\\"3\\\"\"}", 
+            "tool_state": "{\"__page__\": 0, \"condFiles\": \"{\\\"condFilesSelect\\\": \\\"history\\\", \\\"fileListCSV\\\": null, \\\"__current_case__\\\": 1}\", \"__rerun_remap_job_id__\": null, \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"dir\": \"\\\"/home/galaxym/GalaxyM-TestData/DIMS_DATA/\\\"\", \"numreps\": \"\\\"3\\\"\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "cce47acd-e30e-43bd-a8e7-90836f6c8991"
         }, 
         "5": {
             "annotation": "", 
@@ -135,6 +145,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Sum Transient Data", 
             "outputs": [
                 {
@@ -157,10 +168,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "sumtrans", 
-            "tool_state": "{\"__page__\": 0, \"numscans\": \"\\\"0\\\"\", \"ignorecal\": \"\\\"False\\\"\", \"maxmz\": \"\\\"0\\\"\", \"mintic\": \"\\\"0\\\"\", \"__rerun_remap_job_id__\": null, \"fileList\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
+            "tool_state": "{\"__page__\": 0, \"numscans\": \"\\\"0\\\"\", \"ignorecal\": \"\\\"False\\\"\", \"maxmz\": \"\\\"0\\\"\", \"mintic\": \"\\\"0\\\"\", \"__rerun_remap_job_id__\": null, \"executable\": \"\\\"true\\\"\", \"fileList\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "6af33f3c-bd5f-4203-8e6e-80fffd7b978a"
         }, 
         "6": {
             "annotation": "", 
@@ -176,6 +188,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Process Transient Data", 
             "outputs": [
                 {
@@ -183,7 +196,7 @@
                     "type": "html"
                 }, 
                 {
-                    "name": "log", 
+                    "name": "output_log", 
                     "type": "txt"
                 }
             ], 
@@ -194,25 +207,27 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "proctrans", 
-            "tool_state": "{\"html_input\": \"null\", \"__rerun_remap_job_id__\": null, \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"fileList\": \"null\", \"__page__\": 0}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"html_input\": \"null\", \"__rerun_remap_job_id__\": null, \"fileList\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "b6c482e9-5fe3-4cfb-8bb8-976434e630a3"
         }, 
         "7": {
             "annotation": "", 
             "id": 7, 
             "input_connections": {
+                "RawFilesOnly|html_input": {
+                    "id": 6, 
+                    "output_name": "output_html"
+                }, 
                 "fileList": {
                     "id": 4, 
                     "output_name": "output"
-                }, 
-                "html_input": {
-                    "id": 6, 
-                    "output_name": "output_html"
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Mass Calibration and SIM-stitching", 
             "outputs": [
                 {
@@ -234,6 +249,26 @@
                 {
                     "name": "output_alignment", 
                     "type": "txt"
+                }, 
+                {
+                    "name": "output_html_txt_raw", 
+                    "type": "html"
+                }, 
+                {
+                    "name": "output_html_mat_raw", 
+                    "type": "html"
+                }, 
+                {
+                    "name": "output_log_raw", 
+                    "type": "txt"
+                }, 
+                {
+                    "name": "output_noise_raw", 
+                    "type": "txt"
+                }, 
+                {
+                    "name": "output_alignment_raw", 
+                    "type": "txt"
                 }
             ], 
             "position": {
@@ -243,10 +278,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "stitch", 
-            "tool_state": "{\"mzalign\": \"\\\"True\\\"\", \"condRemKnown\": \"{\\\"remknown\\\": \\\"1\\\", \\\"knownnoise\\\": \\\"\\\", \\\"__current_case__\\\": 0}\", \"alignminsnr\": \"\\\"6.5\\\"\", \"calacm\": \"\\\"5e-05\\\"\", \"fileList\": \"null\", \"minsnr\": \"\\\"3.5\\\"\", \"calmode\": \"\\\"1\\\"\", \"html_input\": \"null\", \"calminsnr\": \"\\\"10\\\"\", \"__page__\": 0, \"nullmzmin\": \"\\\"0.0\\\"\", \"__rerun_remap_job_id__\": null, \"intcorr\": \"\\\"False\\\"\", \"nullmzmax\": \"\\\"0.0\\\"\", \"calminrange\": \"\\\"50\\\"\", \"calacp\": \"\\\"0.0\\\"\", \"incnoise\": \"\\\"True\\\"\", \"calweighted\": \"\\\"True\\\"\", \"alignmaxpkd\": \"\\\"1.5\\\"\", \"calacc\": \"\\\"0.002\\\"\", \"nullbnd\": \"\\\"70, 2000\\\"\", \"calmaxpkd\": \"\\\"6.5\\\"\", \"noisefilt\": \"\\\"True\\\"\", \"condCali\": \"{\\\"ListofCalibrants\\\": \\\"\\\", \\\"calon\\\": \\\"0\\\", \\\"condCaliSelect\\\": \\\"none\\\", \\\"calblank\\\": \\\"0\\\", \\\"__current_case__\\\": 1}\", \"nullend\": \"\\\"15.0\\\"\", \"nullstart\": \"\\\"15.0\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"alignmin\": \"\\\"20\\\"\"}", 
+            "tool_state": "{\"mzalign\": \"\\\"True\\\"\", \"condRemKnown\": \"{\\\"remknown\\\": \\\"0\\\", \\\"knownnoise\\\": \\\"\\\", \\\"__current_case__\\\": 1}\", \"alignminsnr\": \"\\\"6.5\\\"\", \"nullmzmin\": \"\\\"0.0\\\"\", \"fileList\": \"null\", \"condCali\": \"{\\\"ListofCalibrants\\\": \\\"\\\", \\\"calon\\\": \\\"0\\\", \\\"condCaliSelect\\\": \\\"none\\\", \\\"calblank\\\": \\\"0\\\", \\\"__current_case__\\\": 1}\", \"calmode\": \"\\\"1\\\"\", \"calminsnr\": \"\\\"10\\\"\", \"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"__rerun_remap_job_id__\": null, \"intcorr\": \"\\\"False\\\"\", \"nullmzmax\": \"\\\"0.0\\\"\", \"calminrange\": \"\\\"50\\\"\", \"incnoise\": \"\\\"True\\\"\", \"calacp\": \"\\\"0.0\\\"\", \"calacm\": \"\\\"5e-05\\\"\", \"calweighted\": \"\\\"True\\\"\", \"alignmaxpkd\": \"\\\"1.5\\\"\", \"calacc\": \"\\\"0.002\\\"\", \"nullbnd\": \"\\\"70, 2000\\\"\", \"calmaxpkd\": \"\\\"6.5\\\"\", \"noisefilt\": \"\\\"True\\\"\", \"minsnr\": \"\\\"3.5\\\"\", \"RawFilesOnly\": \"{\\\"RawFilesOnlySelect\\\": \\\"0\\\", \\\"html_input\\\": null, \\\"__current_case__\\\": 1}\", \"nullend\": \"\\\"15.0\\\"\", \"nullstart\": \"\\\"15.0\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"alignmin\": \"\\\"20\\\"\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "311535f7-9cf5-4808-a724-9b58c1770def"
         }, 
         "8": {
             "annotation": "", 
@@ -262,6 +298,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Replicate Filtering", 
             "outputs": [
                 {
@@ -284,10 +321,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "repfilter", 
-            "tool_state": "{\"__page__\": 0, \"force\": \"\\\"0\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"__rerun_remap_job_id__\": null, \"ppm\": \"\\\"1.5\\\"\", \"fileList\": \"null\", \"minpeak\": \"\\\"2\\\"\", \"html_input\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"force\": \"\\\"0\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"__rerun_remap_job_id__\": null, \"ppm\": \"\\\"1.5\\\"\", \"fileList\": \"null\", \"minpeak\": \"\\\"2\\\"\", \"html_input\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "3b944a6b-d6c5-49bf-aa4e-7d81c91e2338"
         }, 
         "9": {
             "annotation": "", 
@@ -303,6 +341,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Align Sample Spectra", 
             "outputs": [
                 {
@@ -329,10 +368,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "alignsample", 
-            "tool_state": "{\"__page__\": 0, \"blankPPM\": \"\\\"2\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"__rerun_remap_job_id__\": null, \"fileList\": \"null\", \"combPPM\": \"\\\"2\\\"\", \"samplePPM\": \"\\\"2\\\"\", \"html_input\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"blankPPM\": \"\\\"2\\\"\", \"html_input\": \"null\", \"__rerun_remap_job_id__\": null, \"fileList\": \"null\", \"combPPM\": \"\\\"2\\\"\", \"samplePPM\": \"\\\"2\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "4a55d0f9-9e95-4ead-bdd1-027633196327"
         }, 
         "10": {
             "annotation": "", 
@@ -356,6 +396,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Create DSO object", 
             "outputs": [
                 {
@@ -370,10 +411,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "createdso", 
-            "tool_state": "{\"__page__\": 0, \"peakmatrix\": \"null\", \"__rerun_remap_job_id__\": null, \"fileList\": \"null\", \"pmatrix_row\": \"null\", \"pmatrix_col\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"peakmatrix\": \"null\", \"__rerun_remap_job_id__\": null, \"fileList\": \"null\", \"pmatrix_row\": \"null\", \"pmatrix_col\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "d141719d-c39d-4de6-b253-748b74c3bef6"
         }, 
         "11": {
             "annotation": "", 
@@ -385,6 +427,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Blank Filtering", 
             "outputs": [
                 {
@@ -399,10 +442,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "blankfilter", 
-            "tool_state": "{\"__page__\": 0, \"thold_fold\": \"\\\"10\\\"\", \"__rerun_remap_job_id__\": null, \"thold_perc\": \"\\\"100\\\"\", \"maxmean\": \"\\\"False\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"thold_fold\": \"\\\"10\\\"\", \"__rerun_remap_job_id__\": null, \"thold_perc\": \"\\\"100\\\"\", \"maxmean\": \"\\\"False\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "3c8bea85-0f50-46c0-803f-3cc44eb8469a"
         }, 
         "12": {
             "annotation": "", 
@@ -418,6 +462,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Set Include", 
             "outputs": [
                 {
@@ -425,7 +470,7 @@
                     "type": "xml"
                 }, 
                 {
-                    "name": "output_messages", 
+                    "name": "output_log", 
                     "type": "txt"
                 }
             ], 
@@ -436,10 +481,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "pls_toolbox_set_include", 
-            "tool_state": "{\"__page__\": 0, \"dim\": \"\\\"1\\\"\", \"__rerun_remap_job_id__\": null, \"include_file\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"include_file\": \"null\", \"__rerun_remap_job_id__\": null, \"dim\": \"\\\"1\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "47215ea8-4672-4520-be3c-3844871380a4"
         }, 
         "13": {
             "annotation": "", 
@@ -451,6 +497,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Sample Filtering", 
             "outputs": [
                 {
@@ -465,10 +512,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "samplefilter", 
-            "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"class\": \"{\\\"class_select\\\": \\\"across_class\\\", \\\"__current_case__\\\": 1}\", \"thold\": \"\\\"100\\\"\", \"pls_dso\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"__rerun_remap_job_id__\": null, \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"class\": \"{\\\"class_select\\\": \\\"across_class\\\", \\\"__current_case__\\\": 1}\", \"thold\": \"\\\"100\\\"\", \"pls_dso\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "06b935d9-3fbc-4b55-9e24-6647c35f7e0b"
         }, 
         "14": {
             "annotation": "", 
@@ -480,6 +528,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "PQN Normalisation", 
             "outputs": [
                 {
@@ -498,10 +547,11 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "norm_pqn", 
-            "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"__rerun_remap_job_id__\": null, \"pls_dso\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "1c87a555-a0aa-4718-9af1-887f65aa7dfc"
         }, 
         "15": {
             "annotation": "", 
@@ -517,6 +567,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Set Include", 
             "outputs": [
                 {
@@ -524,7 +575,7 @@
                     "type": "xml"
                 }, 
                 {
-                    "name": "output_messages", 
+                    "name": "output_log", 
                     "type": "txt"
                 }
             ], 
@@ -535,14 +586,50 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "pls_toolbox_set_include", 
-            "tool_state": "{\"__page__\": 0, \"dim\": \"\\\"1\\\"\", \"__rerun_remap_job_id__\": null, \"include_file\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"include_file\": \"null\", \"__rerun_remap_job_id__\": null, \"dim\": \"\\\"1\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "d8834ba9-811d-4bb5-aaeb-264dda7e96a1"
         }, 
         "16": {
             "annotation": "", 
             "id": 16, 
+            "input_connections": {
+                "pls_dso": {
+                    "id": 14, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "label": null, 
+            "name": "Get Peaklist", 
+            "outputs": [
+                {
+                    "name": "output", 
+                    "type": "csv"
+                }, 
+                {
+                    "name": "output_log", 
+                    "type": "txt"
+                }
+            ], 
+            "position": {
+                "left": 2650, 
+                "top": 130
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "pls_toolbox_get_peaklist", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"__rerun_remap_job_id__\": null, \"pls_dso\": \"null\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": [], 
+            "uuid": "01db748d-ea11-4ee5-9cb1-706ad576e8cf"
+        }, 
+        "17": {
+            "annotation": "", 
+            "id": 17, 
             "input_connections": {
                 "pls_dso": {
                     "id": 15, 
@@ -550,6 +637,7 @@
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "g-log Transform", 
             "outputs": [
                 {
@@ -568,25 +656,58 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "glog_total", 
-            "tool_state": "{\"__page__\": 0, \"__rerun_remap_job_id__\": null, \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"__rerun_remap_job_id__\": null, \"pls_dso\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "87fa4418-3cf3-4200-95ee-31df51f3661e"
         }, 
-        "17": {
+        "18": {
             "annotation": "", 
-            "id": 17, 
+            "id": 18, 
+            "input_connections": {
+                "peaklist": {
+                    "id": 16, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "label": null, 
+            "name": "Single Peak Search", 
+            "outputs": [
+                {
+                    "name": "output_sql", 
+                    "type": "sps.sqlite"
+                }
+            ], 
+            "position": {
+                "left": 2870, 
+                "top": 130
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "Single Peak Search", 
+            "tool_state": "{\"__page__\": 0, \"conIons\": \"{\\\"ion_mode\\\": \\\"POS\\\", \\\"__current_case__\\\": 0, \\\"SelectIons\\\": {\\\"ions\\\": [\\\"[M+H]+\\\", \\\"[M+Na]+\\\", \\\"[M+K]+\\\", \\\"[M+(41K)]+\\\"], \\\"defineIons\\\": \\\"default_POS\\\", \\\"__current_case__\\\": 0}}\", \"conDatabase\": \"{\\\"ClassesDatabase\\\": {\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": null}, \\\"__current_case__\\\": 0, \\\"Database\\\": \\\"KEGG_COMPOUND\\\"}\", \"__rerun_remap_job_id__\": null, \"ppm\": \"\\\"1.0\\\"\", \"peaklist\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": [], 
+            "uuid": "2b39a4be-0eb7-4dc1-85b8-b7cab4fe28a6"
+        }, 
+        "19": {
+            "annotation": "", 
+            "id": 19, 
             "input_connections": {
                 "include_file": {
                     "id": 3, 
                     "output_name": "output"
                 }, 
                 "pls_dso": {
-                    "id": 16, 
+                    "id": 17, 
                     "output_name": "output"
                 }
             }, 
             "inputs": [], 
+            "label": null, 
             "name": "Set Include", 
             "outputs": [
                 {
@@ -594,7 +715,7 @@
                     "type": "xml"
                 }, 
                 {
-                    "name": "output_messages", 
+                    "name": "output_log", 
                     "type": "txt"
                 }
             ], 
@@ -605,30 +726,79 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "pls_toolbox_set_include", 
-            "tool_state": "{\"__page__\": 0, \"dim\": \"\\\"1\\\"\", \"__rerun_remap_job_id__\": null, \"include_file\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"include_file\": \"null\", \"__rerun_remap_job_id__\": null, \"dim\": \"\\\"1\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "aac8c95a-3609-4fb2-9a0c-859975085574"
         }, 
-        "18": {
+        "20": {
             "annotation": "", 
-            "id": 18, 
+            "id": 20, 
             "input_connections": {
-                "pls_dso": {
-                    "id": 17, 
+                "SPS_TM_Database|sqlite_SPS_TM": {
+                    "id": 18, 
+                    "output_name": "output_sql"
+                }, 
+                "peaklist": {
+                    "id": 16, 
                     "output_name": "output"
                 }
             }, 
             "inputs": [], 
+            "label": null, 
+            "name": "Combine Outputs", 
+            "outputs": [
+                {
+                    "name": "output_txt", 
+                    "type": "tabular"
+                }, 
+                {
+                    "name": "output_sqlite", 
+                    "type": "output.sqlite"
+                }
+            ], 
+            "position": {
+                "left": 3090, 
+                "top": 130
+            }, 
+            "post_job_actions": {}, 
+            "tool_errors": null, 
+            "tool_id": "Output", 
+            "tool_state": "{\"__page__\": 0, \"SPS_TM_Database\": \"{\\\"SPS_TM\\\": \\\"True\\\", \\\"sqlite_SPS_TM\\\": null, \\\"__current_case__\\\": 0}\", \"__rerun_remap_job_id__\": null, \"peaklist\": \"null\", \"EFS_Database\": \"{\\\"EFS\\\": \\\"False\\\", \\\"__current_case__\\\": 1, \\\"sqlite_EFS\\\": \\\"None\\\"}\", \"PPS_Database\": \"{\\\"PPS\\\": \\\"False\\\", \\\"sqlite_PPS\\\": \\\"None\\\", \\\"__current_case__\\\": 1}\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
+            "tool_version": null, 
+            "type": "tool", 
+            "user_outputs": [], 
+            "uuid": "4c9c1fee-7629-4f8f-944e-725939ebc383"
+        }, 
+        "21": {
+            "annotation": "", 
+            "id": 21, 
+            "input_connections": {
+                "pls_dso": {
+                    "id": 19, 
+                    "output_name": "output"
+                }
+            }, 
+            "inputs": [], 
+            "label": null, 
             "name": "PCA and Scores Test", 
             "outputs": [
                 {
-                    "name": "output", 
-                    "type": "xml"
-                }, 
-                {
                     "name": "output_results", 
                     "type": "txt"
+                }, 
+                {
+                    "name": "output_l", 
+                    "type": "tab"
+                }, 
+                {
+                    "name": "output_s", 
+                    "type": "tab"
+                }, 
+                {
+                    "name": "output_v", 
+                    "type": "tab"
                 }, 
                 {
                     "name": "output_log", 
@@ -642,110 +812,12 @@
             "post_job_actions": {}, 
             "tool_errors": null, 
             "tool_id": "pca_auto", 
-            "tool_state": "{\"__page__\": 0, \"classlist\": \"\\\"classes\\\"\", \"__rerun_remap_job_id__\": null, \"components\": \"{\\\"option\\\": \\\"auto\\\", \\\"__current_case__\\\": 1}\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
+            "tool_state": "{\"__page__\": 0, \"executable\": \"\\\"true\\\"\", \"classlist\": \"\\\"classes\\\"\", \"__rerun_remap_job_id__\": null, \"components\": \"{\\\"option\\\": \\\"auto\\\", \\\"__current_case__\\\": 1}\", \"chromInfo\": \"\\\"/home/galaxym/galaxy/tool-data/shared/ucsc/chrom/?.len\\\"\", \"pls_dso\": \"null\"}", 
             "tool_version": null, 
             "type": "tool", 
-            "user_outputs": []
-        }, 
-        "19": {
-            "annotation": "", 
-            "id": 19, 
-            "input_connections": {
-                "pls_model": {
-                    "id": 18, 
-                    "output_name": "output"
-                }
-            }, 
-            "inputs": [], 
-            "name": "Get Top PCA Loadings", 
-            "outputs": [
-                {
-                    "name": "output", 
-                    "type": "tabular"
-                }, 
-                {
-                    "name": "output_log", 
-                    "type": "txt"
-                }
-            ], 
-            "position": {
-                "left": 3530, 
-                "top": 10
-            }, 
-            "post_job_actions": {}, 
-            "tool_errors": null, 
-            "tool_id": "pls_toolbox_get_toppca", 
-            "tool_state": "{\"pls_model\": \"null\", \"__page__\": 0, \"__rerun_remap_job_id__\": null, \"percent\": \"\\\"10\\\"\", \"lv\": \"\\\"1\\\"\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
-            "tool_version": null, 
-            "type": "tool", 
-            "user_outputs": []
-        }, 
-        "20": {
-            "annotation": "", 
-            "id": 20, 
-            "input_connections": {
-                "peaklist": {
-                    "id": 19, 
-                    "output_name": "output"
-                }
-            }, 
-            "inputs": [], 
-            "name": "Single Peak Search", 
-            "outputs": [
-                {
-                    "name": "output_sql", 
-                    "type": "sps.sqlite"
-                }
-            ], 
-            "position": {
-                "left": 3750, 
-                "top": 10
-            }, 
-            "post_job_actions": {}, 
-            "tool_errors": null, 
-            "tool_id": "Single Peak Search", 
-            "tool_state": "{\"__page__\": 0, \"conIons\": \"{\\\"ion_mode\\\": \\\"POS\\\", \\\"__current_case__\\\": 0, \\\"SelectIons\\\": {\\\"ions\\\": [\\\"[M+H]+\\\", \\\"[M+Na]+\\\", \\\"[M+K]+\\\", \\\"[M+(41K)]+\\\"], \\\"defineIons\\\": \\\"default_POS\\\", \\\"__current_case__\\\": 0}}\", \"conDatabase\": \"{\\\"ClassesDatabase\\\": {\\\"__class__\\\": \\\"UnvalidatedValue\\\", \\\"value\\\": \\\"*\\\"}, \\\"__current_case__\\\": 0, \\\"Database\\\": \\\"KEGG_COMPOUND\\\"}\", \"__rerun_remap_job_id__\": null, \"ppm\": \"\\\"1.0\\\"\", \"peaklist\": \"null\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
-            "tool_version": null, 
-            "type": "tool", 
-            "user_outputs": []
-        }, 
-        "21": {
-            "annotation": "", 
-            "id": 21, 
-            "input_connections": {
-                "SPS_TM_Database|sqlite_SPS_TM": {
-                    "id": 20, 
-                    "output_name": "output_sql"
-                }, 
-                "peaklist": {
-                    "id": 19, 
-                    "output_name": "output"
-                }
-            }, 
-            "inputs": [], 
-            "name": "Combine Outputs", 
-            "outputs": [
-                {
-                    "name": "output_txt", 
-                    "type": "tabular"
-                }, 
-                {
-                    "name": "output_sqlite", 
-                    "type": "output.sqlite"
-                }
-            ], 
-            "position": {
-                "left": 3970, 
-                "top": 10
-            }, 
-            "post_job_actions": {}, 
-            "tool_errors": null, 
-            "tool_id": "Output", 
-            "tool_state": "{\"__page__\": 0, \"SPS_TM_Database\": \"{\\\"SPS_TM\\\": \\\"True\\\", \\\"sqlite_SPS_TM\\\": null, \\\"__current_case__\\\": 0}\", \"__rerun_remap_job_id__\": null, \"peaklist\": \"null\", \"EFS_Database\": \"{\\\"EFS\\\": \\\"False\\\", \\\"__current_case__\\\": 1, \\\"sqlite_EFS\\\": \\\"None\\\"}\", \"PPS_Database\": \"{\\\"PPS\\\": \\\"False\\\", \\\"sqlite_PPS\\\": \\\"None\\\", \\\"__current_case__\\\": 1}\", \"chromInfo\": \"\\\"/home/galaxym/galaxy-dist/tool-data/shared/ucsc/chrom/?.len\\\"\"}", 
-            "tool_version": null, 
-            "type": "tool", 
-            "user_outputs": []
+            "user_outputs": [], 
+            "uuid": "6976c0c6-361f-4f4c-85f8-abceb0bbb826"
         }
     }, 
-    "uuid": "78129085-6bda-48ea-a41b-e4cf45ecc078"
+    "uuid": "36f4c458-5345-428b-8651-f3ab254073c5"
 }
