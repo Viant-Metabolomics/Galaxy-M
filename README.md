@@ -240,21 +240,33 @@ The MATLAB Runtime is a standalone set of shared libraries that enables the exec
     $> cd MCR_R2013a_glnxa64_installer
     $> sudo ./install
     
-Follow the instructions on the screen to install MCR. 
+Follow the instructions on the screen to install MCR. With the following EXCEPTION:
+The Matlab installation will tell you to add certain environment variables to your path. Do NOT do this - it will prevent Galaxy from starting and also your Ubuntu Unity desktop system from logging in/working. 
 
-Append the following to your LD_LIBRARY_PATH environment variable
+However, you must put something in so, on the basis that you've copied the instructions above, installed MCR R2013a, which is Version 81, edit your ~/.profile file to include the following:
 
-    $> export LD_LIBRARY_PATH=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/bin/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/sys/os/glnxa64:
+    export LD_LIBRARY_PATH=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/runtime/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/bin/glnxa64:/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/sys/os/glnxa64:
 
 Set the XAPPLRESDIR environment variable to the following value
 
-    $> export XAPPLRESDIR=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/X11/app-defaults
+    export XAPPLRESDIR=/usr/local/MATLAB/MATLAB_Compiler_Runtime/v83/X11/app-defaults
 
-Note: Point the MCR_CACHE_ROOT environment variable to a local temporary directory when you receive the folllowing error running compiled matlab appliations: "Could not access the MCR component cache." See [here](https://help.ubuntu.com/community/EnvironmentVariables) for more info on Environment Variables (Section Persistent environment variables).
+What we've done here is deliberately give the wrong version number (v83 instead of v81). Oddly, this seems to allow everything to work! 
 
-    $> MCR_CACHE_ROOT=/tmp/mcr_cache_$USER/
+Also: Point the MCR_CACHE_ROOT environment variable to a local temporary directory (failure to do so produces the error: "Could not access the MCR component cache.") 
+
+    MCR_CACHE_ROOT=/tmp/mcr_cache_$USER/
+
+Having added all these environment variables to your ~/.profile file, you need to refresh your paths by typing:
+
+    $> source ~/.profile
+    
+Then manually create that temporary MCR_CACHE_ROOT directory:
+
     $> mkdir $MCR_CACHE_ROOT
-    $> $MCR_CACHE_ROOT
+    
+For more info on Environment Variables see [here](https://help.ubuntu.com/community/EnvironmentVariables)  (Section Persistent environment variables).
+
 
 ###Step 7. Install R
 
