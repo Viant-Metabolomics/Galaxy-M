@@ -5,7 +5,9 @@ Metabolomics Tools for [Galaxy](http://galaxyproject.org/)
 
 The folders stored here corresond to folders found in a standard Galaxy installation. Included are the tool files (both original code and .xml wrappers) for Metabolomics analysis and the Galaxy config files from a working installation of Galaxy. Not all of the config files have been altered, but all are included here for completeness. 
 
-The Galaxy version that these files have been tested on is from the Stable branch on Mercurial: changeset 14929:5fc83b69fe24, date Thu Dec 11.
+The Galaxy version that these files have been tested on is from the Master branch on Github: commit c429777c93680dcee449fe410f5360afbe673758.
+
+The MI-Pack version that the GigaScience publication utilises is Github commit: 06ce0ace643ee1cf1d27550769a5272b7ea50825
 
 Availability and Requirements
 =============================
@@ -18,8 +20,8 @@ Availability and Requirements
 * [PLS-Toolbox for PCA tools (version 7.0.3)](http://www.eigenvector.com/software/pls_toolbox.htm) (Optional: few of the tools are PLS-toolbox dependent)
 
 ###Other requirements: 
-* [Galaxy (Stable branch on Mercurial: changeset 14929:5fc83b69fe24, date Thu Dec 11)](http://www.getgalaxy.org)
-* [MI-Pack (Metabolite Identification Package)](https://github.com/Viant-Metabolomics/MI-Pack)
+* [Galaxy (Master branch on Github: commit c429777c93680dcee449fe410f5360afbe673758)](http://www.getgalaxy.org)
+* [MI-Pack (Metabolite Identification Package, Master branch on Github: commit 06ce0ace643ee1cf1d27550769a5272b7ea50825)](https://github.com/Viant-Metabolomics/MI-Pack)
 * [XCMS](https://metlin.scripps.edu/xcms/)
 * [Thermo Scientific MSFileReader package](http://sjsupport.thermofinnigan.com/public/detail.asp?id=703)
 * [WineHQ (version 1.6.2)](winehq.org)
@@ -31,19 +33,31 @@ Availability and Requirements
 * no restrictions on use
 
 ###Pre-Installed Virtual Machine 
-A virtual machine implementation has been created to support reuse by the community. This will be available via the GigaDB repository (accession details to follow). Installation instructions to recreate the virtual machine can be found below. They are quite complex and can involve a lot of troubleshooting, so it is advised to work direct from the virtual machine where possible. We will aim to share the VM via Amazon AWS for access without download and eventually to provide a Vagrant provisioning file for easy setup of a new virtual machine. The GalaxyM installation has a user already registered and two workflows have been stored/published. If you wish to access the original user account then the login details are:
+A virtual machine implementation has been created to support reuse by the community as well as to act as a snapshot of reproducibility for the work in the GigaScience publication. This will be available via the GigaDB repository (accession details to follow). You can use the VM in VMWare or VirtualBox, there is one virtual hard disk (VMDK file) that suits both systems however we've had to create separate metadata files for each (MF and OVF files). To import into either system you need the VMDK to be in the same folder as the relevant MF and OVF file. 
 
+Installation instructions to recreate the virtual machine can be found below. They are quite complex and can involve a lot of troubleshooting, so it is advised to work direct from the virtual machine where possible. We will aim to share the VM via Amazon AWS for access without download. The GalaxyM installation has a user already registered and two workflows have been stored/published. If you wish to access the original user account then the login details are:
 
-    user: galaxym@galaxym.org
+Ubuntu logins:
+
+    user: galaxym
+    password: galaxym
+    
+Galaxy logins:
+
+    email: galaxym@galaxym.org
+    user: galaxym
     password: galaxym
 
 
 Location of data in published work:
 
-When logged in as ``galaxym`` user on the Ubuntu system:
+When logged in as ``galaxym`` user on the Ubuntu system, the Mass Spectra can be found in :
 
 * `~/GalaxyM-TestData/LCMS_DATA`
 * `~/GalaxyM-TestData/DIMS_DATA`
+
+The pipelines/workflows also make use of CSV files for certain instructions and these can be found in the GalaxyM-TestData folder mentioned above. See the published histories or workflows for where to use these files. 
+
 
 Installation instructions for Ubuntu 14.04LTS 64bit 
 ================================================
@@ -174,8 +188,6 @@ It is NOT necessary to have parallel python installed for MI-Pack to work, but i
 ###Step 4: Install Galaxy
 
 You may wish to check out the instructions at [Get Galaxy](https://wiki.galaxyproject.org/Admin/GetGalaxy).
-
-
 
 Upon download, the Galaxy distribution (using the following settings) will create a folder called ``galaxy`` in the directory that you call the command from. So if you are copying these instructions verbatim, make sure you're in a directory you’re happy to work from. I’ll be in my user’s home directory ``/home/galaxym``. 
 
