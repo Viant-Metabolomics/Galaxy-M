@@ -3,22 +3,19 @@
 
 	<section id="getext" name="Get Data" >
     		<tool file="data_source/upload.xml" />
-	</section>
-
-	<section id="xcms" name="XCMS" >
-		<tool file="XCMS/XCMS.xml" />
+		<tool file="data_source/FileListManager.xml" />
 	</section>
 
 	<section id="simstitch" name="SIM-stitching" >
-        	<tool file="SimStitch/FileListManager.xml" />
 		<tool file="SimStitch/SumTransients.xml" />
     		<tool file="SimStitch/ProcessTransients.xml" />
     		<tool file="SimStitch/Stitch.xml" />
-    		<tool file="SimStitch/RepFilter.xml" />
-    		<tool file="SimStitch/AlignSample.xml" />
+    		<tool file="SimStitch/ReplicateFilter.xml" />
+    		<tool file="SimStitch/AlignSamples.xml" />
     		<tool file="SimStitch/CreateDSO.xml" />
     		<tool file="SimStitch/BlankFilter.xml" />
     		<tool file="SimStitch/SampleFilter.xml" />
+		<tool file="SimStitch/MissingValueSampleFilter.xml" />
 	</section>
 
 	<section id="matrixprocessing" name = "Matrix Processing" >
@@ -27,17 +24,24 @@
 		<tool file="MatrixProcessing/Glog.xml" />
 	</section>
 
+	<section id="QCRSC" name="QCRSC" >
+        	<tool file="QCRSC/PeakOutlierDetection.xml" />
+		<tool file="QCRSC/BatchCorrectionPeakQF.xml" />
+	</section>
+
 	<section id="statistics" name="Statistics" >
 		<tool file="Statistics/PCAScoresTest.xml" />
+		<tool file="Statistics/UnivariateAnalysis.xml" />
 	</section>
 
 	<section id="DataSetObject" name="DataSet Object" >
-	    <tool file="DataSetObject/SetInclude.xml" />
-	    <tool file="DataSetObject/AddClasslist.xml" />
-	    <tool file="DataSetObject/GetPeaklist.xml" />
-            <tool file="DataSetObject/GetXmatrix.xml" />
-            <tool file="DataSetObject/GetAxisscale.xml" />
-            <tool file="DataSetObject/GetClasslist.xml" />
+		<tool file="DataSetObject/SetInclude.xml" />
+		<tool file="DataSetObject/AddClasslist.xml" />
+		<tool file="DataSetObject/GetPeaklist.xml" />
+		<tool file="DataSetObject/GetXmatrix.xml" />
+		<tool file="DataSetObject/GetAxisscale.xml" />
+		<tool file="DataSetObject/GetClasslist.xml" />
+		<tool file="DataSetObject/GetTopPCALoadings.xml" />
 	</section>
 
 	<section id="mipack" name="MI Pack" >
@@ -48,4 +52,7 @@
 		<tool file="MI_Pack/Output.xml" />
 	</section>
 
+	<section id="xcms" name="XCMS" >
+		<tool file="XCMS/XCMS.xml" />
+	</section>
 </toolbox>

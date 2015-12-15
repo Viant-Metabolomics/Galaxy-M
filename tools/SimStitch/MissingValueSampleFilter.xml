@@ -1,0 +1,42 @@
+<tool id="missingvaluefilter" name="Missing Value Sample Filter" version="1.0.0">
+  	<description>Step 9 of SimStitch</description>
+	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/QCRSC')
+#if str($executable.value) == "true"
+	sh $tool_directory/bin/run_MissingValueSampleFilter.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${sd_flag}' '${tails}' > '${output_log}' '${conf}' '${delete}' '${figure}' '${output}' > '${output_log}'
+
+#else
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); MissingValueSampleFilter('${pls_dso}', '${sd_flag}', '${tails}', '${conf}', '${delete}', '${figure}', '${output}');"
+
+#end if
+    </command>
+
+	<inputs>
+		<param name="executable" type="hidden" value="true" />
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object" />	
+		<param name="sd_flag" type="select" label="Type of measure of the statistical accuracy" help="">
+		    	<option value="1" selected="true">Standard deviation (default)</option>
+		    	<option value="0">Standard error</option>
+		</param>	
+		<param name="tails" type="select" label="Test" help="">
+		    	<option value="1" selected="true">One-tail (default)</option>
+		    	<option value="0">Two tails</option>
+		</param>
+		<param name="conf" type="float" value="95" label="Confidence level (percentage)" help="" />
+		<param name="delete" type="select" label="How to tread sample rows with high number of missing values" help="">
+		    	<option value="0" selected="true">Keep sample rows</option>
+		    	<option value="1">Delete sample rows</option>
+			<option value="2">Exclude sample rows</option>
+		</param>
+	</inputs>
+
+  	<outputs>
+        	<data format="png" name="figure" label="Missing Value Sample filter on $pls_dso.hid: figure" />
+        	<data format="xml" name="output" label="Missing Value Sample filter on $pls_dso.hid: DSO" />
+        	<data format="txt" name="output_log" label="Missing Value Sample filter on $pls_dso.hid: log" />
+  	</outputs>
+
+  <help>
+  </help>
+
+</tool>

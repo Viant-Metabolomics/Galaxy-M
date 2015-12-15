@@ -1,36 +1,38 @@
 <tool id="blankfilter" name="Blank Filtering" version="1.0.0">
-	<description>Step 7 of SimStitch. Filters out peaks that are heavily present in blank spectra.</description>
+	<description>Step 7 of SimStitch. Filters out peaks that are present in blank spectra.</description>
   	
 	
 	<command >
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_BlankFilter.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' $thold_perc $maxmean $thold_fold  '${output}'
+	sh $tool_directory/bin/run_BlankFilter.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' $thold_perc $maxmean $thold_fold  '${delete}' '${output}'
 
 #else
-	matlab -r "cd('$tool_directory'); BlankFilter('${pls_dso}', $thold_perc, $maxmean, $thold_fold, '${output}'); exit;"
+	matlab -r "cd('$tool_directory/source'); BlankFilter('${pls_dso}', $thold_perc, $maxmean, $thold_fold, '${delete}', '${output}'); "
 #end if
   	</command>
 
 
 	<inputs>
-		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object" />
 		<param name="thold_perc" type="integer" size="3" value="100" label="The percentage of samples (with a value) that must beat the blank filter" />
-		<param name="maxmean" type="boolean" checked="no" truevalue="1" falsevalue="0" label="Use the maximum value from all blanks" help="Check for maximum intensity value (default). Uncheck for mean intensity value. When using mean intensity value, missing values (in the blanks) are counted as 0." />
+		<param name="maxmean" type="boolean" checked="no" truevalue="1" falsevalue="0" label="Use the maximum value from all blanks" help="Select Yes for maximum intensity value (default). Uncheck for mean intensity value. When using mean intensity value, missing values (in the blanks) are counted as 0." />
 		<param name="thold_fold" type="integer" size="3" value="10" label="Minimum fold difference between blank and sample peak." help="Minimum fold difference of a sample peak be in comparison to a blank peak, in order to pass the filter? (default=10)" />
+		<param name="delete" type="select" label="How to tread the blank samples" help="">
+		    	<option value="0">Keep blank samples</option>
+		    	<option value="1" selected="true">Delete blank samples</option>
+		</param>
 		<param name="executable" type="hidden" value="true" />	
 	</inputs>
 
 
   	<outputs>
-    		<data format="xml" name="output" label="Blank Filtering on $pls_dso.hid: DSO (.xml)"/>
+    		<data format="xml" name="output" label="Blank Filtering on $pls_dso.hid: DSO"/>
   	</outputs>
 
 
   <help>
 This tool compares peaks in blank spectra with those in sample spectra. The notion being that peaks that are present in blank spectra are either outright contaminants or at the very least, prone to accumulation over the course of a run.
-
-It expects there to be a 'classlist' variable within the PLS Dataset Object that has the title 'blank_flags' as would be found in the output of the 'Create DSO' tool. 
   </help>
 
 </tool>

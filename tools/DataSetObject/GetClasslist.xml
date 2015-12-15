@@ -4,10 +4,10 @@
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/DataSetObject')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_GetClassList.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${listname}' $asnum, '${output}' > '${output_log}'
+	sh $tool_directory/bin/run_GetClassList.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${listname}' $asnum, '${output}' > '${output_log}'
 
 #else
-	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetClassList('${pls_dso}', '${listname}', $asnum, '${output}'); exit;"
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); GetClassList('${pls_dso}', '${listname}', $asnum, '${output}'); exit;"
 #end if
 	</command>
 

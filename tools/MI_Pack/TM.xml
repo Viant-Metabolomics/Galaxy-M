@@ -1,4 +1,4 @@
-<tool id="Transformation Mapping" name="Transformation Mapping" version="1.0.0">
+<tool id="transformation_mapping" name="Transformation Mapping" version="1.0.0">
   <description></description>
   <requirements>
     <requirement type="package">MI_Pack</requirement>

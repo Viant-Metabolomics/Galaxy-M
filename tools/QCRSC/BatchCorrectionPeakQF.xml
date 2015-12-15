@@ -1,0 +1,86 @@
+<tool id="batchcorrectionpeakqf" name="Batch Correction and Peak Quality Filtering" version="1.0.0">
+  	<description></description>
+	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/QCRSC')
+#if $condPeakQF.peakQF == "no"
+	#set $outputAfterPeakQF = "None"
+#end if
+
+#if str($executable.value) == "true"
+	sh $tool_directory/bin/run_QCRSC_SetPars.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${output_html}' '${output_html.extra_files_path}' '${tool}' '${condPeakQF.peakQF}' '${peakTransform}' '${QCRSCoperator}' '${QCRSCmaxWindow}' '${QCRSCsearchRangeMin}' '${QCRSCsearchRangeSteps}' '${QCRSCsearchRangeMax}' '${condPeakQF.KsiTol}' '${condPeakQF.kill}' '${condPeakQF.pdiff}' '${condPeakQF.QCdist}' '${condPeakQF.maxRSD}' '${condPeakQF.minD_RATIO}' '${outputAfterBatchCorrection}' '${outputAfterPeakQF}' > '${output_log}'
+
+#else
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); QCRSC_SetPars('${pls_dso}', '${output_html}', '${output_html.extra_files_path}', '${tool}', '${condPeakQF.peakQF}', '${peakTransform}', '${QCRSCoperator}', '${QCRSCmaxWindow}', '${QCRSCsearchRangeMin}', '${QCRSCsearchRangeSteps}', '${QCRSCsearchRangeMax}', '${condPeakQF.KsiTol}', '${condPeakQF.kill}', '${condPeakQF.pdiff}', '${condPeakQF.QCdist}', '${condPeakQF.maxRSD}', '${condPeakQF.minD_RATIO}', '${outputAfterBatchCorrection}', '${outputAfterPeakQF}');"
+
+#end if
+  	</command>
+
+	<inputs>
+        
+		<param name="executable" type="hidden" value="true" />
+		<param name="tool" type="hidden" value="BC" />
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+
+		<param name="peakTransform" type="select" label="Peak transform before any processing" help="Note: Do not apply log transform twice!" >
+		    	<option value="log" selected="true">log</option>
+			<option value="none">None</option>
+		</param>
+
+        	<param name="QCRSCoperator" type="select" label="Type of correction to apply" help="Select subtract for log-transformed data and, else set it to divide.">
+		    	<option value="subtract" selected="true">Subtract (Default)</option>
+		    	<option value="divide">Divide</option>
+		</param>
+
+		<param name="QCRSCmaxWindow" type="integer" size="3" value="-1" label="Maximum number of consecutive missing QCs" help="A maxWindow of -1 automatically sets the acceptable number of consecutive missing QCs in a given batch to be less than 50% at the start of a batch or 50% at the end of a batch. i.e. if the QC peak is only detected half way through the batch then something is wrong and you would not want a spline function to extrapolate that far. If maxWindow is not set to -1 it should be set to absolute number of QCs (positive integer). Setting  maxWindow to 2 will mean if there is more than 2 QCs missing at the start or end of a batch for a given peak then that peak (for batch n) will fail and be set to NaNs." />
+		
+		<param name="QCRSCsearchRangeMin" type="float" size="3" value="0.0" label="Start: search range for B-spline smoothing parameter" help="SearchRange is a scaled search space for optimizing the smoothing parameter. 0:0.5:7 means zero to seven in steps of 0.5.  0 == a spline fit very close to each QC AND 7 == a linear regression. Leave-one-out cross-validation is used to avoid overfitting. The range 0-7 is actually linear mapping to a nonlinear search space. The shorter the step the more optimal the smoothing fit; however this increases the search time. The user has to balance granularity with speed." />
+		<param name="QCRSCsearchRangeMax" type="float" size="3" value="7.0" label="End: search range for B-spline smoothing parameter" help="7.0 (default)" />
+		<param name="QCRSCsearchRangeSteps" type="float" size="3" value="0.5" label="Step: search range for B-spline smoothing parameter" help="0.5 (default)" />
+
+        <conditional name="condPeakQF">
+            <param name="peakQF" type="select" label="Apply Peak Quality Filtering?">
+                <option value="yes" selected="true">Yes</option>
+                <option value="no">No</option>
+            </param>
+            <when value="yes">
+                <param name="KsiTol" type="float" size="1" value="4" label="Tolerance for between MPA comparison - critical Ksi value"  help="Checks to see of multiple batches have a similar Median Peak Area (MPA). If a peak has been miss-identified then the MPA will reflect this (i.e. be very different). See citations below (Warwick et al). This rarely now happens so can be ignored most of the time. " />
+                <param name="kill" type="select" label="Remove peaks with missing batches" help="If set to yes then for a given peak if any given batch has been determined to fail (e.g. many missing QCs) then it removes that peak from the whole data set. This is ok for low number of batches, but if you are running 20+ batches you may be happy with having the occasional batch completely missing for a given peak." >
+                    <option value="yes" selected="true">Yes</option>
+                    <option value="no">No</option>
+            	</param>
+
+                <param name="pdiff" type="float" size="10" value="0.0001" label="Critical p-value for batch comparison" help="The critical p-value for batch comparison. See citations below (Kirwan et al.)." />
+                <param name="QCdist" type="float" size="3" value="3" label="Maximum allowable QC offset (number of standard deviations)" help="Checks to see if the average QC trace is offset to the real sample. If the moving-average QC trace is far away from the moving-average of the real sample then this is considered very strange and thus can be optionally flagged. See Citations below (Kirwan et al.). The filter determines the maximum distance the QC trace can be away from the average Sample trace in units of standard deviation." />
+      
+                <param name="maxRSD" type="float" size="3" value="20" label="Maximum RSD (Percentage)" help="Removes low-quality peaks based on the RSD of the QC after correction. See Citations below (Kirwan et al.)." />
+                <param name="minD_RATIO" type="float" size="3" value="1" label="Minimum allowed Dispersion Ratio" help="Calculates the deviation-ratio (sample-RSD/QC-RSD) if the ratio is less than the threshold the peak is flagged for removal. See citations below." />
+            </when>
+            <when value="no">
+                <param name="KsiTol" type="hidden" size="1" value="4" label="Tolerance for between MPA comparison - critical Ksi value" help="" />
+                <param name="kill" type="hidden" value="yes" label="remove peaks with missing batches" help="" />
+                <param name="pdiff" type="hidden" size="10" value="0.0001" label="Critical p-value for batch comparison" help="" />
+                <param name="QCdist" type="hidden" size="1" value="3" label="Maximum allowable QC offset (number of standard deviations)" help="" />
+                <param name="maxRSD" type="hidden" size="3" value="20" label="Maximum RSD (Percentage)" help="" />
+                <param name="minD_RATIO" type="hidden" size="3" value="1" label="Minimum allowed Dispersion Ratio" help="" />
+            </when>
+        </conditional>
+    </inputs>
+
+  	<outputs>
+        <data format="xml" name="outputAfterBatchCorrection" label ="Batch Correction on $pls_dso.hid: DSO" />
+        <data format="html" name="output_html" label="Batch Correction and Peak Quality filtering on $pls_dso.hid: summary" />
+        <data format="xml" name="outputAfterPeakQF" label ="Batch Correction and Peak Quality filtering on $pls_dso.hid: DSO">
+      		<filter>condPeakQF['peakQF'] == "yes"</filter>
+	</data>
+        <data format="txt" name="output_log" label="Batch Correction and Peak Quality filtering on $pls_dso.hid: log" />
+    </outputs>
+
+    <help>
+    </help>
+
+    <citations>
+	<citation type="doi">10.1007/s00216-013-6856-7</citation>
+	<citation type="doi">10.1038/nprot.2011.335</citation>
+    </citations>
+
+</tool>

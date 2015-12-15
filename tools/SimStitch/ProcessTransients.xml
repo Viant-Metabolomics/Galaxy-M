@@ -5,10 +5,10 @@
  	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_ProcessTransients.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${fileList}' '${html_input}' '${html_input.extra_files_path}' '${output_html}' '${output_html.files_path}' > '${output_log}'
+	sh $tool_directory/bin/run_ProcessTransients.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${fileList}' '${html_input.extra_files_path}' '${output_html}' '${output_html.files_path}' > '${output_log}'
 
 #else
-	matlab -logfile '${output_log}' -r "cd('$tool_directory'); try; ProcessTransients('${fileList}', '${html_input}', '${html_input.extra_files_path}', '${output_html}', '${output_html.files_path}'); catch; end; exit;"
+	matlab -logfile '${output_log}' -r "cd('$tool_directory/source'); ProcessTransients('${fileList}', '${html_input.extra_files_path}', '${output_html}', '${output_html.files_path}');"
 #end if
 	</command>
 
@@ -16,12 +16,12 @@
 	<inputs>
 		<param format="xml" name="fileList" type="data" label="List of files (.xml) produced by File List manager" />
 		<param format="html" name="html_input" type="data" label=".html file produced by SumTransients" />
-		<param name="executable" type="hidden" value="true" />	
+		<param name="executable" type="hidden" value="false" />	
 	</inputs>
 
 
   	<outputs>
-    	<data format="html" name="output_html" label="Process Transient Data on $html_input.hid: list of output files (.html)" />
+    	<data format="html" name="output_html" label="Process Transient Data on $html_input.hid: list of output files" />
 		<data format="txt" name="output_log" label="Process Transient Data on $html_input.hid: log" />
   	</outputs>
 

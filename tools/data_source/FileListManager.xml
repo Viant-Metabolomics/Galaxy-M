@@ -1,0 +1,32 @@
+<tool id="file_list_manager" name="File List Manager" version="1.0.0">
+  	<description>Step 0 of SimStitch. </description>
+
+
+  	<command interpreter="python">
+	fileListManager.py --dir "$dir" --numreps $numreps --incsv "$fileList" --instrument "$instrument" --outfile "$output"
+  	</command>
+
+	<inputs>		
+		<!--<param name="dir" label="Location of RAW and DAT files on Galaxy Server." type="select" size="100" multiple="false" dynamic_options = "paths()"/>-->
+		<param name="instrument" type="select" size="40" label="MS instrument" help="">
+			<option value="ltqft">LTQ-FT</option>
+			<option value="orbitrap">LTQ-Orbitrap</option>			
+			<option value="qexactive">Q Exactive</option>
+		</param>
+		<param name="dir" type="text" size="40" value="/home/galaxym/GalaxyM-TestData/DIMS_DATA/" label="Location of the MS instrument files" help="" />
+		<param name="fileList" format="csv" type="data" label="Select CSV file containing instrument filenames, Class identifiers (e.g. control, QC, etc), Batch Number(s) and Run Order" help="Group the files in order such that each replicate for each sample is grouped with the rest of the replicates for that sample. The file should contain at least 4 columns seperated by a comma: Filename,ClassID,BatchID,OrderID. No column headers expected."/>        
+		<param name="numreps" type="integer" size="3" value="3" label="Number of technial replicates per sample" help="" />
+	</inputs>
+
+        <!--<code file="userData.py" />-->
+
+  	<outputs>
+    		<data format="xml" name="output" label="File List Manager on $fileList.hid: list of files"/>
+  	</outputs>
+
+
+  <help>
+It is undesirable to copy all the files into the Galaxy envrioment. Therfore Galaxy refers to the original files using the path defined by the user.  
+  </help>
+
+</tool>

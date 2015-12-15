@@ -1,4 +1,4 @@
-<tool id="Empirical Formula Search" name="Empirical Formula Search" version="1.0.0">
+<tool id="empirical_formula_search" name="Empirical Formula Search" version="1.0.0">
   <description></description>
   <requirements>
     <requirement type="package">MI_Pack</requirement>

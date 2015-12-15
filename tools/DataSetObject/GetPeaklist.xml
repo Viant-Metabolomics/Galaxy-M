@@ -4,9 +4,9 @@
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/DataSetObject')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_GetPeaklist.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${output}' > '${output_log}'
+	sh $tool_directory/bin/run_GetPeaklist.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${output}' > '${output_log}'
 #else
-	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetPeaklist('${pls_dso}', '${output}'); exit;"
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); GetPeaklist('${pls_dso}', '${output}'); exit;"
 #end if
 	</command>
 

@@ -1,0 +1,35 @@
+<tool id="univariate" name="Univariate Analysis">
+	<description>Applies either a t-test (two-tailed) or anova (1-way) depending on the number of classes present</description>
+	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/Statistics')
+#if str($executable.value) == "true"
+	sh $tool_directory/bin/run_Univariate.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${fdr}' '${controlclass}' '${output_results}' '${parametric}'
+#else
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); Univariate('${pls_dso}', '${fdr}', '${controlclass}', '${output_results}', '${parametric}'); exit;"
+
+#end if
+	</command>
+
+	<inputs>
+		<param name="executable" type="hidden" value="true" />
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+		<param name="fdr" type="float" size="2" value="0.05" label="False discovery rate." help="The false discovery rate you wish to apply e.g. 0.05, 0.1. Benjamini-Hochberg correction is applied at a false discovery rate set by the user" />
+		<param name="controlclass" type="text" value="control" label="The name of the class to be used as control group (for fold change). e.g. controlclass = 'control';" />
+		<param name="parametric" type="select" label="Type of test" help="">
+			<option value="1" >Parametric (T-test or ANOVA)</option>
+			<option value="0">Non-parametric (Wilcoxon rank sum or Kruskal–Wallis test)</option>
+		</param>
+	
+	</inputs>
+
+
+	<outputs>
+		<data format="txt" name = "output_results" label="Univariate analysis on $pls_dso.hid: results" />
+		<data format="txt" name = "output_log" label="Univariate analysis on $pls_dso.hid: log" />
+	</outputs>
+
+
+	<help>
+	</help>
+
+</tool>

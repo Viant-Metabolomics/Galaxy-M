@@ -5,10 +5,10 @@
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_CreateDSO.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${fileList}' '${peakmatrix}' '${pmatrix_row}' '${pmatrix_col}' '${output}'
+	sh $tool_directory/bin/run_CreateDSO.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${fileList}' '${peakmatrix}' '${pmatrix_row}' '${pmatrix_col}' '${output}'
 
 #else
-	matlab -r "cd('$tool_directory'); CreateDSO('${fileList}', '${peakmatrix}', '${pmatrix_row}', '${pmatrix_col}', '${output}'); exit;"
+	matlab -r "cd('$tool_directory/source'); CreateDSO('${fileList}', '${peakmatrix}', '${pmatrix_row}', '${pmatrix_col}', '${output}'); exit;"
 #end if
   	</command>
 
@@ -23,7 +23,7 @@
 
 
   	<outputs>
-    		<data format="xml" name="output" label ="Create DSO object on $fileList.hid , $peakmatrix.hid, $pmatrix_row.hid, $pmatrix_col.hid: DSO (.xml)" />
+    		<data format="xml" name="output" label ="Create DSO object on $fileList.hid, $peakmatrix.hid, $pmatrix_row.hid, $pmatrix_col.hid: DSO" />
   	</outputs>
 
 

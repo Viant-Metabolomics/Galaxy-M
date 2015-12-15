@@ -17,10 +17,9 @@
 #end if
 
 #if str($executable.value) == "true"
-	sh $tool_directory/run_Stitch.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${$fileList}' '${RawFilesOnly.html_input}' '$html_input_path' '${condCali.ListofCalibrants}' '1,0\n2,${RawFilesOnly.RawFilesOnlySelect}\n3,${noisefilt}\n4,${incnoise}\n5,${minsnr}\n6,${condRemKnown.remknown}\n7,${condRemKnown.knownnoise}\n8,${condCali.calon}\n9,${condCali.calblank}\n10,${calmode}\n11,${calweighted}\n12,${calminrange}\n13,${calmaxpkd}\n14,${calminsnr}\n15,${calacm}\n 16,${calacc}\n17,${calacp}\n18,${mzalign}\n19,${intcorr}\n20,${alignmin}\n21,${alignminsnr}\n22,${alignmaxpkd}\n23,${nullmzmin}\n24,${nullmzmax}\n25,${nullstart}\n26,${nullend}\n27,${nullbnd}\n28,0,0\n' '${output_html_mat}' '${output_html_mat.extra_files_path}' '${output_html_txt}' '${output_html_txt.extra_files_path}' '${output_noise}' '${output_alignment}' > '${output_log}'
+	sh $tool_directory/bin/run_Stitch.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${$fileList}' '$html_input_path' '${condCali.ListofCalibrants}' '1,0\n2,${RawFilesOnly.RawFilesOnlySelect}\n3,${noisefilt}\n4,${incnoise}\n5,${minsnr}\n6,${condRemKnown.remknown}\n7,${condRemKnown.knownnoise}\n8,${condCali.calon}\n9,${condCali.calblank}\n10,${condCali.calmode}\n11,${condCali.calweighted}\n12,${condCali.calminrange}\n13,${condCali.calmaxpkd}\n14,${condCali.calminsnr}\n15,${condCali.calacm}\n 16,${condCali.calacc}\n17,${condCali.calacp}\n18,${condCali.mzalign}\n19,${condCali.intcorr}\n20,${condCali.alignmin}\n21,${condCali.alignminsnr}\n22,${condCali.alignmaxpkd}\n23,${nullmzmin}\n24,${nullmzmax}\n25,${nullstart}\n26,${nullend}\n27,${nullbnd}\n28,0,0\n' '${output_html_mat}' '${output_html_mat.extra_files_path}' '${output_html_txt}' '${output_html_txt.extra_files_path}' '${output_noise}' '${output_alignment}' > '${output_log}'
 #else
-	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory'); try; Stitch('${$fileList}',
-'${RawFilesOnly.html_input}',
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); Stitch('${$fileList}',
 '$html_input_path',
 '${condCali.ListofCalibrants}',
 '1,0\n
@@ -32,26 +31,26 @@
 7,${condRemKnown.knownnoise}\n
 8,${condCali.calon}\n
 9,${condCali.calblank}\n
-10,${calmode}\n
-11,${calweighted}\n
-12,${calminrange}\n
-13,${calmaxpkd}\n
-14,${calminsnr}\n
-15,${calacm}\n 
-16,${calacc}\n
-17,${calacp}\n
-18,${mzalign}\n
-19,${intcorr}\n
-20,${alignmin}\n
-21,${alignminsnr}\n
-22,${alignmaxpkd}\n
+10,${condCali.calmode}\n
+11,${condCali.calweighted}\n
+12,${condCali.calminrange}\n
+13,${condCali.calmaxpkd}\n
+14,${condCali.calminsnr}\n
+15,${condCali.calacm}\n 
+16,${condCali.calacc}\n
+17,${condCali.calacp}\n
+18,${condCali.mzalign}\n
+19,${condCali.intcorr}\n
+20,${condCali.alignmin}\n
+21,${condCali.alignminsnr}\n
+22,${condCali.alignmaxpkd}\n
 23,${nullmzmin}\n
 24,${nullmzmax}\n
 25,${nullstart}\n
 26,${nullend}\n
 27,${nullbnd}\n
 28,0,0\n',
-'${output_html_mat}', '${output_html_mat.extra_files_path}', '${output_html_txt}', '${output_html_txt.extra_files_path}', '${output_noise}', '${output_alignment}'); catch; end; exit;"
+'${output_html_mat}', '${output_html_mat.extra_files_path}', '${output_html_txt}', '${output_html_txt.extra_files_path}', '${output_noise}', '${output_alignment}');"
 #end if
   	</command>
 
@@ -61,8 +60,8 @@
 
 		<conditional name="RawFilesOnly">
 			<param name="RawFilesOnlySelect" type="select" label="Process .RAW files only (no transient data available)." help="This allows the user to process a dataset but no transient data is available.">
-            			<option value="1">Yes</option>
-            			<option value="0" selected="true">No</option>
+            			<option value="1" selected="true">Yes</option>
+            			<option value="0">No</option>
 			</param>
 			<when value="1">
 				<param name="html_input" type="hidden" label="None" />
@@ -72,16 +71,16 @@
 			</when>
 		</conditional>
 
-		<param name="noisefilt" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Measure and filter noise" help="Check for true (default)" />
+		<param name="noisefilt" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Measure and filter noise" help="" />
 
-		<param name="incnoise" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Include Noise Peaks in output" help="Check for true (default)"/>
+		<param name="incnoise" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Include Noise Peaks in output" help=""/>
 
 		<param name="minsnr" type="float" size="3" value="3.5" label="Minimum Signal-to-noise ratio (SNR)" help="SNR (Default: 3.5 SNR) is calulated as follows: minimum SNR * standard-deviation-of-noise" />
 
 		<conditional name="condRemKnown">
-			<param name="remknown" type="select" label="Remove known regions of noise" help="Check for true (default)">
-		    		<option value="1" selected="true">Yes</option>
-		    		<option value="0">No</option>
+			<param name="remknown" type="select" label="Remove known regions of noise" help="">
+		    		<option value="1">Yes</option>
+		    		<option value="0" selected="true">No</option>
 			</param>
 			<when value="1">
 				<param name="knownnoise" type="text" size="15" value="" label="Known regions of high noise" help="Must be in pairs (start and end m/z value) and separated by commas. For example: 101.6, 102.1, 101.32, 101.42"/>			
@@ -93,92 +92,140 @@
  		
 
 		<conditional name="condCali">
-            	<param name="condCaliSelect" type="select" label="Calibration method">
-                	<option value="none">External only</option>
-                	<option value="history">Include internal calibrant peaks (.txt file required)</option>
-            	</param>
-            	<when value="history">
+		    	<param name="condCaliSelect" type="select" label="Method of Calibration">
+		        	<option value="none" selected="true">External</option>
+		        	<option value="history">Internal (.txt file containing calibrant peaks required)</option>
+		    	</param>
+            		<when value="history">
 		        	<param name="ListofCalibrants" format="tab" type="data" label="Internal calibrant file" help="Tab-delimited file containing two columns (Name compound and exact mass)" />
 %               		sOptions.cal.on
-					<param name="calon" type="hidden" value="1" label="Apply internal calibration" />
+				<param name="calon" type="hidden" value="1" label="Apply internal calibration" />
 
 %               		sOptions.cal.blank_on
-					<param name="calblank" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Apply internal calibration to blanks" help="Check for true (default). Uncheck for external calibration." />
+				<param name="calblank" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Apply internal calibration to blanks" help="Check for true (default). Uncheck for external calibration." />
+
+
+
+		%               sOptions.cal.mode
+				<param name="calmode" type="select" label="Calibration mode">
+					<option value="1" selected="true"> ab (default) </option>
+					<option value="2"> df </option>
+					<option value="3"> abc </option>
+					<option value="4"> linear </option>
+				</param>
+
+		%               sOptions.cal.weighted_on
+				<param name="calweighted" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Calibration best fit weighted to the abundances" help="Check for True (default)."/>
+
+		%               sOptions.cal.min_range
+				<param name="calminrange" type="integer" size="3" value="50" label="Minimum separation between any 2 calibration points" help="Whole percent of total range between any 2 calibration points for AB calibration (only). On fail, B parameter used" />
+
+		%               sOptions.cal.max_pk_d
+				<param name="calmaxpkd" type="float" size="3" value="6.5" label="Maximum distance between measured (externally calibrated) peaks and calibrants" help="6.5 (default)" />
+
+		%               sOptions.cal.min_snr
+				<param name="calminsnr" type="integer" size="3" value="10" label="Minimum signal-to-noise ratio (SNR)." help="
+		Calibration only includes calibratins/peaks with at a minimum SNR defined by the user (whole numbers only)" />
+
+		%               sOptions.cal.ac_m
+				<param name="calacm" type="hidden" size="5" value="0.00005" label="Window abundance correction 'm' (gradient) parameter [HIDE]" />
+
+		%               sOptions.cal.ac_c
+				<param name="calacc" type="hidden" size="5" value="0.002" label="Window abundance correction 'c' (intercept) parameter [HIDE]" />
+
+		%               sOptions.cal.ac_p
+				<param name="calacp" type="hidden" size="5" value="0" label="Window abundance correction pivot point (relative to window start m/z) in m/z [HIDE]" />
+
+		%               sOptions.align.ms_align_on
+				<param name="mzalign" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Horizontal alignment" help="Check for true (default)." />
+		%               sOptions.align.intensity_correct_on
+				<param name="intcorr" type="hidden" checked="no" truevalue="1" falsevalue="0" label="Peform vertical (intensity) correction when checked" />
+
+		%               sOptions.align.m_min_range
+				<param name="alignmin" type="integer" size="3" value="20" label="Minimum separation between any 2 calibration points to use m scaling alignment" help="In WHOLE PERCENT of total range (default = 20), otherwise only use c shifting parameter (0)" />
+
+		%               sOptions.align.min_snr
+				<param name="alignminsnr" type="hidden" size="5" value="6.5" label="Minimum SNR for horizontal alignment" />
+
+		%               sOptions.align.max_pk_d
+				<param name="alignmaxpkd" type="hidden" size="5" value="1.5" label="Maximum span of peaks for horizontal alignment (ppm)" />
+
+
 
 	        	</when>
+
 	        	<when value="none">
-	            	<param name="ListofCalibrants" value="" type="hidden" label="No calibrant file required" />
+	            		<param name="ListofCalibrants" value="" type="hidden" label="No calibrant file required" />
 %               		sOptions.cal.on
-					<param name="calon" type="hidden" value="0" label="No internal calibration for samples" />
+				<param name="calon" type="hidden" value="0" label="No internal calibration for samples" />
 %               		sOptions.cal.blank_on
-					<param name="calblank" type="hidden" value="0" label="No internal calibration for blanks" />
-	        	</when>
-	        
-        </conditional>
-%               sOptions.cal.mode
-		<param name="calmode" type="select" label="Calibration mode">
-			<option value="1"> ab (default) </option>
-			<option value="2"> df </option>
-			<option value="3"> abc </option>
-			<option value="4"> linear </option>
-		</param>
+				<param name="calblank" type="hidden" value="0" label="No internal calibration for blanks" />
 
-%               sOptions.cal.weighted_on
-		<param name="calweighted" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Calibration best fit weighted to the abundances" help="Check for True (default)."/>
+		%               sOptions.cal.mode
+				<param name="calmode" type="hidden" value="1" label="Calibration mode" />
 
-%               sOptions.cal.min_range
-		<param name="calminrange" type="integer" size="3" value="50" label="Minimum separation between any 2 calibration points" help="Whole percent of total range between any 2 calibration points for AB calibration (only). On fail, B parameter used" />
+		%               sOptions.cal.weighted_on
+				<param name="calweighted" type="hidden" value="1" label="Calibration best fit weighted to the abundances" help="Check for True (default)."/>
 
-%               sOptions.cal.max_pk_d
-		<param name="calmaxpkd" type="float" size="3" value="6.5" label="Maximum distance between measured (externally calibrated) peaks and calibrants" help="6.5 (default)" />
+		%               sOptions.cal.min_range
+				<param name="calminrange" type="hidden" size="3" value="50" label="Minimum separation between any 2 calibration points" help="Whole percent of total range between any 2 calibration points for AB calibration (only). On fail, B parameter used" />
 
-%               sOptions.cal.min_snr
-		<param name="calminsnr" type="integer" size="3" value="10" label="Minimum signal-to-noise ratio (SNR)." help="
-Calibration only includes calibratins/peaks with at a minimum SNR defined by the user (whole numbers only)" />
+		%               sOptions.cal.max_pk_d
+				<param name="calmaxpkd" type="hidden" size="3" value="6.5" label="Maximum distance between measured (externally calibrated) peaks and calibrants" help="6.5 (default)" />
 
-%               sOptions.cal.ac_m
-		<param name="calacm" type="float" size="5" value="0.00005" label="Window abundance correction 'm' (gradient) parameter [HIDE]" />
+		%               sOptions.cal.min_snr
+				<param name="calminsnr" type="hidden" size="3" value="10" label="Minimum signal-to-noise ratio (SNR)." help="
+		Calibration only includes calibratins/peaks with at a minimum SNR defined by the user (whole numbers only)" />
 
-%               sOptions.cal.ac_c
-		<param name="calacc" type="float" size="5" value="0.002" label="Window abundance correction 'c' (intercept) parameter [HIDE]" />
+		%               sOptions.cal.ac_m
+				<param name="calacm" type="hidden" size="5" value="0.00005" label="Window abundance correction 'm' (gradient) parameter [HIDE]" />
 
-%               sOptions.cal.ac_p
-		<param name="calacp" type="float" size="5" value="0" label="Window abundance correction pivot point (relative to window start m/z) in m/z [HIDE]" />
+		%               sOptions.cal.ac_c
+				<param name="calacc" type="hidden" size="5" value="0.002" label="Window abundance correction 'c' (intercept) parameter [HIDE]" />
 
-%               sOptions.align.ms_align_on
-		<param name="mzalign" type="boolean" checked="yes" truevalue="1" falsevalue="0" label="Horizontal alignment" help="Check for true (default)." />
-%               sOptions.align.intensity_correct_on
-		<param name="intcorr" type="boolean" checked="no" truevalue="1" falsevalue="0" label="Peform vertical (intensity) correction when checked [HIDE]" />
+		%               sOptions.cal.ac_p
+				<param name="calacp" type="hidden" size="5" value="0" label="Window abundance correction pivot point (relative to window start m/z) in m/z [HIDE]" />
 
-%               sOptions.align.m_min_range
-		<param name="alignmin" type="integer" size="3" value="20" label="Minimum separation between any 2 calibration points to use m scaling alignment" help="In WHOLE PERCENT of total range (default = 20), otherwise only use c shifting parameter (0)" />
+		%               sOptions.align.ms_align_on
+				<param name="mzalign" type="hidden" checked="yes" truevalue="1" falsevalue="0" label="Horizontal alignment" help="Check for true (default)." />
+		%               sOptions.align.intensity_correct_on
+				<param name="intcorr" type="hidden" checked="no" truevalue="1" falsevalue="0" label="Peform vertical (intensity) correction when checked" />
 
-%               sOptions.align.min_snr
-		<param name="alignminsnr" type="float" size="5" value="6.5" label="Minimum SNR for horizontal alignment" />
+		%               sOptions.align.m_min_range
+				<param name="alignmin" type="hidden" size="3" value="20" label="Minimum separation between any 2 calibration points to use m scaling alignment" help="In WHOLE PERCENT of total range (default = 20), otherwise only use c shifting parameter (0)" />
 
-%               sOptions.align.max_pk_d
-		<param name="alignmaxpkd" type="float" size="5" value="1.5" label="Maximum span of peaks for horizontal alignment (ppm)" />
+		%               sOptions.align.min_snr
+				<param name="alignminsnr" type="hidden" size="5" value="6.5" label="Minimum SNR for horizontal alignment" />
+
+		%               sOptions.align.max_pk_d
+				<param name="alignmaxpkd" type="hidden" size="5" value="1.5" label="Maximum span of peaks for horizontal alignment (ppm)" />
+
+			</when>
+
+		</conditional>
+
+
 %               sOptions.stitch.null_region.start
-		<param name="nullstart" type="float" size="5" value="15" label="Null or Edge effect (in m/z) from start of SIM window" />
+		<param name="nullstart" type="hidden" size="5" value="15" label="Null or Edge effect (in m/z) from start of SIM window" />
 
 %               sOptions.stitch.null_region.end
-		<param name="nullend" type="float" size="5" value="15" label="Null or Edge effect (in m/z) from end of SIM window" />
+		<param name="nullend" type="hidden" size="5" value="15" label="Null or Edge effect (in m/z) from end of SIM window" />
 
 %               sOptions.stitch.null_region.mzmin
-		<param name="nullmzmin" type="float" size="5" value="0" label="Edge effect to remove from start of first SIM window (m/z)" />
+		<param name="nullmzmin" type="hidden" size="5" value="0" label="Edge effect to remove from start of first SIM window (m/z)" />
 %               sOptions.stitch.null_region.mzmax
-		<param name="nullmzmax" type="float" size="5" value="0" label="Edge effect to remove from end of last SIM window (m/z)" />
+		<param name="nullmzmax" type="hidden" size="5" value="0" label="Edge effect to remove from end of last SIM window (m/z)" />
 
 %               sOptions.stitch.null_region.bound		
-		<param name="nullbnd" type="text" size="6" value="70, 2000" label="Boundary for each dead region (midpoint of OVERLAP of SIM windows). Values must be separated by commas. It is possible to define different size edges for different regions of the spectrum e.g. a, b, c, d would mean a lessthan mz less than/= b,  b lessthan mz lessthan/= c,  c lessthan mz lessthan/= d;  mz is the midpoint of overlap" />
+		<param name="nullbnd" type="hidden" size="6" value="70, 2000" label="Boundary for each dead region (midpoint of OVERLAP of SIM windows). Values must be separated by commas. It is possible to define different size edges for different regions of the spectrum e.g. a, b, c, d would mean a lessthan mz less than/= b,  b lessthan mz lessthan/= c,  c lessthan mz lessthan/= d;  mz is the midpoint of overlap" />
 	</inputs>
 
 
   	<outputs>	
-    		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: list of output .txt files (.html)">
+    		<data format="html" name="output_html_txt" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: list of output files (.txt)">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
 		</data>
-		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: list of output .mat files (.html)">
+		<data format="html" name="output_html_mat" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: list of output files (.mat)">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
 		</data>
 		<data format="txt" name="output_log" label="Mass Calibration and SIM-stitching on $RawFilesOnly.html_input.hid: log">
@@ -191,10 +238,10 @@ Calibration only includes calibratins/peaks with at a minimum SNR defined by the
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "0"</filter>
 		</data>
 
-    		<data format="html" name="output_html_txt_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .txt files (.html)">
+    		<data format="html" name="output_html_txt_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .txt files">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
 		</data>
-		<data format="html" name="output_html_mat_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .mat files (.html)">
+		<data format="html" name="output_html_mat_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: list of output .mat files">
 			<filter>RawFilesOnly['RawFilesOnlySelect'] == "1"</filter>
 		</data>
 		<data format="txt" name="output_log_raw" label="Mass Calibration and SIM-stitching on $fileList.hid: log">

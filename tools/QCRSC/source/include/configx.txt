@@ -1,0 +1,37 @@
+ProjectName="Name for the project - used in all output"(txt)=Test
+DataFile=".csv filename containing the raw data"(*.csv)=Example_file_data.csv
+PeakFile=".csv filename for the associated peak data"(*.csv)=Example_file_peaks.csv
+PolyFilter="Do you want to perform PolyFilter?"(yes/no)=yes
+QCRSC="Do you want to perform QCRSC?"(yes/no)=yes
+DataClean="Do you want to perform Data cleaning?"(yes/no)=yes
+
+%%%%%%%%%%% General Options %%%%%%%%%%%%%%%%%%%%
+
+report="verbose reporting"(yes/no)=yes
+parallel="using Matlab parallel processing?"(yes/no)=no
+saveopt="save at each stage"(yes/no)=yes
+zeroflag="replace zeros with NaNs"(yes/no)=yes
+peakTransform="peak transform before any processing"(log/none)=log
+plotflag="automatically save figures as tiff files"(yes/no)=yes
+
+%%%%%%%%%%%% PolyFilter options %%%%%%%%%%%%%%%%
+
+polyFunc="order of polynomial fit"(poly1:poly6)=poly3
+polyCI="percentage confidence interval"(double)=0.99
+polyAction="what to do with NON-QC outliers"(suppress/remove/ignore) = ignore
+
+%%%%%%%%%%%% QCRSC options %%%%%%%%%%%%%%%%
+
+operator="correction type"(subtract/divide)=subtract
+maxWindow="maximum number of consecutive missing QCs"(int)=-1
+searchRange="search range for B-spline smoothing parameter"(min:step:max)=0:0.5:7
+
+
+%%%%%%%%%%%% Data Clean options %%%%%%%%%%%%%%%%
+
+KsiTol="tolerance for between MPA comparison - critical Ksi value"(num)=4
+kill="remove peaks with missing batches"(yes/no)=yes
+pdiff="critical p-value for batch comparison"(number)=1e-4
+QCdist="maximum allowable QC offset - number of SDs"(number)=3
+MaxRSD="maximum allowed %RSD"(number)=25
+MinD_RATIO=“minimum allowed Dispersion Ratio”(number)=1

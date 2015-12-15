@@ -1,34 +1,34 @@
 <tool id="norm_pqn" name="PQN Normalisation" version="1.0.0">
-	<description>Normalises samples held within a PLS Toolbox dataset object</description>
+	<description>Normalises samples</description>
 	
 
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/MatrixProcessing')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_NormalisePQN.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${output}' > '${output_log}'
+	sh $tool_directory/bin/run_NormalisePQN.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${output}' > '${output_log}'
 
 #else
-	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); NormalisePQN('${pls_dso}', '${output}'); exit;"
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); NormalisePQN('${pls_dso}', '${output}'); exit;"
 #end if
 	</command>
 
 
 	<inputs>
-		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)" />
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object" />
 		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 
 	<outputs>
-    	<data format="xml" name="output" label="PQN Normalisation on pls_dso.hid: DSO (.xml)" />
+    		<data format="xml" name="output" label="PQN Normalisation on pls_dso.hid: DSO" />
 		<data format="txt" name="output_log" label="PQN Normalisation on pls_dso.hid: log" />
 	</outputs>
 
 
-    <help>
-This function applies Probabilistic Quotient Normalisation to data held within a PLS Toolbox (Eigenvector Research) dataset object. It is intended to be used with the output from the SimStitch pipeline.  
-NB: This version of the algorithm will make use of the PLS Toolbox dataset variable 'include' to produce a subset of the data with which to produce a reference spectrum (the mean of all 'include' samples). It will then apply the normalisation step to all samples using this reference, even those that are not flagged as 'include'. In normal circumstances, all samples would be included and so the reference would be the mean of all samples. However, in some circumstances it may be desirable to select a particular group for producing the reference spectrum (perhaps the Quality Control samples) in which case these should be the only samples flagged as 'include'. The algorithm will use them for creating the reference but apply the normalisation step to all samples included or not.
-Further, this algorithm attempts to compensate for the high likelihood of missing values in FTICR-DIMS data by performing the normalisation step on the subset of peaks shared between the reference spectrum and each individual spectrum. This means that where each spectrum has a different set of missing values, the normalisation step is likely being performed on a different set of peak values. It is hoped that the median, or most likely, quotient will be resistant to these slight discrepancies and indeed found more robustly due to the inclusion of the maximum number of peak values in each case.
-    </help>
-
+	<help>
+This tool applies Probabilistic Quotient Normalisation to data held within a PLS Toolbox (Eigenvector Research) dataset object.
+	</help>
+	<citations>
+		<citation type="doi">10.1021/ac051632c</citation>
+	</citations>
 </tool>

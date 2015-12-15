@@ -4,11 +4,11 @@
   <command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/DataSetObject')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_SetInclude.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' $dim '${include_file}'
+	sh $tool_directory/bin/run_SetInclude.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' $dim '${include_file}'
  '${output}' > '${output_log}'
 
 #else
-	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); SetInclude('${pls_dso}', $dim, '${include_file}', '${output}'); exit;"
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); SetInclude('${pls_dso}', $dim, '${include_file}', '${output}'); exit;"
 #end if
   </command>
 

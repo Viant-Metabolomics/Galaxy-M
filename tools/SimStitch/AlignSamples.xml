@@ -1,0 +1,38 @@
+<tool id="alignsample" name="Align Sample Spectra" version="1.0.0">
+  	<description>Step 5 of SimStitch. Align sample spectra</description>
+  
+
+	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/SimStitch')
+#if str($executable.value) == "true"
+	sh $tool_directory/bin/run_AlignSamples.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${fileList}'  '${html_input.extra_files_path}' $blankPPM $samplePPM $combPPM '${peakmatrix}' '${peakmatrix_row}' '${peakmatrix_col}' > '${output_log}'
+
+#else
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); try; AlignSamples('${fileList}',  '${html_input.extra_files_path}', $blankPPM, $samplePPM, $combPPM, '${peakmatrix}', '${peakmatrix_row}', '${peakmatrix_col}'); catch; end; exit;"
+#end if
+  	</command>
+
+
+	<inputs>
+		<param format="xml" name="fileList" type="data" label="List tof files (.xml) produced by File List manager" />
+		<param format="html" name="html_input" type="data" label="list of files (.html) produced by Replicate Filtering" />
+		<param name="blankPPM" type="integer" size="3" value="2" label="the ppm error to be used for the blanks (default = 2)" />
+		<param name="samplePPM" type="integer" size="3" value="2" label="the ppm error to be used for the samples (default = 2)" />
+		<param name="combPPM" type="integer" size="3" value="2" label="the ppm error to be used for aligning samples to blanks (default = 2)" />
+		<param name="executable" type="hidden" value="true" />
+	</inputs>
+
+
+  	<outputs>
+    	<data format="txt" name="peakmatrix" label="Align Samples Spectra on $html_input.hid: PeakMatrix"/>
+		<data format="txt" name="peakmatrix_row" label="Align Samples Spectra on $html_input.hid: Row labels"/>
+		<data format="txt" name="peakmatrix_col" label="Align Samples Spectra on $html_input.hid: Column labels"/>
+		<data format="txt" name="output_log" label="Align Samples Spectra on $html_input.hid: log" />
+  	</outputs>
+
+
+  <help>
+This tool aligns the newly formed sample spectra (post replicate filtering). It aligns any blanks together, then any other samples together and then combines these two groups. 
+  </help>
+
+</tool>

@@ -4,10 +4,10 @@
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/DataSetObject')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_GetAxisscale.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' $dimension '${output}' > '${output_log}'
+	sh $tool_directory/bin/run_GetAxisscale.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' $dimension '${output}' > '${output_log}'
 
 #else
-	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetAxisscale('${pls_dso}', $dimension, '${output}');"
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); GetAxisscale('${pls_dso}', $dimension, '${output}');"
 #end if
 	</command>
 

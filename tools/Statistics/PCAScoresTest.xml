@@ -1,20 +1,20 @@
 <tool id="pca_auto" name="PCA and Scores Test">
-	<description>Variables used by all/many SimStitch functions</description>
+	<description></description>
 	
 	
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/Statistics')
 #if str($executable.value) == "true"
 	#if $components.option=="auto"
-		sh $tool_directory/run_PCAScoresTest.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${classlist}' '${output_l}' '${output_s}' '${output_v}' '${output_results}' 0
+		sh $tool_directory/bin/run_PCAScoresTest.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${classlist}' '${output_l}' '${output_s}' '${output_v}' '${output_results}' 0
 	#else
-		sh $tool_directory/run_PCAScoresTest.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${classlist}' '${output_l}' '${output_s}' '${output_v}' '${output_results}' $components.numcomps
+		sh $tool_directory/bin/run_PCAScoresTest.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${classlist}' '${output_l}' '${output_s}' '${output_v}' '${output_results}' $components.numcomps
 	#end if
 #else
 	#if $components.option=="auto"
-		matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); PCAScoresTest('${pls_dso}', '${classlist}', '${output_l}','${output_s}','${output_v}', '${output_results}', 0); exit;"
+		matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); PCAScoresTest('${pls_dso}', '${classlist}', '${output_l}','${output_s}','${output_v}', '${output_results}', 0); exit;"
 	#else
-		matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); PCAScoresTest('${pls_dso}', '${classlist}', '${output_l}','${output_s}','${output_v}', '${output_results}', $components.numcomps); exit;"
+		matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); PCAScoresTest('${pls_dso}', '${classlist}', '${output_l}','${output_s}','${output_v}', '${output_results}', $components.numcomps); exit;"
 	#end if
 #end if
 	</command>

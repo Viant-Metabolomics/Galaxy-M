@@ -1,0 +1,38 @@
+ProjectName="Name for the project - used in all output"(txt)=output
+DataFile=".csv filename containing the raw data"(*.csv)=$output_files_path/data.csv
+PeakFile=".csv filename for the associated peak data"(*.csv)=$output_files_path/peaks.csv
+PolyFilter="Do you want to perform PolyFilter?"(yes/no)=$runPolyFilter
+QCRSC="Do you want to perform QCRSC?(yes/no)"=$runQCRSC
+DataClean="Do you want to perform Data cleaning?"(yes/no)=$runPQF
+
+%%%%%%%%%%%%%%%%%%%%%% General Options %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+report="verbose reporting"(yes/no)=yes
+parallel="using Matlab parallel processing?"(yes/no)=no
+saveopt="save at each stage"(yes/no)=yes
+zeroflag="replace zeros with NaNs"(yes/no)=yes
+peakTransform="peak transform before any processing"(log/none)=$peakTransform
+plotflag="automatically save figures as tiff files"(yes/no)=yes
+
+%%%%%%%%%%%%%%%%%%%%%%%% PolyFilter options %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+polyFunc="order of polynomial fit"(poly1:poly6)=$polyFunc
+polyCI="percentage confidence interval"(double)=$polyCI
+polyAction="what to do with NON-QC outliers"(suppress/remove/ignore)=$polyAction
+
+%%%%%%%%%%%%%%%%%%%%%%%% QCRSC options %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+operator="correction type"(subtract/divide)=$QCRSCoperator
+maxWindow="maximum number of consecutive missing QCs"(int)=$QCRSCmaxWindow
+searchRange="search range for B-spline smoothing parameter"(min:step:max)=$QCRSCsearchRangeMin:$QCRSCsearchRangeSteps:$QCRSCsearchRangeMax
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% Data Clean options %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+KsiTol="tolerance for between MPA comparison - critical Ksi value"(num)=$KsiTol
+kill="remove peaks with missing batches"(yes/no)=$kill
+pdiff="critical p-value for batch comparison"(number)=$pdiff
+QCdist="maximum allowable QC offset - number of SDs"(number)=$QCdist
+MaxRSD="maximum allowed %RSD"(number)=$maxRSD
+MinD_RATIO="minimum allowed Dispersion Ratio"(number)=$minD_RATIO
+

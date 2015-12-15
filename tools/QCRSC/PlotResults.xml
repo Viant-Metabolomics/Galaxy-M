@@ -1,0 +1,39 @@
+<tool id="plotresults" name="Plot results" version="1.0.0">
+  	<description></description>
+	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/QCRSC')
+#if str($executable.value) == "true"
+	sh $tool_directory/bin/run_QCRSC_Plot.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${html_input.extra_files_path}' '${output_html}' '${output_html.extra_files_path}' '${condPlot.peaks}' > '${output_log}'
+#else
+
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); QCRSC_Plot('${html_input.extra_files_path}', '${output_html}', '${output_html.extra_files_path}', '${condPlot.peaks}');"
+#end if 
+ 	</command>
+
+	<inputs>
+		<param name="executable" type="hidden" value="true" />
+	<param format="html" name="html_input" type="data" label="Outputs from Peak Outlier Dection or Batch Correction and Peak Quality Filter" />
+    	<conditional name="condPlot">
+            <param name="plot" type="select" label="Plot Figures">
+                <option value="peaks">Individual Peaks</option>
+                <option value="random">Random number of peaks</option>
+            </param>
+            <when value="peaks">
+                <param name="peaks" type="text" value="5;10;15;" label="Peak id" help="For example: 5;10;15;" />
+            </when>
+            <when value="random">
+                <param name="peaks" type="integer" value="10" label="Number of random peaks" help="" />
+            </when>
+        </conditional>
+    </inputs>
+
+    <outputs>
+        <data format="html" name="output_html" label="Plot results on $html_input.hid: figures" />
+	<data format="txt" name="output_log" label="Plot results on $html_input.hid: log" />
+    </outputs>
+
+
+  <help>
+  </help>
+
+</tool>

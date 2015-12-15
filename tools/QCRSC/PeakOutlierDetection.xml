@@ -1,0 +1,52 @@
+<tool id="peakoutlierdetection" name="Peak Outlier Detection" version="1.0.0">
+  	<description></description>
+	<command>
+#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/QCRSC')
+#if str($executable.value) == "true"
+	sh $tool_directory/bin/run_QCRSC_SetPars.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${output_html}' '${output_html.extra_files_path}' '${tool}' '${peakTransform}' '${polyFunc}' '${polyCI}' '${polyAction}' '${output}' > '${output_log}'
+
+#else
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); QCRSC_SetPars('${pls_dso}', '${output_html}', '${output_html.extra_files_path}', '${tool}', '${peakTransform}', '${polyFunc}', '${polyCI}', '${polyAction}', '${output}');"
+#end if
+  	</command>
+
+	<inputs>
+		<param name="executable" type="hidden" value="true" />	
+		<param name="tool" type="hidden" value="poly" />
+		<param format="xml" name="pls_dso" type="data" label="PLS dataset object (.xml)"/>
+
+		<param name="peakTransform" type="select" label="Peak transform before any processing" help="" >
+		    	<option value="log" selected="true">log</option>
+			<option value="none">None</option>
+		</param>
+
+		<param name="polyFunc" type="select" label="Order of polynomial fit" help="It fits a polynomial function to the non-QC data using robust regression (iteratively reweighted least squares with a bisquare weighting function). Poly1 = linear; Poly2 = 2nd order polynomial; Poly3 = 3rd order polynomial; etc;">
+		    	<option value="poly2">poly1</option>
+			<option value="poly2">poly2</option>
+		    	<option value="poly3" selected="true">poly3 (default)</option>
+		    	<option value="poly4">poly4</option>
+		</param>
+		<param name="polyCI" type="float" size="3" value="0.99" label="Confidence interval (polynomial fit)" help="It then calculates the percentage confidence interval (CI) for that curve (typically 0.95 or 0.99). Any point lying outside the CI is considered an outlier." />
+
+		<param name="polyAction" type="select" label="What to do with NON-QC outliers" help="QCs that are outside the confidence interval (CI) are deleted. Non-QC points that lie outside the CI zone are either suppressed (to the limit of the CI), deleted, or ignored">
+		    	<option value="supress">Supress</option>
+		    	<option value="remove">Remove</option>
+			<option value="ignore" selected="true">Ignore (default)</option>
+		</param>
+	</inputs>
+
+
+  	<outputs>
+        	<data format="xml" name="output" label ="Peak Outlier Detection on $pls_dso.hid: DSO" />
+		<data format="html" name="output_html" label="Peak Outlier Detection on $pls_dso.hid: summary" />
+		<data format="txt" name="output_log" label="Peak Outlier Detection on $pls_dso.hid: log" />
+  	</outputs>
+
+    <help>
+    </help>
+
+    <citations>
+	<citation type="doi">10.1007/s00216-013-6856-7</citation>
+    </citations>
+
+</tool>

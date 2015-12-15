@@ -1,0 +1,10 @@
+Error code: [12345678]
+
+1 = At least 1 batch has been completely replaced with NANs due to lack of QCs (only an error if kill = 0).
+2 = failure of MPA tolerance between batches.
+3 = failure critical p-value for batch comparison exceeded.
+4 = failure maximum allowable QC offset - number of SDs exceeded.
+5 = failure: Max QC-RSD exceeded.
+6 = failure: QC-RSD is NAN.
+7 = failure: D_Ratio is below MinD_Ratio.
+8 = failure: D_Ratio is NAN

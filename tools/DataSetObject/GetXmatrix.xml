@@ -4,10 +4,10 @@
 	<command>
 #set $tool_directory = $getVar('__tool_directory__', '../../../../tools/DataSetObject')
 #if str($executable.value) == "true"
-	sh $tool_directory/run_GetXmatrix.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v81 '${pls_dso}' '${output}' > '${output_log}'
+	sh $tool_directory/bin/run_GetXmatrix.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${output}' > '${output_log}'
 
 #else
-	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory'); GetXmatrix('${pls_dso}', '${output}'); exit;"
+	matlab -logfile ${output_log} -nosplash -r "cd('$tool_directory/source'); GetXmatrix('${pls_dso}', '${output}'); exit;"
 #end if
 	</command>
 
@@ -28,10 +28,6 @@
 This tool retrieves information from a PLS Dataset Object: it returns the Dataset's 'data' variable, commonly known in Metabolomics as the 'x matrix'. 
 
 The matrix is returned as a .CSV file for ease of interoperability. No headers or other information is returned. 
-
-Any missing values should be returned as NaN in the .CSV file.
-
-The log file output is purely for debugging purposes. It will report all commandline output and error messages from Matlab. 
 	</help>
 
 </tool>
