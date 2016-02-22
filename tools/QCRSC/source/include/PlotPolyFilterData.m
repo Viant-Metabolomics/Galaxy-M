@@ -142,5 +142,5 @@ for k = 1:length(peaks_to_plot)
         end
     end
 end
+close all force
 end
-

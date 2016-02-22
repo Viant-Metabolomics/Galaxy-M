@@ -325,3 +325,5 @@ for k = 1:length(peaks_to_plot)
         fns_jpeg{k} = jpeg_out;
     end
 end
+close all force
+end

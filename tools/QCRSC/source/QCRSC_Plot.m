@@ -17,11 +17,6 @@ fclose(fileID);
 poly_file = [html_indir, filesep, 'Filt_output_data.csv'];
 BeforeAfter_file = [html_indir, filesep, 'QCRSC_output_data.csv'];
 
-if ~strcmp(peaks, 'random')
-	peaks = str2double(strsplit(peaks, 'X'));
-    peaks(find(isnan(peaks))) = []; 
-end
-
 fid = fopen(html_outfile, 'wt');
 fprintf(fid,'<?xml version="1.0" encoding="utf-8" ?>');
 fprintf(fid,'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');

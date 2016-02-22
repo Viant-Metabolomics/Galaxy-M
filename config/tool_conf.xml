@@ -27,6 +27,7 @@
 	<section id="QCRSC" name="QCRSC" >
         	<tool file="QCRSC/PeakOutlierDetection.xml" />
 		<tool file="QCRSC/BatchCorrectionPeakQF.xml" />
+		<tool file="QCRSC/PlotResults.xml" />
 	</section>
 
 	<section id="statistics" name="Statistics" >
