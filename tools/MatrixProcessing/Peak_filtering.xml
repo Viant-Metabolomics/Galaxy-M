@@ -1,10 +1,8 @@
-<tool id="Peak_filtering" name="Peak Filter" version="1.0.1">
-  <description>This script filters the features and samples according to NAs present. Noise filling is available.</description>
+<tool id="Peak_filtering" name="Peak Filtering" version="1.0.0">
+  <description>Filters the features and samples according to NAs (missing values) present. Noise filling is available.</description>
 
   <command>
-Rscript $__tool_directory__/Peak_filtering.R $dataset $noiseBool $metadata $FeatFilt $SampFilt $outData
-
-
+Rscript $__tool_directory__/source/Peak_filtering.R $dataset $noiseBool $metadata $FeatFilt $SampFilt $outData
   </command>
 
 	<inputs>
@@ -13,7 +11,7 @@ Rscript $__tool_directory__/Peak_filtering.R $dataset $noiseBool $metadata $Feat
 
 		<param name = "noiseBool" type="boolean" label = "Noise Filling. If a class in a feature is entirely missing it gets replaced by noise" />
 		
-		<param name="metadata" type="data"  format="xml" label="metadata information" />
+		<param name="metadata" type="data"  format="xml" label="List of files (.xml) produced by File List Manager" />
 
 		<param name = "FeatFilt" type ="float" value = "0.2" size="4" min="0.0" max="1.0" label="Missing values threshold above which a feature is removed" />
 

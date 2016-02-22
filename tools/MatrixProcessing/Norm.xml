@@ -1,10 +1,8 @@
-<tool id="bham_norm" name="Normalisation" version="1.0.1">
-  <description>This script applies the TIC or PQN normalisation to the dataset</description>
+<tool id="Normalisation" name="Normalisation" version="1.0.0">
+  <description>Applies the TIC or PQN normalisation</description>
 
   <command>
-Rscript $__tool_directory__/Norm.R $dataset $mode $metadata $qclabel $normDataset
-
-
+Rscript $__tool_directory__/source/Norm.R $dataset $mode $metadata $qclabel $normDataset
   </command>
 
 	<inputs>
@@ -16,7 +14,7 @@ Rscript $__tool_directory__/Norm.R $dataset $mode $metadata $qclabel $normDatase
 			<option value="PQN">PQN</option>
 		</param>
 			
-		<param name="metadata" type="data"  format="xml" label="metadata information" />
+		<param name="metadata" type="data"  format="xml" label="List of files (.xml) produced by File List Manager" />
 
 		<param name = "qclabel" type ="text" value = "QC" label="Label used to identify QCs" />
 		

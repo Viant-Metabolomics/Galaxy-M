@@ -19,9 +19,15 @@
 	</section>
 
 	<section id="matrixprocessing" name = "Matrix Processing" >
-		<tool file="MatrixProcessing/NormalisePQN.xml" />
-		<tool file="MatrixProcessing/ImputeKNN.xml" />
+		<tool file="MatrixProcessing/NormalisePQN_DSO.xml" />
+		<tool file="MatrixProcessing/ImputeKNN_DSO.xml" />
+		<tool file="MatrixProcessing/Glog_DSO.xml" />
+		<tool file="MatrixProcessing/Norm.xml" />
+		<tool file="MatrixProcessing/MVI.xml" />
 		<tool file="MatrixProcessing/Glog.xml" />
+		<tool file="MatrixProcessing/Peak_filtering.xml" />
+		<tool file="MatrixProcessing/NormalisePQN_DSO.xml" />
+		<tool file="MatrixProcessing/Quality_assurance.xml" />
 	</section>
 
 	<section id="QCRSC" name="QCRSC" >
@@ -53,7 +59,4 @@
 		<tool file="MI_Pack/Output.xml" />
 	</section>
 
-	<section id="xcms" name="XCMS" >
-		<tool file="XCMS/XCMS.xml" />
-	</section>
 </toolbox>

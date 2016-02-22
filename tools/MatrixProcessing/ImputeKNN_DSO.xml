@@ -1,4 +1,4 @@
-<tool id="mv_knn" name="KNN Missing Values Impute" version="1.0.0">
+<tool id="mvi_knn" name="KNN Missing Values Imputation (SimStitch)" version="1.0.0">
 	<description>Impute missing values using k-nearest neighbors (KNN) algoirthm</description>
 	
 	
@@ -15,9 +15,9 @@
 
 	<inputs>
 		<param format="xml" name="pls_dso" type="data" label="PLS dataset object" />
-		<param name="k" type="integer" size="2" value="5" label="k (default=5)" />
-		<param name="col_t" type="integer" size="3" value="20" label="The MIN percentage of rows that must contain a peak (default=20). Any peaks that fail this threshold will be thrown out." />
-		<param name="row_t" type="integer" size="3" value="70" label="The MAX percentage of missing values that any row can have (default=70). Any samples that fail this threshold will have each missing peak estimated as an average of all other instances of that peak that are present in other samples." />
+		<param name="k" type="integer" size="2" value="5" min="0" max="10" label="k (default=5)" />
+		<param name="col_t" type="integer" size="3" value="20" min="0" max="100" label="The MIN percentage of rows that must contain a peak (default=20). Any peaks that fail this threshold will be thrown out." />
+		<param name="row_t" type="integer" size="3" value="70" min="0" max="100" label="The MAX percentage of missing values that any row can have (default=70). Any samples that fail this threshold will have each missing peak estimated as an average of all other instances of that peak that are present in other samples." />
 		<param name="executable" type="hidden" value="true" />	
 	</inputs>
 

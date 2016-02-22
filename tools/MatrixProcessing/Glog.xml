@@ -1,35 +1,43 @@
-<tool id="glog_total" name="g-log Transform" version="1.0.0">
-	<description>Optimises and then applies the Generalised Logarithm Transform</description>
-  
+<tool id="glog_csv" name="g-log Transform" version="1.0.0">
+  <description>Optimises and then applies the Generalised Logarithm Transform</description>
 
-	<command>
-#set $tool_directory = $getVar('__tool_directory__', '../../../../tools/MatrixProcessing')
-#if str($executable.value) == "true"
-	sh $tool_directory/bin/run_Glog.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${output}' > '${output_log}'
-#else
-	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); Glog('${pls_dso}', '${output}'); exit;"
-#end if
-  	</command>
+  <command>
+Rscript $__tool_directory__/source/Glog.R $dataset $meta $qclabel $TransfDataset
 
+  </command>
 
 	<inputs>
-		<param format="xml" name="pls_dso" type="data" label="PLS dataset object" />
-		<param name="executable" type="hidden" value="true" />	
+
+		<param name="dataset" type="data"  format="csv" label="Non transformed dataset" />
+
+		<param name="meta" type="data"  format="xml" label="List of files (.xml) produced by File List Manager" />
+
+		<param name = "qclabel" type ="text" value = "QC" label="Label used to identify QCs" />
+		
 	</inputs>
 
-
-	<outputs>
-		<data format="xml" name="output" label="g-log Transform on $pls_dso.hid: DSO" />
-		<data format="txt" name = "output_log" label="g-log Transform on $pls_dso.hid: log" />
-	</outputs>
-
-
-	<help>
-This tool applies a g-log (Generalised Logarithm) transformation to data held within a PLS Toolbox (Eigenvector Research) dataset object. It is intended to be used with the output from the SimStitch pipeline. The algorithm initially optimises a 'lambda' parameter based on Quality Control (QC) samples. By optimising the lambda parameter to the QC samples, the g-log transform is able to reduce the technical variation in your data without suppressing the biological variation.
-	</help>
+  <outputs>
+    <data format="csv" name="TransfDataset" label="Transformed dataset (.csv)"/>
 	
-	
-	<citations>
-		<citation type="doi">10.1186/1471-2105-8-234</citation>
-	</citations>
+  </outputs>
+
+  <tests>
+	<test>
+		<param name="dataset" value="Imputed_dataset.csv" />
+		<param name="meta" value="metadata.xml" />
+		<param name="qclabel" value="QC" />
+		<output name="TransfDataset" file="Transformed_dataset.csv" />
+	</test>
+  </tests>
+
+  <help>
+This is a basic Galaxy wrapper for transformation by Glog which take a .csv file (data matrix) and a .xml file (metadata) and return a transformed .csv file.
+  </help>
+
+  <citations>
+    <citation type="doi">10.1021/ac051437y</citation>
+    <citation type="doi">10.1186/1471-2105-9-504</citation>
+    <citation type="doi">10.1093/bioinformatics/btq441</citation>
+  </citations>
+
 </tool>

@@ -1,5 +1,5 @@
-<tool id="norm_pqn" name="PQN Normalisation" version="1.0.0">
-	<description>Normalises samples</description>
+<tool id="PQN_Normalisation" name="PQN Normalisation (SimStitch)" version="1.0.0">
+	<description>Applies PQN normalisation</description>
 	
 
 	<command>

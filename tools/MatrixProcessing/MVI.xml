@@ -1,9 +1,8 @@
-<tool id="MVI_bham" name="Missing values replacement" version="1.0.1">
-  <description>This script replaces the missing values which are present in a dataset according to different procedures.</description>
+<tool id="mvi" name="Missing Values Imputation" version="1.0.0">
+  <description>Imputes missing values</description>
 
   <command>
-Rscript $__tool_directory__/MVI.R $dataset $mode $outData
-
+Rscript $__tool_directory__/source/MVI.R $dataset $mode $outData
   </command>
 
 	<inputs>
