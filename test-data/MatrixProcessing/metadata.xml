@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<fileList TimeStamp="2016-01-18 16:19:18" version="1.0">
+  <RootDirectory type="text">/home/rio/Downloads/mzML_test/</RootDirectory>
+  <Samples type="struct">
+    <instance index="1">
+      <ID type="text">X20151130_QE3_RP15_Sprem_media_084_17</ID>
+      <dataFile type="text">X20151130_QE3_RP15_Sprem_media_084_17.raw</dataFile>
+      <sampleID type="text">QC</sampleID>
+      <batchID type="text">1</batchID>
+      <orderID type="text">1</orderID>
+    </instance>
+    <instance index="2">
+      <ID type="text">X20151130_QE3_RP15_Sprem_media_085_13</ID>
+      <dataFile type="text">X20151130_QE3_RP15_Sprem_media_085_13.raw</dataFile>
+      <sampleID type="text">T1</sampleID>
+      <batchID type="text">1</batchID>
+      <orderID type="text">2</orderID>
+    </instance>
+    <instance index="3">
+      <ID type="text">X20151130_QE3_RP15_Sprem_media_086_26</ID>
+      <dataFile type="text">X20151130_QE3_RP15_Sprem_media_086_26.raw</dataFile>
+      <sampleID type="text">T2</sampleID>
+      <batchID type="text">1</batchID>
+      <orderID type="text">3</orderID>
+    </instance>
+    <instance index="4">
+      <ID type="text">X20151130_QE3_RP15_Sprem_media_087_2</ID>
+      <dataFile type="text">X20151130_QE3_RP15_Sprem_media_087_2.raw</dataFile>
+      <sampleID type="text">QC</sampleID>
+      <batchID type="text">1</batchID>
+      <orderID type="text">4</orderID>
+    </instance>
+    <instance index="5">
+      <ID type="text">X20151130_QE3_RP15_Sprem_media_088_23</ID>
+      <dataFile type="text">X20151130_QE3_RP15_Sprem_media_088_23.raw</dataFile>
+      <sampleID type="text">QC</sampleID>
+      <batchID type="text">1</batchID>
+      <orderID type="text">5</orderID>
+    </instance>
+  </Samples>
+  <nDataFiles type="numeric">5</nDataFiles>
+  <nReplicates type="numeric">1</nReplicates>
+</fileList>

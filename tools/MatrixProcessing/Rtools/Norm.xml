@@ -1,0 +1,50 @@
+<tool id="bham_norm" name="Normalisation" version="1.0.1">
+  <description>This script applies the TIC or PQN normalisation to the dataset</description>
+
+  <command>
+Rscript $__tool_directory__/Norm.R $dataset $mode $metadata $qclabel $normDataset
+
+
+  </command>
+
+	<inputs>
+
+		<param name="dataset" type="data"  format="csv" label="Non normalised dataset" />
+
+		<param name = "mode" type="select" label = "Normalisation mode">
+			<option value="SUM">TIC</option>
+			<option value="PQN">PQN</option>
+		</param>
+			
+		<param name="metadata" type="data"  format="xml" label="metadata information" />
+
+		<param name = "qclabel" type ="text" value = "QC" label="Label used to identify QCs" />
+		
+	</inputs>
+
+  <outputs>
+    <data format="csv" name="normDataset" label="Normalised dataset (.csv)"/>
+	
+  </outputs>
+
+  <tests>
+	<test>
+		<param name="dataset" value="xset.group.annotate.dataMatrix.csv" />
+		<param name="mode" value="PQN" />
+		<param name="metadata" value="metadata.xml" />
+		<param name="qclabel" value="QC" /> 
+		<output name="normDataset" file="Normalised_dataset.csv" />
+	</test>
+  </tests>
+
+  <help>
+This is a basic Galaxy wrapper for normalisation which takes a .csv file (data matrix) and a .xml file (metadata) and returns a normalised .csv file.
+  </help>
+
+  <citations>
+    <citation type="doi">10.1021/ac051437y</citation>
+    <citation type="doi">10.1186/1471-2105-9-504</citation>
+    <citation type="doi">10.1093/bioinformatics/btq441</citation>
+  </citations>
+
+</tool>

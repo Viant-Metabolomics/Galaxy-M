@@ -1,0 +1,46 @@
+<tool id="MVI_bham" name="Missing values replacement" version="1.0.1">
+  <description>This script replaces the missing values which are present in a dataset according to different procedures.</description>
+
+  <command>
+Rscript $__tool_directory__/MVI.R $dataset $mode $outData
+
+  </command>
+
+	<inputs>
+
+		<param name="dataset" type="data"  format="csv" label="Non imputed dataset" />
+
+		<param name = "mode" type="select" label = "Imputation method">
+			<option value="SV">Small value replacement</option>
+			<option value="MN">Mean replacement</option>
+			<option value="MD">Median replacement</option>
+			<option value="KNN">KNN replacement</option>
+			<option value="BPCA">BPCA replacement</option>
+		</param>
+
+	</inputs>
+
+  <outputs>
+    <data format="csv" name="outData" label="Imputed dataset (.csv)"/>
+	
+  </outputs>
+
+  <tests>
+	<test>
+		<param name="dataset" value="Quality_Checked_dataset.csv" />
+		<param name="mode" value="KNN" />
+		<output name="outData" file="Imputed_dataset.csv" />
+	</test>
+  </tests>
+
+  <help>
+This is a basic Galaxy wrapper for Missing value imputation which take a .csv file with classes as the second column and return an imputed dataset as a .csv file.
+  </help>
+
+  <citations>
+    <citation type="doi">10.1021/ac051437y</citation>
+    <citation type="doi">10.1186/1471-2105-9-504</citation>
+    <citation type="doi">10.1093/bioinformatics/btq441</citation>
+  </citations>
+
+</tool>

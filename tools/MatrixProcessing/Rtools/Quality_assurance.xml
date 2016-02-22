@@ -1,0 +1,41 @@
+<tool id="QAssurance_bham" name="Quality assurance" version="1.0.1">
+  <description>This script applies quality assurance to the dataset removing features bearing above a certain RSD threshold on QC samples</description>
+
+  <command>
+Rscript $__tool_directory__/Quality_assurance.r $dataset $RSDfilt $metadata $qclabel $condQCs $QCheckedDataset
+
+
+  </command>
+
+	<inputs>
+
+		<param name = "dataset" type="data"  format="csv" label="Non normalised dataset" />
+		<param name = "RSDfilt" type ="float" value = "0.2" size="4" min="0.0" max="1.0" label="RSD threshold above which a feature is removed" />			
+		<param name = "metadata" type="data"  format="xml" label="metadata information" />
+		<param name = "qclabel" type ="text" value = "QC" label="Label used to identify QCs" />
+		<param name = "condQCs" type = "integer" value = "0" min="0" label="Number of conditioning QCs at the start of the run" />
+		
+	</inputs>
+
+  <outputs>
+    <data format="csv" name="QCheckedDataset" label="Quality Checked dataset (.csv)"/>
+	
+  </outputs>
+
+  <tests>
+	<test>
+		<param name="dataset" value="Filtered_dataset.csv" />
+		<param name="RSDfilt" value="0.2" />
+		<param name="metadata" value="metadata.xml" />
+		<param name="qclabel" value="QC" />
+		<param name="condQCs" value="0" />
+		<output name="QCheckedDataset" file="Quality_Checked_dataset.csv" />
+	</test>
+  </tests> 
+
+  <help>
+This is a basic Galaxy wrapper for quality assurance which takes a .csv file (data matrix) and a .xml file (metadata) and returns a .csv file.
+  </help>
+
+
+</tool>

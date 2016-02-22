@@ -1,0 +1,50 @@
+<tool id="Peak_filtering" name="Peak Filter" version="1.0.1">
+  <description>This script filters the features and samples according to NAs present. Noise filling is available.</description>
+
+  <command>
+Rscript $__tool_directory__/Peak_filtering.R $dataset $noiseBool $metadata $FeatFilt $SampFilt $outData
+
+
+  </command>
+
+	<inputs>
+
+		<param name="dataset" type="data"  format="csv" label="Non filtered dataset" />
+
+		<param name = "noiseBool" type="boolean" label = "Noise Filling. If a class in a feature is entirely missing it gets replaced by noise" />
+		
+		<param name="metadata" type="data"  format="xml" label="metadata information" />
+
+		<param name = "FeatFilt" type ="float" value = "0.2" size="4" min="0.0" max="1.0" label="Missing values threshold above which a feature is removed" />
+
+		<param name = "SampFilt" type ="float" value = "0.7" size="4" min="0.0" max="1.0" label="Missing values threshold above which a feature is removed" />
+		
+	</inputs>
+
+  <outputs>
+    <data format="csv" name="outData" label="Filtered dataset (.csv)"/>
+	
+  </outputs>
+
+  <tests>
+	<test>
+		<param name="dataset" value="Normalised_dataset.csv" />
+		<param name="noiseBool" value="FALSE" />
+		<param name="metadata" value="metadata.xml" />
+		<param name="FeatFilt" value="0.2" />
+		<param name="SampFilt" value="0.7" />
+		<output name="outData" file="Filtered_dataset.csv" />
+	</test>
+  </tests>
+
+  <help>
+This is a basic Galaxy wrapper for Peak filtering which takes a .csv file (data matrix) and a .xml file (metadata) and returns a dataset filtered on features and samples (and noise filled) .csv file.
+  </help>
+
+  <citations>
+    <citation type="doi">10.1021/ac051437y</citation>
+    <citation type="doi">10.1186/1471-2105-9-504</citation>
+    <citation type="doi">10.1093/bioinformatics/btq441</citation>
+  </citations>
+
+</tool>
