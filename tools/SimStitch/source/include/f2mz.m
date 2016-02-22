@@ -1,11 +1,11 @@
-function mz = f2mz(f, P, Instrument, y) %Update for other machines
+function mz = f2mz(f, P, Instrument) %Update for other machines
 %converts from freq, returns m/z
 %P.A, P.B and P.C contain calibration parameters
 %if C is supplied, it is expected to apply to the form of calibration equation derived by Masselon et al. 2002, ref 63:
 % m/z = A./f + B./f.^2 + C*y./f.^2, where y is the intensity of each peak
 
 switch(Instrument)
-    case{'ltqft','orbitrap'}
+    case{'ltqft'}
         %numTerms = 2;   % number of parameters in calibration equation
         
 %         if nargin == 1
@@ -40,7 +40,7 @@ switch(Instrument)
 %                 mz = A./f + B./f.^2 + C*y./f.^2;
 %         end
         
-    case{'qexactive'}
+    case{'qexactive','orbitrap'}
 %         if nargin == 1
 %             % no P parameter supplied
 %             disp('WARNING: Insufficient parameters specified, using nominal values');

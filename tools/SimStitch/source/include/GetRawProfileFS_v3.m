@@ -1,4 +1,4 @@
-function [FS,FSParams,NULL_REGION] = GetRawProfileFS_v3(fileList,options,file,DISPLAY_HDRS,X_ZFILLS)
+function [FS,FSParams,Instrument,NULL_REGION] = GetRawProfileFS_v3(fileList,options,file,DISPLAY_HDRS,X_ZFILLS)
 %returns data and frequency points (increasing values) from .raw profile file
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,13 +30,24 @@ if ~isfield(options,'sumScans'), error('sumScans not specified'); end
 %%%% hDetector = GetDetectorHandle(hRaw);
 
 if isunix 
-	['wine C:\\python27\\python.exe ', which('MSFileReaderPy.py'), ' -i "' [fileList.RootDirectory, fileList.Samples(1,file).dataFile], '" -o "', fullfile(fileList.RootDirectory, 'temp.mat"'), ' -n "', [fileList.Instrument,'"']]
-    system(['wine C:\\python27\\python.exe ', which('MSFileReaderPy.py'), ' -i "' [fileList.RootDirectory, fileList.Samples(1,file).dataFile], '" -o "', fullfile(fileList.RootDirectory, 'temp.mat"'), ' -n "', [fileList.Instrument,'"']]);
+	['wine C:\\python27\\python.exe ', which('MSFileReaderPy.py'), ' -i "' [fileList.RootDirectory, fileList.Samples(1,file).dataFile], '" -o "', fullfile(fileList.RootDirectory, 'temp.mat"')]
+    system(['wine C:\\python27\\python.exe ', which('MSFileReaderPy.py'), ' -i "' [fileList.RootDirectory, fileList.Samples(1,file).dataFile], '" -o "', fullfile(fileList.RootDirectory, 'temp.mat"')]);
 else
-    system([which('MSFileReaderPy.exe'), ' -i "' [fileList.RootDirectory, fileList.Samples(1,file).dataFile], '" -o "', fullfile(fileList.RootDirectory, 'temp.mat"'), ' -n "', [fileList.Instrument,'"']]);
+    system([which('MSFileReaderPy.exe'), ' -i "' [fileList.RootDirectory, fileList.Samples(1,file).dataFile], '" -o "', fullfile(fileList.RootDirectory, 'temp.mat"')]);
 end
 
 matPy = load(fullfile(fileList.RootDirectory, 'temp.mat'));
+
+% Get instrument type
+Instrument = matPy.temp.InstrumentName;
+if strcmp(Instrument,'Orbitrap Elite')
+    fileList.Instrument = 'orbitrap';
+elseif strcmp(Instrument,'Q Exactive Orbitrap');
+    fileList.Instrument = 'qexactive';
+else
+    fileList.Instrument = 'ltqft';
+end
+Instrument = fileList.Instrument; 
 
 %get the list of scans for this spectrum
 scanList = matPy.temp.ScanList;
@@ -58,8 +69,6 @@ if filtersCount == 1
     filterOfScanIndex = repmat(filter,1,length(scanList));
 %otherwise need to find the filter index for each scan
 else
-    prefillrange = [];
-    remove_idx = 1;
     for i=1:length(scanList)       
         %%%% hFilter = hFilters.ScanNumber(scanList(i));
         hFilter = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(scanList(i)) ,'.Filter'));
@@ -84,17 +93,44 @@ else
     end
 end
 
+% Determine m/z bounds and range of each filter
+for i = 1:filtersCount
+    [~, pos1] = find(hFilters(i,:) == '['); [~, pos2] = find(hFilters(i,:) == '-');
+    mzlow(i,:) = str2num(hFilters(i,pos1+1:pos2(end)-1));
+    [~, pos3] = find(hFilters(i,:) == ']');
+    mzhigh(i,:) = str2num(hFilters(i,pos2(end)+1:pos3-1));
+    mzrange(i,:) = mzhigh(i,:) - mzlow(i,:);
+end
+
 switch(fileList.Instrument)
-    case{'ltqft','orbitrap'}
+    case{'ltqft'}
          filtersUsed = unique(filterOfScanIndex);
-    case{'qexactive'}
-        filtersUsed = unique(filterOfScanIndex); % Unique filters 
-        [~,filterpos] = find(filterOfScanIndex == 2); 
-		filterpos = filterpos(1)-1; % Detect last window spray stabilization time
+    case{'qexactive','orbitrap'}
+        filtersUsed = unique(filterOfScanIndex); % Unique filters
+        [~,filterpos] = find(filterOfScanIndex == 2);
+        filterpos = filterpos(1)-1; % Detect last window spray stabilization time
         RepFilter = diff(filterOfScanIndex(filterpos(end)+1:end));% Detect repeating windows
-        [~,RepFilter] = find(RepFilter < 1); RepFilter = RepFilter(1);
-        filterOfScanIndex([filterpos,filterpos(end)+RepFilter+1:length(filterOfScanIndex)]) = 1; % Set all filters not to be used to index of first filter
-        filtersUsed(1) = []; % Remove index first filter; scans with filterindex = 1 are not used anymore.
+        [~,RepFilter] = find(RepFilter < 1); 
+        if ~isempty(RepFilter) %Windows are repeating
+            RepFilter = RepFilter(1);
+            filterOfScanIndex([filterpos,filterpos(end)+RepFilter+1:length(filterOfScanIndex)]) = 1; % Set all filters not to be used to index of first filter
+        end
+        rangedif = abs(mzrange(end) - mzrange); % Determine absolute difference mz range of last filter to all other filters
+        if rangedif(1) < min(rangedif(2:end-1));
+            filtersUsed(end) = [];
+            mzlow(end) = []; mzhigh(end) = []; mzrange(end) = [];
+        end
+        clear rangedif;
+        rangedif = abs(mzrange(2) - mzrange); % Determine absolute difference mz range of second filter to all other filters
+        if rangedif(1) < min(rangedif(3:end)) % Check if second header is also a full scan
+                filtersUsed([1,2]) = []; % Remove index first and second filter; scans with filterindex = 1 or 2 are not used anymore.
+                mzlow([1,2],:) = []; mzhigh([1,2],:) = [];
+        else
+            filtersUsed(1) = []; % Remove index first filter; scans with filterindex = 1 are not used anymore.
+            mzlow(1,:) = []; mzhigh(1,:) = []; 
+        end
+        %filterOfScanIndex([1:72,97:end]) = 1e12; % Temporary code to
+        %process data Elliot (04/01/2016)
 end
 
 filtersCount = length(filtersUsed);
@@ -103,11 +139,6 @@ filtersCount = length(filtersUsed);
 NULL_REGION.MZMIN = 0; NULL_REGION.MZMAX = 0; % Dont cut off beginning for first window and end of last window
 count = 1;
 for i = 1:filtersCount
-    % Detect low and high mass window
-    [~, pos1] = find(hFilters(filtersUsed(i),:) == '['); [~, pos2] = find(hFilters(filtersUsed(i),:) == '-'); 
-    mzlow(i,:) = str2num(hFilters(filtersUsed(i),pos1+1:pos2(end)-1));
-    [~, pos3] = find(hFilters(filtersUsed(i),:) == ']');
-    mzhigh(i,:) = str2num(hFilters(filtersUsed(i),pos2(end)+1:pos3-1));
     if i ~= 1
         overlap(count) = (mzhigh(i-1) - mzlow(i))/2;
         bound(count) = (mzhigh(i-1) + mzlow(i-1))/2;
@@ -166,7 +197,7 @@ if options.sumScans
             %get the spectrum for this scan
             %first check for varying conversion parameters by extracting the trailer extra info
             switch(fileList.Instrument)
-                case{'ltqft','orbitrap'}
+                case{'ltqft'}
                     newParams.A = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.A'))*1e3;% Multiply by 1e3 since equation is made for frequency in kHz while we use frequency in Hz
                     if i==1, fParams.A = newParams.A;
                     elseif newParams.A~=fParams.A
@@ -178,7 +209,7 @@ if options.sumScans
                     elseif newParams.B~=fParams.B
                         warning(['Parameter B is changing in ',fileList.Samples(1,file).ID,' - included, but check scan ',num2str(filterScans(i))]);
                     end
-                case{'qexactive'}
+                case{'qexactive','orbitrap'}
                     newParams.B = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.B'))*1e6;
                     if i==1, fParams.B = newParams.B;
                     elseif newParams.B~=fParams.B
@@ -196,7 +227,7 @@ if options.sumScans
             scanIT = [scanIT eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.IT'))];  
             
             switch(fileList.Instrument)
-                case{'ltqft','orbitrap'}
+                case{'ltqft'}
                     if eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.IT')) >= 750 % Change for QExactive?.
                         warning(['Underfill in ',fileList.Samples(1,file).ID,' - NOT!!! ignoring scan ',num2str(filterScans(i))]);
                     end
@@ -209,18 +240,37 @@ if options.sumScans
                 scanmz = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.scanmz'));
                 scand = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.scand'));
                 
-                scanNoise = interp1(eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Mass')),eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Noise')),scanmz,'linear');
-                scanBase = interp1(eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Mass')),eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Base')),scanmz,'linear');
+                % Interpolation of noise packets values to m/z range of
+                % interest
+                if length(eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Noise'))) > 1% Interpolation when at least two noise packets are present
+                    scanNoise = interp1(eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Mass')),eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Noise')),scanmz,'linear');
+                    scanBase = interp1(eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Mass')),eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Base')),scanmz,'linear');
+                    % Set value outside of bounds noise packets.
+                    nan = ~isnan(scanNoise);
+                    first_idx = find(nan == 1,1,'first');
+                    last_idx = find(nan == 1,1,'last');
+                    scanNoise(1:first_idx-1) = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Noise(1)'));
+                    scanNoise(last_idx+1:end) = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Noise(end)'));
+                    scanBase(1:first_idx-1) = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Base(1)'));
+                    scanBase(last_idx+1:end) = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Base(end)'));
+                elseif length(eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Noise'))) == 1
+                    scanNoise = (eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Noise')))*ones(1,length(scanmz));
+                    scanBase = (eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.NoisePackets.Base')))*ones(1,length(scanmz));
+                else 
+                    scanNoise = quantile(scand(scand~=0),0.01)*ones(1,length(scanmz)); % Estimate Noise value as 1% quantile of nonzero values in scand (the measured peak intensities)
+                    scanBase = zeros(1,length(scanmz)); % scanBase estimated as zero
+                end
                 scanSNR = (scand-scanBase)./scanNoise;
                 
+                
                 switch(fileList.Instrument)
-                    case{'ltqft','orbitrap'}
+                    case{'ltqft'}
                         %if the current A or B parameters have changed (are not the selected global parameters), normalise the m/z values to the global A and B parameter
                         if newParams.B~=fParams.B || newParams.A~=fParams.A 
                             scanmz = mz2f(scanmz,newParams,fileList.Instrument); 
                             scanmz = f2mz(scanmz,fParams,fileList.Instrument); 
                         end
-                    case {'qexactive'}
+                    case{'qexactive','orbitrap'}
                         if newParams.B~=fParams.B || newParams.C~=fParams.C 
                             scanmz = mz2f(scanmz,newParams,fileList.Instrument); 
                             scanmz = f2mz(scanmz,fParams,fileList.Instrument); 
@@ -337,10 +387,10 @@ else    %not summing scans TO DO OOK NOISE ETC AANPASSEN!!!
             mzStart(scanCount) = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.LowMass'));
             mzEnd(scanCount) = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.HighMass'));
             switch(fileList.Instrument)
-                case{'ltqft','orbitrap'}
+                case{'ltqft'}
                     params(scanCount).A = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.A'))*1e3; % Multiply by 1e3 since equation is made for frequency in kHz while we use frequency in Hz
                     params(scanCount).B = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.B'))*1e6;
-                case{'qexactive'}
+                case{'qexactive','orbitrap'}
                     params(scanCount).B = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.B'))*1e6;
                     params(scanCount).C = eval(strcat('matPy.temp.ScanInfo.Scan', num2str(filterScans(i)) ,'.C'))*1e12;
             end
@@ -428,11 +478,11 @@ for i=1:numberOfSpectra
     FSParams(i).mzEnd = mzEnd(i);
     FSParams(i).TIC = TIC(i);
     switch(fileList.Instrument)
-        case{'ltqft','orbitrap'}
+        case{'ltqft'}
             FSParams(i).A = params(i).A;
             FSParams(i).B = params(i).B;
             FSParams(i).C = 0;
-        case{'qexactive'}
+        case{'qexactive','orbitrap'}
             FSParams(i).A = 0;
             FSParams(i).B = params(i).B;
             FSParams(i).C = params(i).C;

@@ -42,7 +42,7 @@ if isa(mintic, 'char')
 end
 
 if isa(ignorecal, 'char')
-	ignorecal = str2num(ignorecal)
+	ignorecal = str2num(ignorecal);
 end
 
 if isa(maxmz, 'char')
@@ -86,13 +86,15 @@ for i=1:fileList.nDataFiles
     fprintf('\nFile: %s\n',fileList.Samples(1,i).ID);
     options.sumScans = 0;
     options.getSpec = 0;
-
-    switch(fileList.Instrument)
-        case{'ltqft','orbitrap','qexactive'}
-            [~,specParamsR] = GetRawProfileFS_v3(fileList,options,i,DISPLAY_HDRS,X_ZFILLS);
-        case{'solarix'}
-            % Zoek method folder naam.
+    
+    % Switch between .raw and .ser
+    if strcmp(fileList.Samples(1,1).dataFile(end-2:end),'raw') || strcmp(fileList.Samples(1,1).dataFile(end-2:end),'RAW') % ltqft
+            [~,specParamsR,Instrument,NULL_REGION] = GetRawProfileFS_v3(fileList,options,i,DISPLAY_HDRS,X_ZFILLS);
+            fileList.Instrument = Instrument;
+    else % Solarix
+            % To do: Zoek method folder naam.
             specParamsR = Read_method_file([fileList.RootDirectory, fileList.Samples(1,i).dataFile,'']);
+            fileList.Instrument = 'solarix';
     end
 
     %now loop through the different m/z ranges
@@ -145,7 +147,12 @@ for i=1:fileList.nDataFiles
                 scanList = scanList(1:numscans);
                 warning(['First ',num2str(numscans),' (compliant) scans only']);
             end
-            [transient,specParamsT,segMessage] = ReadInDat_3_0(fileList.RootDirectory,[fileList.Samples(1,i).ID,'_'],scanList,'all',ignorecal,DISPLAY_HDRS);
+            if strcmp(fileList.Samples(1,1).dataFile(end-2:end),'raw') || strcmp(fileList.Samples(1,1).dataFile(end-2:end),'RAW')% ltqft
+                [transient,specParamsT,segMessage] = ReadInDat_3_0(fileList.RootDirectory,[fileList.Samples(1,i).ID,'_'],scanList,'all',ignorecal,DISPLAY_HDRS);
+            else
+                % Read in solarix .ser files
+            end
+            specParamsT.NULL_REGION  = NULL_REGION; % Store window overlap info for use in stitch.m
             if isempty(transient), error('empty transient'); end
             message = [message segMessage];
             %scans that should have been read in but failed
@@ -190,7 +197,7 @@ for i=1:fileList.nDataFiles
     end
     %save messages (UPDATED FOR GALAXY)
     fprintf('Saving message file: %s\r\n',outfile_messages);
-    fid = fopen(outfile_messages,'w');
+    fid = fopen(outfile_messages,'a');
     if ~fid, error('Cannot create message file'); end
     for m=1:length(message)
         fc=fprintf(fid,'%s\r\n',message{m});

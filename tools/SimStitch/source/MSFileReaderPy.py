@@ -15,9 +15,11 @@ def GetRawHandle(RawFile):
     return hRaw
 
 
-def RetrieveData(hRaw, instrument):
+def RetrieveData(hRaw):
 
     MatPyLib = {
+	'InstrumentName': '',
+        'InstrumentModel': '',
         'Reply': 0,
         'DetectorCount': 0,
         'ScanList': [],
@@ -42,14 +44,17 @@ def RetrieveData(hRaw, instrument):
     reply = 0
     hRaw.SetCurrentController(0, 1)
 
+    pbstrInstName = BSTR() 
+    hRaw.GetInstName(pbstrInstName)
+    MatPyLib['InstrumentName'] = pbstrInstName.value
 
     pvarFilterArray = VARIANT()
     pnArraySize = c_long()
     hRaw.GetFilters(pvarFilterArray, pnArraySize)
 
     MatPyLib['FiltersCount'] = pnArraySize.value
-    #MatPyLib["Filters"] = zeros((pnArraySize.value,), dtype = nobj)
-    #MatPyLib["Filters"][:] = pvarFilterArray.value
+    MatPyLib["Filters"] = zeros((pnArraySize.value,), dtype = nobj)
+    MatPyLib["Filters"][:] = pvarFilterArray.value
     MatPyLib["Filters"] = []
     
     pnFirstSpectrum = c_long()
@@ -118,16 +123,16 @@ def RetrieveData(hRaw, instrument):
 
         MatPyLib['ScanInfo'][ScanNumber]["IT"] = float(pvarValues.value[pvarLabels.value.index('Ion Injection Time (ms):')])
 
-        if instrument == "ltqft" or instrument == "orbitrap":
-            MatPyLib['ScanInfo'][ScanNumber]["A"] = float(
-                pvarValues.value[pvarLabels.value.index('Conversion Parameter A:')])
-            MatPyLib['ScanInfo'][ScanNumber]["B"] = float(
-                pvarValues.value[pvarLabels.value.index('Conversion Parameter B:')])
-        elif instrument == "qexactive":
+        if "Q Exactive" in MatPyLib['InstrumentName'] or "Orbitrap" in MatPyLib['InstrumentName']:
             MatPyLib['ScanInfo'][ScanNumber]["B"] = float(
                 pvarValues.value[pvarLabels.value.index('Conversion Parameter B:')])
             MatPyLib['ScanInfo'][ScanNumber]["C"] = float(
                 pvarValues.value[pvarLabels.value.index('Conversion Parameter C:')])
+        elif "LTQ FT" in MatPyLib['InstrumentName']:
+            MatPyLib['ScanInfo'][ScanNumber]["A"] = float(
+                pvarValues.value[pvarLabels.value.index('Conversion Parameter A:')])
+            MatPyLib['ScanInfo'][ScanNumber]["B"] = float(
+                pvarValues.value[pvarLabels.value.index('Conversion Parameter B:')])
         else:
             print "Instrument name not available"
             return
@@ -163,16 +168,12 @@ def main():
     parser = argparse.ArgumentParser(description='This is a python implemantion of MSFilReader by Ralf Weber.')
     parser.add_argument('-i','--input', help='Input RAW file',required=True)
     parser.add_argument('-o','--output',help='Output Mat file', required=True)
-    parser.add_argument('-n','--instrument',help='Instrument Name (QExactive, Orbitrap or LTQFT)', required=True)
     args = parser.parse_args()
-
-    if args.instrument.lower() not in ["qexactive", "orbitrap", "ltqft"]:
-        print "Instrument name not available"
 
     if os.path.isfile(args.input):
         hRaw = GetRawHandle(args.input)
-        DataRaw = RetrieveData(hRaw, args.instrument)
-        savemat(args.output, {"temp" :DataRaw}, do_compression=True)
+        DataRaw = RetrieveData(hRaw)
+        savemat(args.output, {"temp": DataRaw}, do_compression=True)
     else:
         print "RAW file does not exist"
     

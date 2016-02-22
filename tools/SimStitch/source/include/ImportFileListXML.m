@@ -15,6 +15,9 @@ function fileListStruct = ImportFileListXML(file_location)
 %
 % R.L.Davidson 
 % 29/05/2014
+%
+%  J.Engel (11/01/2016): updated code to match output of fileListManager.py
+%  script (version from 07/01/2016).
 
 try
     tree = xmlread(file_location);
@@ -29,7 +32,7 @@ end
 
 fileListStruct = [];
 fileListStruct.Samples= struct('ID',{},'dataFile',{},'sampleID',{});
-fileListStruct.ATDir = '';
+%fileListStruct.ATDir = '';
 fileListStruct.SamplesHeaders = {};
 fileListStruct.nReplicates = 0;
 fileListStruct.nDataFiles = 0;
@@ -42,9 +45,9 @@ else
     return
 end
 
-if ~isempty(fileList.getElementsByTagName('Instrument').item(0).getChildNodes.item(0))    
-    fileListStruct.Instrument = char(fileList.getElementsByTagName('Instrument').item(0).getChildNodes.item(0).getData);
-end
+% if ~isempty(fileList.getElementsByTagName('Instrument').item(0).getChildNodes.item(0))    
+%     fileListStruct.Instrument = char(fileList.getElementsByTagName('Instrument').item(0).getChildNodes.item(0).getData);
+% end
 
 if ~isempty(fileList.getElementsByTagName('RootDirectory').item(0).getChildNodes.item(0))    
     fileListStruct.RootDirectory = char(fileList.getElementsByTagName('RootDirectory').item(0).getChildNodes.item(0).getData);

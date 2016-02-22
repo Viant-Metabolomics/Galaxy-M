@@ -26,13 +26,8 @@ function Stitch(fileList, html_indir, ListofCalibrants, csv_str, html_outfile_st
 %           20,    sOptions.align.m_min_range
 %           21,    sOptions.align.min_snr
 %           22,    sOptions.align.max_pk_d
-%           23,    sOptions.stitch.null_region.mzmin
-%           24,    sOptions.stitch.null_region.mzmax
-%           25,    sOptions.stitch.null_region.start
-%           26,    sOptions.stitch.null_region.end
-%           27,    sOptions.stitch.null_region.bound
-%           28,    sOptions.segrange
-%	    	29,    sOptions.calFile - This is now ListofCalibrants (see function input)
+%           23,    sOptions.segrange
+
 %
 %       outputs:
 %           outputs various files to stitchDir specified in FileListManager
@@ -419,92 +414,10 @@ if length(ALIGN.MAX_PK_D)>1   %VALIDATE 1
     return
 elseif isempty(ALIGN.MAX_PK_D)
     ALIGN.MAX_PK_D=0; %The line above ignores zeros, but was useful for checking extra values. 
-end
-
-% JE 03-12-2015 Overlap information is now automatically read from the scan
-% headers. These options are not required anymore.
-% temp = find(config_ind==23); %STITCH.NULL_REGION.MZMIN  ########################    23
-% if ~isempty(temp)
-%     STITCH.NULL_REGION.MZMIN = configs(temp,2:max(find(configs(temp,1:end))));
-% else    
-%     STITCH.NULL_REGION.MZMIN = 0; %DEFAULT
-%     %edge effect to remove from start of first SIM window
-% end
-% if length(STITCH.NULL_REGION.MZMIN)>1   %VALIDATE 1
-%     sprintf('Error: config variable number 23. Too many values.')
-%     return
-% elseif isempty(STITCH.NULL_REGION.MZMIN)
-%     STITCH.NULL_REGION.MZMIN=0; %The line above ignores zeros, but was useful for checking extra values. 
-% end
-%     
-%     
-% temp = find(config_ind==24); %STITCH.NULL_REGION.MZMAX  ########################    24
-% if ~isempty(temp)
-%     STITCH.NULL_REGION.MZMAX = configs(temp,2:max(find(configs(temp,1:end))));
-% else    
-%     STITCH.NULL_REGION.MZMAX = 0; %DEFAULT
-%      %edge effect to remove from end of last SIM window
-% end
-% if length(STITCH.NULL_REGION.MZMAX)>1   %VALIDATE 1
-%     sprintf('Error: config variable number 24. Too many values.')
-%     return
-% elseif isempty(STITCH.NULL_REGION.MZMAX)
-%     STITCH.NULL_REGION.MZMAX=0; %The line above ignores zeros, but was useful for checking extra values. 
-% end
-
-
-% temp = find(config_ind==25); %STITCH.NULL_REGION.START  ########################    25
-% if ~isempty(temp)
-%     STITCH.NULL_REGION.START = configs(temp,2:max(find(configs(temp,1:end))));
-% else    
-%     STITCH.NULL_REGION.START = 15; %DEFAULT
-%     %null or dead region (in m/z) from start of window
-% end
-% if length(STITCH.NULL_REGION.START)>1   %VALIDATE 1
-%     sprintf('Error: config variable number 25. Too many values.')
-%     return
-% elseif isempty(STITCH.NULL_REGION.START)
-%     STITCH.NULL_REGION.START=0; %The line above ignores zeros, but was useful for checking extra values. 
-% end
-
-
-% temp = find(config_ind==26); %STITCH.NULL_REGION.END    ########################    26
-% if ~isempty(temp)
-%     STITCH.NULL_REGION.END = configs(temp,2:max(find(configs(temp,1:end))));
-% else    
-%     STITCH.NULL_REGION.END = 15; %DEFAULT
-%     %null or dead region (in m/z) from end of window
-% end
-% if length(STITCH.NULL_REGION.END)>1   %VALIDATE 1
-%     sprintf('Error: config variable number 26. Too many values.')
-%     return
-% elseif isempty(STITCH.NULL_REGION.END)
-%     STITCH.NULL_REGION.END=0; %The line above ignores zeros, but was useful for checking extra values. 
-% end
-% 
-% 
-% 
-% temp = find(config_ind==27); %STITCH.NULL_REGION.BOUND      ####################    27
-% if ~isempty(temp)
-%     STITCH.NULL_REGION.BOUND = configs(temp,2:max(find(configs(temp,1:end))));
-% else    
-%     STITCH.NULL_REGION.BOUND = [70 2000]; %DEFAULT
-%     %                          boundary for each dead region (midpoint of OVERLAP of SIM windows)
-%     %                          It is possible to define different size edges for different regions of the spectrum:
-%     %                          [a b c d]: a < mz <= b
-%     %                                     b < mz <= c
-%     %                                     c < mz <= d;  mz is the midpoint of overlap
-% end
-% 
-% if isempty(STITCH.NULL_REGION.BOUND)
-%     STITCH.NULL_REGION.BOUND= [0 0] ; %The line above ignores zeros, but was useful for checking extra values. 
-%     % NB! THESE VALUES WOULD PROBABLY CRASH THE SYSTEM - OR AT LEAST MEAN
-%     % NO STITCHING IS DONE
-% end
-    
+end  
 
 % #####################ADDED FOR MSMS PROCESSING - WINDOW SELECT
-temp = find(config_ind==28); %SEG.RANGE    ########################    28
+temp = find(config_ind==23); %SEG.RANGE    ########################    28
 if ~isempty(temp)
     SEG.RANGE = configs(temp,2:max(find(configs(temp,1:end))));
 else    
@@ -626,10 +539,11 @@ for fi=1:fileList.nDataFiles % loop over each sample
         options.sumScans = 1;
         fprintf('Loading reduced profile data from %s.raw\n',fileList.Samples(1,fi).ID);
         % get spectral data and parameters from raw file
-        [FS,FSParams,NULL_REGION] = GetRawProfileFS_v3(fileList,options,fi,DISPLAY_HDRS,X_ZFILLS);
+        [FS,FSParams,Instrument,NULL_REGION] = GetRawProfileFS_v3(fileList,options,fi,DISPLAY_HDRS,X_ZFILLS);
         NOISE.ESTIMATE = 0; % Use noise values obtained from RAW file
+        fileList.Instrument = Instrument;
     else %Thermo FT-Ultra or Bruker Solarix
-        fileName = [html_indir,'FS_',fileList.Samples(1,fi).ID,'.mat'];
+        fileName = fullfile(html_indir,['FS_',fileList.Samples(1,fi).ID,'.mat']);
         fprintf('Loading pre-processed frequency spectra: %s...',fileName);
         try
             load(fileName);
@@ -637,10 +551,18 @@ for fi=1:fileList.nDataFiles % loop over each sample
             fprintf('not found!\n');
             rethrow(lasterror);
         end
-        % change field names
-        %P = FSParams;
-        % FS(si).data = SD(si).y;
         fprintf('done\n');
+        
+        % Extract information regarding window overlap from output
+        % SumTransients and ProcessTransients
+        NULL_REGION = FSParams(1,1).NULL_REGION;
+        
+        % Determine instrument type
+        if strcmp(fileList.Samples(1,1).dataFile(end-2:end),'raw') || strcmp(fileList.Samples(1,1).dataFile(end-2:end),'RAW')
+            fileList.Instrument = 'ltqft';
+        else
+            fileList.Instrument = 'solarix';
+        end
     end
         
     % ##########################ADDED FOR MSMS PROCESSING
@@ -667,7 +589,7 @@ for fi=1:fileList.nDataFiles % loop over each sample
     end
     
     fprintf('Checking parameters...'); %Is trapping voltage constant
-    if strcmp(fileList.Instrument,'orbitrap')||strcmp(fileList.Instrument,'ltqft')
+    if strcmp(fileList.Instrument,'ltqft')
         % Trapping voltage always 1 
         if ~FILES.USERAWONLY_ON
             if ~isempty(find([FSParams.VT]~=1, 1))
@@ -682,12 +604,12 @@ for fi=1:fileList.nDataFiles % loop over each sample
     
     % Are the calibration parameters OK?
     switch(fileList.Instrument)
-        case{'ltqft','orbitrap'}
+        case{'ltqft'}
             if ~isempty(find([FSParams.C]~=0, 1))
                 error('Unexpected non-zero C parameter in input files');
             end
             fprintf('done\n');
-        case{'qexactive'}
+        case{'qexactive','orbitrap'}
             if ~isempty(find([FSParams.A]~=0, 1))
                 error('Unexpected non-zero A parameter in input files');
             end
@@ -700,7 +622,7 @@ for fi=1:fileList.nDataFiles % loop over each sample
     % representatives the peak intensity is not related to the sampling
     % frequency. Most likely this code will be removed at a later stage and
     % be replaced with a normalization step.
-    if strcmp(fileList.Instrument,'orbitrap')||strcmp(fileList.Instrument,'ltqft')
+    if strcmp(fileList.Instrument,'ltqft')
         if ~FILES.USERAWONLY_ON
             fprintf('Correcting for varying sampling frequency...');
             % find maximum sampling frequency
@@ -1034,7 +956,7 @@ for fi=1:fileList.nDataFiles % loop over each sample
                         end
                     case 'abc'
                         switch(fileList.Instrument)
-                            case{'ltqft','orbitrap'}
+                            case{'ltqft'}
                                 if (max(calPoints)-min(calPoints)) < (CAL.MIN_RANGE/100*(Pcal(si).mzEnd-Pcal(si).mzStart))
                                     calMode = 'b';
                                 elseif nCals>=3
@@ -1046,7 +968,7 @@ for fi=1:fileList.nDataFiles % loop over each sample
                                 else
                                     calMode = 'b';
                                 end
-                            case{'qexactive'}
+                            case{'qexactive','orbitrap'}
                                 warning(['Three parameter calibration not available switching to two parameter mode']);
                                 if (max(calPoints)-min(calPoints)) < (CAL.MIN_RANGE/100*(Pcal(si).mzEnd-Pcal(si).mzStart))
                                     calMode = 'b';
@@ -1114,11 +1036,11 @@ for fi=1:fileList.nDataFiles % loop over each sample
     % display summary of calibration % Change for new machines!
     for si=1:numWindows
         switch(fileList.Instrument)
-            case{'ltqft','orbitrap'}
+            case{'ltqft'}
                 fprintf('Window %2d, A=%.2f (d %+g), B=%10.5e (d %10.5e)\n',...
                     si, Pcal(si).A,Pcal(si).A-FSParams(si).A, ...
                     Pcal(si).B,Pcal(si).B-FSParams(si).B);
-            case{'qexactive'}
+            case{'qexactive','orbitrap'}
                 fprintf('Window %2d, B=%.2f (d %+g), C=%10.5e (d %10.5e)\n',...
                     si, Pcal(si).B,Pcal(si).B-FSParams(si).B, ...
                     Pcal(si).C,Pcal(si).C-FSParams(si).C);
@@ -1418,14 +1340,14 @@ for fi=1:fileList.nDataFiles % loop over each sample
     fprintf('Homogenising calibration parameters');
     for si=1:numWindows
         switch(fileList.Instrument)
-            case{'ltqft','orbitrap'}
+            case{'ltqft'}
                 Phom(si).A = Pali(1).A;
                 Phom(si).B = Pali(1).B;
                 % 29/1/07 - final stitching does not need to use 3-term calibration, since it will add no value
                 % at this point, and the only reason for stitching in the frequency
                 % domain is to get the best peak shape for interpolation.
                 Phom(si).C = 0;
-            case{'qexactive'}
+            case{'qexactive','orbitrap'}
                 Phom(si).A = 0;
                 Phom(si).B = Pali(1).B;
                 Phom(si).C = Pali(1).C;   
@@ -1485,6 +1407,7 @@ for fi=1:fileList.nDataFiles % loop over each sample
     SFS.dNsd = PL.dNsd;
     SFS.peaksFlag = PL.flag;
     SFSParams = Pfin;
+    SFSParams.Instrument = fileList.Instrument; % Save instrument name for replicate filtering
     % convert some data to single to reduce storage
     SFS.data = single(SFS.data);
     SFS.peaksd = single(SFS.peaksd);
@@ -1647,7 +1570,7 @@ fprintf(fid,'</head>');
 fprintf(fid,'<body>');
 fprintf(fid,'<div class="donemessagelarge">');
 fprintf(fid,'   <div style="padding: 3px"><h2><b>Stitched Frequency Spectra</b></h2></div>');
-fprintf(fid,'<hr></hr>')
+fprintf(fid,'<hr></hr>');
 
 for i=1:length(stitchfile_html)
   	html_code = ['<div style="padding: 3px"><b><a href="', stitchfile_html{i},'">',stitchfile_html{i},'</a></b></div>'];
@@ -1671,8 +1594,8 @@ fprintf(fid,'<link href="/static/style/base.css?v=1415642706" media="screen" rel
 fprintf(fid,'</head>');
 fprintf(fid,'<body>');
 fprintf(fid,'<div class="donemessagelarge">');
-fprintf(fid,'   <div style="padding: 3px"><h2><b>Stitched Peak List</b></h2></div>');
-fprintf(fid,'<hr></hr>')
+fprintf(fid,'   <div style="padding: 3px"><h2><b>Stitched Peak Lists</b></h2></div>');
+fprintf(fid,'<hr></hr>');
 for i=1:length(peaklist_html)
   	html_code = ['<div style="padding: 3px"><b><a href="', peaklist_html{i},'">',peaklist_html{i},'</a></b></div>'];
 	fprintf(fid, html_code);

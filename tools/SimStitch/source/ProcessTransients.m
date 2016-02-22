@@ -31,6 +31,12 @@ ZFILLS = 1;
 %extract the fileList information from the xml file
 fileListpath = fileList;
 fileList = ImportFileListXML(fileList);
+if strcmp(fileList.Samples(1,1).dataFile(end-2:end),'raw') || strcmp(fileList.Samples(1,1).dataFile(end-2:end),'RAW')% ltqft
+    fileList.Instrument = 'ltqft';
+else % Solarix
+    % To do: Zoek method folder naam.
+    fileList.Instrument = 'solarix';
+end
 
 %make directory for processed transients
 fileList.ATDir = [html_indir,filesep];
@@ -112,8 +118,8 @@ for fi=1:fileList.nDataFiles
         % c.convert to freq. domain
         n = length(transient);
         % TO DO: Add support for bruker machine
-        f1 = mz2f(FSParams_f.mzEnd,FSParams_f); %lower freq.
-        f2 = mz2f(FSParams_f.mzStart,FSParams_f); %upper freq.
+        f1 = mz2f(FSParams_f.mzEnd,FSParams_f,fileList.Instrument); %lower freq.
+        f2 = mz2f(FSParams_f.mzStart,FSParams_f,fileList.Instrument); %upper freq.
         % Zero-fill, fourier-transform and calculate magnitude spectrum
         % (replaces Transform function)
         % TO DO: Support for bruker machine; upper lower frequency

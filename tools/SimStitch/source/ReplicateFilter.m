@@ -155,13 +155,13 @@ for fi=1:NUMREPS:length(batchList.Samples)
         fprintf('Loading file %s...',fName);
         load(fName);
         % only want peak information
-        switch batchList.Instrument
-            case{'ltqft','orbitrap'}
+        switch SFSParams.Instrument
+            case{'ltqft'}
                 if SFSParams.C, error('C parameter: unexpected'); end
-            case{'qexactive'}
+            case{'qexactive','orbitrap'}
             case{'solarix'}
         end
-        peaks(i).mz = f2mz(SFS.peaksf,SFSParams,batchList.Instrument);
+        peaks(i).mz = f2mz(SFS.peaksf,SFSParams,SFSParams.Instrument);
         peaks(i).y = SFS.peaksd;
         peaks(i).res = SFS.peaksRes;
         peaks(i).snr = SFS.pSNR;

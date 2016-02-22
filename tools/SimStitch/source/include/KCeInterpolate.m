@@ -75,7 +75,7 @@ for i=1:N
         peaksh(n) = y0;
         % calculate the resolution FWHM
         q = sqrt(b^2-4*a*(c-exp(log(y0/2)/e)));
-        peaksr(n) = f2mz(x0+dfoff,P, Instrument, []) / abs(f2mz((-b+q)/(2*a)+dfoff,P, Instrument, []) - f2mz((-b-q)/(2*a)+dfoff,P, Instrument, [])); 
+        peaksr(n) = f2mz(x0+dfoff,P, Instrument) / abs(f2mz((-b+q)/(2*a)+dfoff,P, Instrument) - f2mz((-b-q)/(2*a)+dfoff,P, Instrument)); 
         % accurately integrate using KCe interpolation
         q = 4*a*c - b^2;
         qq = sqrt(-q);

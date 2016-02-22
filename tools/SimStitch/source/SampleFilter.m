@@ -123,8 +123,8 @@ end
 if class_name_flag
     
     class_list_index = [];
-    for i = 1:size(dso.classname,2)
-        if(strcmp(dso.classname{1,i},class_name))
+    for i = 1:size(dso.classlookup{1,1},2)
+        if(strcmp(dso.classlookup{1,1}{i,2},class_name))
             class_list_index(end+1) = i;
         end
     end
@@ -143,8 +143,8 @@ if class_name_flag
     
     
 
-    classes = dso.class{1,class_list_index};
-    class_lookup = dso.classlookup{1,class_list_index};
+    classes = dso.class{1,1};
+    class_lookup = dso.classlookup{1,1}(class_list_index,:);
 
 else
     classes = ones(1,size(dso.data,1));
@@ -195,15 +195,15 @@ data = data(:,total_keep_ind);
 mz = mz(total_keep_ind);
 
 dso_out = dataset(data);
-unique_peaks.mz_order = mz';
+% unique_peaks.mz_order = mz';
 %% PICK OUT UNIQUE PEAKS
 
-for i = 1:length(class_IDs)
-    unique_peaks.class_order{i} = class_lookup{find([class_lookup{:,1}]==class_IDs(i)),2};
-    
-    unique_peaks.num_peaks(:,i) = totals{i}(total_keep_ind);
-    unique_peaks.percent(:,i) = percents{i}(total_keep_ind);
-end
+% for i = 1:length(class_IDs)
+%     unique_peaks.class_order{i} = class_lookup{find([class_lookup{:,1}]==class_IDs(i)),2};
+%     
+%     unique_peaks.num_peaks(:,i) = totals{i}(total_keep_ind);
+%     unique_peaks.percent(:,i) = percents{i}(total_keep_ind);
+% end
 
 % from original version of samplefilter_3_0
 %{

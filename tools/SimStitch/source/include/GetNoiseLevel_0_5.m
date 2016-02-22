@@ -135,7 +135,7 @@ while ~done
 
     if (maxVal <= maxLim) && ~inEx
         % found region of noise
-        fprintf('Found signal-free region over %d data points (%.2f-%.2fm/z), sigma = %0.2f\n',numPoints,f2mz(testf(end),P,Instrument, []),f2mz(testf(1),P,Instrument, []),sigma); %Update for other machines
+        fprintf('Found signal-free region over %d data points (%.2f-%.2fm/z), sigma = %0.2f\n',numPoints,f2mz(testf(end),P,Instrument),f2mz(testf(1),P,Instrument),sigma); %Update for other machines
         % debug output
         fprintf('Sigma from mean = %0.2f, rms error = %.2f\n',mean(testData)/sqrt(pi/2),ray.RMS);
         done = 1;

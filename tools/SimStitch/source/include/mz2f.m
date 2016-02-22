@@ -1,11 +1,11 @@
-function f = mz2f(mz, P, Instrument, y) %Update for other machines
+function f = mz2f(mz, P, Instrument) %Update for other machines
 %converts from mz, returns frequency
 %P.A, P.B and P.C contain calibration parameters
 %if C is supplied, it is expected to apply to the form of calibration equation derived by Masselon et al. 2002, ref 63:
 % m/z = A./f + B./f.^2 + C*I./f.^2, where I is the intensity of each peak
 
 switch(Instrument)
-    case{'ltqft','orbitrap'}
+    case{'ltqft'}
         
 %         numTerms = 2;   % number of parameters in calibration equation
 %         
@@ -52,7 +52,7 @@ switch(Instrument)
 %                 f = max(real(f));
 %         end
         
-        case{'qexactive'}
+        case{'qexactive','orbitrap'}
             B = P.B;
             C = P.C;
             f = sqrt((B+sqrt(B^2+mz.*4*C))./(2.*mz)); % Report frequency in Hz.
