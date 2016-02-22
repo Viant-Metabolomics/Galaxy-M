@@ -50,7 +50,7 @@
 26,${nullend}\n
 27,${nullbnd}\n
 28,0,0\n',
-'${output_html_mat}', '${output_html_mat.extra_files_path}', '${output_html_txt}', '${output_html_txt.extra_files_path}', '${output_noise}', '${output_alignment}');"
+'${output_html_mat}', '${output_html_mat.extra_files_path}', '${output_html_txt}', '${output_html_txt.extra_files_path}', '${output_noise}', '${output_alignment}'); exit;"
 #end if
   	</command>
 

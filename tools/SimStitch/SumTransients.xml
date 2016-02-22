@@ -7,7 +7,7 @@
 #if str($executable.value) == "true"
 	sh $tool_directory/bin/run_SumTransients.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${fileList}' $numscans $mintic $ignorecal $maxmz '${output_html}' '${output_html.files_path}' '${output_messages}' > '${output_log}'
 #else
-	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); SumTransients('${fileList}', $numscans, $mintic, $ignorecal, $maxmz, '${output_html}', '${output_html.files_path}', '${output_messages}');"
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); SumTransients('${fileList}', $numscans, $mintic, $ignorecal, $maxmz, '${output_html}', '${output_html.files_path}', '${output_messages}'); exit;""
 #end if
   	</command>
 
@@ -18,12 +18,12 @@
 		<param name="mintic" type="integer" size="3" value="0" label="Minimum total ion current (TIC) chromatogram" help="Set to 0 to allow all (Default), or threshold as percentage of maximum TIC" />
 		<param name="ignorecal" type="boolean" checked="no" truevalue="1" falsevalue="0" label="Discard scans with varying A and B estimates (external calibration)" help="uncheck for false (default), check for true)" />
 		<param name="maxmz" type="integer" size="3" value="0" label="Maximum m/z value" help="This value can be used to set the maximum m/z value to be included. Set to 0 for automatic estimation." />
-		<param name="executable" type="hidden" value="false" />
+		<param name="executable" type="hidden" value="true" />
 	</inputs>
 
 
   	<outputs>
-    	<data format="html" name="output_html" label="Sum Transient Data on $fileList.hid: list of output files"/>
+    		<data format="html" name="output_html" label="Sum Transient Data on $fileList.hid: list of output files"/>
 		<data format="txt" name="output_messages" label="Sum Transient Data on $fileList.hid: messages"/>
 		<data format="txt" name="output_log" label="Sum Transient Data on $fileList.hid: log"/>
   	</outputs>

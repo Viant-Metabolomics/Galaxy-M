@@ -6,7 +6,7 @@
 	sh $tool_directory/bin/run_MissingValueSampleFilter.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' '${sd_flag}' '${tails}' > '${output_log}' '${conf}' '${delete}' '${figure}' '${output}' > '${output_log}'
 
 #else
-	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); MissingValueSampleFilter('${pls_dso}', '${sd_flag}', '${tails}', '${conf}', '${delete}', '${figure}', '${output}');"
+	matlab -logfile '${output_log}' -nosplash -r "cd('$tool_directory/source'); MissingValueSampleFilter('${pls_dso}', '${sd_flag}', '${tails}', '${conf}', '${delete}', '${figure}', '${output}'); exit;"
 
 #end if
     </command>

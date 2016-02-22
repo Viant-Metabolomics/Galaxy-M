@@ -8,7 +8,7 @@
 	sh $tool_directory/bin/run_ProcessTransients.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${fileList}' '${html_input.extra_files_path}' '${output_html}' '${output_html.files_path}' > '${output_log}'
 
 #else
-	matlab -logfile '${output_log}' -r "cd('$tool_directory/source'); ProcessTransients('${fileList}', '${html_input.extra_files_path}', '${output_html}', '${output_html.files_path}');"
+	matlab -logfile '${output_log}' -r "cd('$tool_directory/source'); ProcessTransients('${fileList}', '${html_input.extra_files_path}', '${output_html}', '${output_html.files_path}'); exit;"
 #end if
 	</command>
 
@@ -16,7 +16,7 @@
 	<inputs>
 		<param format="xml" name="fileList" type="data" label="List of files (.xml) produced by File List manager" />
 		<param format="html" name="html_input" type="data" label=".html file produced by SumTransients" />
-		<param name="executable" type="hidden" value="false" />	
+		<param name="executable" type="hidden" value="true" />	
 	</inputs>
 
 

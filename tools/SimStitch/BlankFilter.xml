@@ -8,7 +8,7 @@
 	sh $tool_directory/bin/run_BlankFilter.sh /usr/local/MATLAB/MATLAB_Compiler_Runtime/v83 '${pls_dso}' $thold_perc $maxmean $thold_fold  '${delete}' '${output}'
 
 #else
-	matlab -r "cd('$tool_directory/source'); BlankFilter('${pls_dso}', $thold_perc, $maxmean, $thold_fold, '${delete}', '${output}'); "
+	matlab -r "cd('$tool_directory/source'); BlankFilter('${pls_dso}', $thold_perc, $maxmean, $thold_fold, '${delete}', '${output}'); exit;"
 #end if
   	</command>
 
