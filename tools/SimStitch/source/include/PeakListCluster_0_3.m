@@ -171,7 +171,9 @@ if max(cl) ~= nc
 end
 % check dimensions match
 for i=1:numSpec
-    if ~isequal(size(mzIn{i}),size(iOut{i})), error(['Clustering failed i=',num2str(i)]); end
+    if ~isequal(size(mzIn{i}),size(iOut{i}))
+        error(['Clustering failed i=',num2str(i)]);
+    end
 end
 % % check number of clusters = length of mzBar
 % if nc ~= length(find(mzOut))

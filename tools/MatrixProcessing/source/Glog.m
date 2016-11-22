@@ -240,7 +240,7 @@ sprintf('Optimisation error, %i\n',error_flag);
 
 
 for i=1:N
-    z(:,i)=glog(x(:,i),y0,lambda); %apply glog transform to scaled data using lambda
+    z(:,i)=glog_dims(x(:,i),y0,lambda); %apply glog transform to scaled data using lambda
 end
 
 %% CREATE DATASET FOR OUTPUT

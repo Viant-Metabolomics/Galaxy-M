@@ -137,6 +137,8 @@ for si=1:PARAMS.NUMREPS:length(fileList.Samples)
     classnames_Batch{end+1} = fileList.Samples(si).batchID;
     classnames_Order{end+1} = fileList.Samples(si).orderID;
 end
+classnames_Batch = cellfun(@str2num,classnames_Batch).';
+classnames_Order = cellfun(@str2num,classnames_Order).';
 
 classnames = {};
 for si=1:PARAMS.NUMREPS:length(fileList.Samples)

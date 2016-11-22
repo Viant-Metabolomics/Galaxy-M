@@ -281,7 +281,8 @@ end
 %fclose(fid);
 if del == 1
     %dso_out = delsamps(dso_out,include_blank_index);  % Soft delete blanks
-    dso_out(include_blank_index,:) = []; % Hard delete blanks
+    %dso_out(include_blank_index,:) = []; % Hard delete blanks
+    dso_out = delsamps(dso_out,include_blank_index,1,2);
 end
 
 %export DSO to XML

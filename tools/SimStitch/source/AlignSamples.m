@@ -146,7 +146,7 @@ for si=1:fileList.nReplicates:length(fileList.Samples)
     end
     %store spectral data for alignment
     sampleGpPks.name{count} = fname;
-    sampleGpPks.blankflag{count} = strncmpi(fileList.Samples(1,si).ID,BLANKSTR,length(BLANKSTR));
+    sampleGpPks.blankflag{count} = strncmpi(fileList.Samples(1,si).sampleID,BLANKSTR,length(BLANKSTR));
     sampleGpPks.mz{count} = temp{1}.';
     sampleGpPks.y{count} = temp{2}.';
     sampleGpPks.n{count} = temp{3}.';
